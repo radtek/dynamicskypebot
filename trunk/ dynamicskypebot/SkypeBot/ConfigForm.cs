@@ -17,7 +17,7 @@ namespace SkypeBot {
             new GoogleImageSearchPlugin(),
             new AcronymPlugin(),
             new DictionaryPlugin(),
-            new YouTubeInfoPlugin(),
+            new YouTubePlugin(),
             new CypherPlugin(),
             new UrbanDictionaryPlugin(),
             new QuotePlugin(),
