@@ -15,3 +15,6 @@
 	- !countdown status christmas
 
 - Trivia game
+
+- Somehow make it work as a x64 thing again, so we don't have to compile as x86.
+	- Stupid Skype COM, sigh.
