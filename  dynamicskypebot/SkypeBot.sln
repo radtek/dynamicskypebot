@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkypeBot", "SkypeBot\SkypeB
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Skype4COM", "Skype4COM\Skype4COM.vdproj", "{8FD0F260-3EC5-4162-ADE3-A07D072F1187}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrapper", "Bootstrapper", "{3226F6BB-B884-47AF-AC83-72369453B096}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
