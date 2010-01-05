@@ -40,11 +40,11 @@ namespace SkypeBot.plugins {
             Match output = Regex.Match(message.Body, @"^!4chan", RegexOptions.IgnoreCase);
             if (output.Success) {
                 logMessage("Going to visit /b/ to find a thread...", false);
-                WebRequest webReq = WebRequest.Create("http://img.4chan.org/b/");
+                WebRequest webReq = WebRequest.Create("http://boards.4chan.org/b/");
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                Regex threadFinderRx = new Regex(@"<a href=""res/(\d+).html"">Reply</a>");
+                Regex threadFinderRx = new Regex(@"<a href=""res/(\d+)"">Reply</a>");
                 MatchCollection threadFinderColl = threadFinderRx.Matches(responseText);
                 if (threadFinderColl.Count <= 0) {
                     message.Chat.SendMessage("Sorry, some kind of error occurred in trying to contact 4chan.");
@@ -55,11 +55,11 @@ namespace SkypeBot.plugins {
 
                 logMessage("Thread located. Opening thread...", false);
                 String threadId = threadFinder.Groups[1].Value;
-                webReq = WebRequest.Create("http://img.4chan.org/b/res/"+threadId+".html");
+                webReq = WebRequest.Create("http://boards.4chan.org/b/res/"+threadId);
                 response = webReq.GetResponse();
                 responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
                 logMessage("Thread opened. Locating a random picture...", false);
-                Regex picFinderRx = new Regex(@"<a href=""http://img.4chan.org/b/src/(\d+\.\w+)"" target=_blank><img .+? md5=""[^""]+""></a>");
+                Regex picFinderRx = new Regex(@"<a href=""http://images.4chan.org/b/src/(\d+\.\w+)"" target=_blank><img .+? md5=""[^""]+""></a>");
                 MatchCollection picFinderColl = picFinderRx.Matches(responseText);
                 if (picFinderColl.Count <= 0) {
                     message.Chat.SendMessage("Sorry, some kind of error occurred in trying to contact 4chan.");
@@ -70,7 +70,7 @@ namespace SkypeBot.plugins {
                 logMessage("Picture found! Linking to chat.", false);
 
                 message.Chat.SendMessage(String.Format(
-                    @"Random picture from 4chan: http://img.4chan.org/b/src/{0}",
+                    @"Random picture from 4chan: http://images.4chan.org/b/src/{0}",
                     picFinder.Groups[1].Value
                 ));
             }

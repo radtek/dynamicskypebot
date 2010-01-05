@@ -27,6 +27,8 @@ namespace SkypeBot {
             new WafflePlugin(),
             new HighLowPlugin(),
             new LolcatPlugin(),
+            new WikipediaPlugin(),
+            new SomethingAwfulPlugin()
 
         });
 
@@ -95,8 +97,11 @@ namespace SkypeBot {
                         message.Chat.SendMessage(outputMsg);
                     }
 
-                    if (onSkypeMessage != null)
-                        onSkypeMessage(message, status);
+                    if (onSkypeMessage != null) {
+                        BackgroundWorker bw = new BackgroundWorker();
+                        bw.DoWork += (obj, e) => onSkypeMessage(message, status);
+                        bw.RunWorkerAsync();
+                    }
                 }
             };
 
