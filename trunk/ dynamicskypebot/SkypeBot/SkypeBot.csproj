@@ -263,6 +263,8 @@
   <ItemGroup>
     <Content Include="Bootstrapper\Skype4COM\en\package.xml" />
     <Content Include="Bootstrapper\Skype4COM\product.xml" />
+    <Content Include="doc\readme.txt" />
+    <Content Include="doc\todo.txt" />
     <Content Include="SkypeBotDB.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
