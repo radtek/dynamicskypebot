@@ -1,0 +1,2 @@
+﻿To get started, get the project from SVN; copy the SkypeBot/Bootstrapper/Skype4COM folder into your
+C:\Program Files (x86)\Microsoft SDKs\Windows\v6.0A\Bootstrapper\Packages (or similar), then open the project in Visual Studio.
