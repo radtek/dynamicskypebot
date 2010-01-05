@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Product ProductCode="Skype4COM" xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper">
+  <PackageFiles CopyAllPackageFiles="false">
+    <PackageFile Name="skype4com.msi" HomeSite="Skype4ComMSI" Hash="F836BEB2B7180A72DAE3AC070477C74AC0246293" />
+  </PackageFiles>
+  <InstallChecks>
+    <RegistryCheck Property="Skype4ComInstalled" Key="HKLM\Software\Skype4COM" Value="IsInstalled" />
+  </InstallChecks>
+  <Commands Reboot="Defer">
+    <Command PackageFile="skype4com.msi">
+      <InstallConditions>
+        <BypassIf Property="Skype4ComInstalled" Compare="ValueEqualTo" Value="1" />
+      </InstallConditions>
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success" />
+        <DefaultExitCode Result="Fail" String="Anunexpectedexitcodewasr" FormatMessageFromSystem="true" />
+      </ExitCodes>
+    </Command>
+  </Commands>
+</Product>
