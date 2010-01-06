@@ -10,6 +10,8 @@ using SKYPE4COMLib;
 using SkypeBot.plugins;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.IO;
 
 namespace SkypeBot {
     public partial class ConfigForm : Form {
@@ -35,6 +37,7 @@ namespace SkypeBot {
 
         private Skype skype;
         private int lastId = -1;
+        private String blocked; // Blocklist of nick/channel combos that aren't allowed.
 
         public event _ISkypeEvents_MessageStatusEventHandler onSkypeMessage;
         public ConfigForm() {
@@ -99,7 +102,11 @@ namespace SkypeBot {
                         message.Chat.SendMessage(outputMsg);
                     }
 
-                    if (onSkypeMessage != null) {
+                    Boolean isBlocked = blocked.Contains(
+                        skype.CurrentUser.Handle + " :: " + message.ChatName
+                    );
+
+                    if (onSkypeMessage != null && !isBlocked) {
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.DoWork += (obj, e) => onSkypeMessage(message, status);
                         bw.RunWorkerAsync();
@@ -108,6 +115,16 @@ namespace SkypeBot {
             };
 
             populatePluginList();
+
+            blocked = "";
+            BackgroundWorker baw = new BackgroundWorker();
+            baw.DoWork += (obj, e) => {
+                WebRequest webReq = WebRequest.Create("http://mathemaniac.org/apps/skypebot/blocked.txt");
+                webReq.Timeout = 10000;
+                WebResponse response = webReq.GetResponse();
+                blocked = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            };
+            baw.RunWorkerAsync();
         }
 
         private void populatePluginList() {
