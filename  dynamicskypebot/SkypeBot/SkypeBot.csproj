@@ -65,6 +65,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -73,6 +74,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL" />
@@ -116,6 +118,7 @@
     <Compile Include="plugins\config\quote\QuoteConfigForm.Designer.cs">
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\BashPlugin.cs" />
     <Compile Include="plugins\SomethingAwfulPlugin.cs" />
     <Compile Include="plugins\WikipediaPlugin.cs" />
     <Compile Include="plugins\LolcatPlugin.cs" />

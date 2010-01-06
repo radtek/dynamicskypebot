@@ -28,7 +28,8 @@ namespace SkypeBot {
             new HighLowPlugin(),
             new LolcatPlugin(),
             new WikipediaPlugin(),
-            new SomethingAwfulPlugin()
+            new SomethingAwfulPlugin(),
+            new BashPlugin(),
 
         });
 
@@ -74,7 +75,8 @@ namespace SkypeBot {
             skype = new Skype();
             if (!skype.Client.IsRunning)
                 skype.Client.Start(false, false);
-            skype.Attach(5, true);
+
+            skype.Attach(9, true);
 
             skype.MessageStatus += (ChatMessage message, TChatMessageStatus status) =>
             {
@@ -134,10 +136,17 @@ namespace SkypeBot {
             Properties.Settings.Default.Save();
         }
 
+        delegate void AddLogLineCallback(String sender, String msg, Boolean isError);
+
         public void addLogLine(String sender, String msg, Boolean isError) {
-            messageLog.Text += String.Format("{0}{1}: {2}", isError ? "[ERROR]" : "", sender, msg) + Environment.NewLine;
-            messageLog.SelectionStart = messageLog.Text.Length;
-            messageLog.ScrollToCaret();
+            if (messageLog.InvokeRequired) {
+                AddLogLineCallback ac = new AddLogLineCallback(addLogLine);
+                this.Invoke(ac, new object[] { sender, msg, isError });
+            } else {
+                messageLog.Text += String.Format("{0}{1}: {2}", isError ? "[ERROR]" : "", sender, msg) + Environment.NewLine;
+                messageLog.SelectionStart = messageLog.Text.Length;
+                messageLog.ScrollToCaret();
+            }
         }
 
         private void ConfigForm_Resize(object sender, EventArgs e) {
