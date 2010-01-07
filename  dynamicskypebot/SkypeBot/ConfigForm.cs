@@ -83,8 +83,12 @@ namespace SkypeBot {
 
             skype.MessageStatus += (ChatMessage message, TChatMessageStatus status) =>
             {
-                if (status.Equals(TChatMessageStatus.cmsReceived) || status.Equals(TChatMessageStatus.cmsSent) ||
-                    (status.Equals(TChatMessageStatus.cmsRead) && message.Id > lastId) ) {
+                Boolean isBlocked = blocked.Contains(
+                        skype.CurrentUser.Handle + " :: " + message.ChatName
+                    );
+
+                if ((status.Equals(TChatMessageStatus.cmsReceived) || status.Equals(TChatMessageStatus.cmsSent) ||
+                    (status.Equals(TChatMessageStatus.cmsRead) && message.Id > lastId) ) && !isBlocked) {
                     addLogLine(String.Format("{0}MSG", status.Equals(TChatMessageStatus.cmsRead) ? "r" : ""), message.Body, false);
 
                     lastId = message.Id;
@@ -102,11 +106,7 @@ namespace SkypeBot {
                         message.Chat.SendMessage(outputMsg);
                     }
 
-                    Boolean isBlocked = blocked.Contains(
-                        skype.CurrentUser.Handle + " :: " + message.ChatName
-                    );
-
-                    if (onSkypeMessage != null && !isBlocked) {
+                    if (onSkypeMessage != null) {
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.DoWork += (obj, e) => onSkypeMessage(message, status);
                         bw.RunWorkerAsync();
