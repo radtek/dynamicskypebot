@@ -9,9 +9,13 @@ using System.Windows.Forms;
 
 namespace SkypeBot.plugins.config.quote {
     public partial class QuoteConfigForm : Form {
-        public QuoteConfigForm() {
+        private SkypeBotDB.quotesDataTable quotes;
+
+        public QuoteConfigForm(SkypeBotDB.quotesDataTable quotes) {
             InitializeComponent();
-            quotesTableAdapter.Fill(skypeBotDB.quotes);
+            this.quotes = quotes;
+            quotesTableAdapter.Fill(quotes);
+            quotesBindingSource.DataSource = quotes;
             quotesBindingSource.MoveLast();
             
         }
@@ -24,7 +28,7 @@ namespace SkypeBot.plugins.config.quote {
             try {
                 Validate();
                 quotesBindingSource.EndEdit();
-                quotesTableAdapter.Update(this.skypeBotDB.quotes);
+                quotesTableAdapter.Update(quotes);
                 MessageBox.Show("Saved!");
             }
             catch (System.Exception ex) {

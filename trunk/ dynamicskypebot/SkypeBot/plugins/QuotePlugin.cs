@@ -22,13 +22,13 @@ namespace SkypeBot.plugins {
 
         public String name() { return "Quote Plugin"; }
 
-        public String help() { return "!quote [number], !addquote <quote>"; }
+        public String help() { return "!quote [number], !addquote <quote>, !listquotes"; }
 
         public String description() { return "Stores quotes."; }
 
         public bool canConfig() { return true; }
         public void openConfig() {
-            QuoteConfigForm qcf = new QuoteConfigForm();
+            QuoteConfigForm qcf = new QuoteConfigForm(table);
             qcf.Visible = true;
         }
 
@@ -50,12 +50,14 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            Match output = Regex.Match(message.Body, @"^!(addquote|quote) ?(.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            Match output = Regex.Match(message.Body, @"^!(addquote|quote|listquotes) ?(.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 SkypeBotDB.quotesRow row;
 
                 String queryString = output.Groups[1].Value.ToLower();
                 logMessage("It's me time!", false);
+
+                tableAdapter.Fill(table);
 
                 switch (queryString) {
                     case "addquote":
@@ -83,7 +85,6 @@ namespace SkypeBot.plugins {
                             quoteNo = 0;
                         }
 
-                        tableAdapter.Fill(table);
                         row = table.FindByid(quoteNo);
 
                         String outMsg;
@@ -116,6 +117,22 @@ namespace SkypeBot.plugins {
                             outMsg
                         );
 
+                        break;
+                    case "listquotes":
+                        var quotes = from q in table
+                                     orderby q.id
+                                     select q.id;
+
+                        String quoteStr = "";
+                        foreach (int id in quotes) {
+                            if (quoteStr != "")
+                                quoteStr += ", ";
+                            quoteStr += "#" + id;
+                        }
+
+                        message.Chat.SendMessage(
+                            "Available quotes: "+quoteStr
+                        );
                         break;
                 }
             }
