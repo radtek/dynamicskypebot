@@ -36,7 +36,7 @@
     <PublisherName>Sebastian P.</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.1.6.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -119,6 +119,7 @@
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\BashPlugin.cs" />
+    <Compile Include="plugins\RandomLinkPlugin.cs" />
     <Compile Include="plugins\PenisPlugin.cs" />
     <Compile Include="plugins\SomethingAwfulPlugin.cs" />
     <Compile Include="plugins\WikipediaPlugin.cs" />
