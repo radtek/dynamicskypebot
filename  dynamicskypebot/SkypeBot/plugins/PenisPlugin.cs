@@ -34,9 +34,25 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            Match output = Regex.Match(message.Body, @"p(e+)nis", RegexOptions.IgnoreCase);
-            if (output.Success) {
-                message.Chat.SendMessage("8==" + output.Groups[1].Value.ToLower().Replace("e", "=") + "D");
+            MatchCollection outputColl = Regex.Matches(message.Body, @"p(e+)nis|c(o+)ck|d(o+)ng|clitoris|d(i+)ck|s(h+)long", RegexOptions.IgnoreCase);
+            if (outputColl.Count > 0) {
+                String outputString = "";
+
+                foreach (Match output in outputColl) {
+                    String midPart = "";
+                    foreach (System.Text.RegularExpressions.Group g in output.Groups) {
+                        if (g != output.Groups[0])
+                            midPart += g.Value;
+                    }
+
+                    midPart = Regex.Replace(midPart, ".", "=");
+
+                    outputString += (outputString == "" ? "" : " ") +
+                                    "8==" +
+                                    midPart +
+                                    "D";
+                }
+                message.Chat.SendMessage(outputString);
             }
         }
 
