@@ -33,6 +33,7 @@ namespace SkypeBot {
             new SomethingAwfulPlugin(),
             new BashPlugin(),
             new PenisPlugin(),
+            new RandomLinkPlugin(),
 
         });
 
