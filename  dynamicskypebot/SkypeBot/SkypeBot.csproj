@@ -36,7 +36,7 @@
     <PublisherName>Sebastian P.</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.1.6.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -119,6 +119,7 @@
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\BashPlugin.cs" />
+    <Compile Include="plugins\PenisPlugin.cs" />
     <Compile Include="plugins\SomethingAwfulPlugin.cs" />
     <Compile Include="plugins\WikipediaPlugin.cs" />
     <Compile Include="plugins\LolcatPlugin.cs" />
@@ -281,6 +282,26 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="doc\readme.txt">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="doc\todo.txt">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
