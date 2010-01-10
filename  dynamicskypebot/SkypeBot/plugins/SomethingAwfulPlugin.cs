@@ -75,7 +75,7 @@ namespace SkypeBot.plugins {
                 Match titleMatch = Regex.Match(responseText, @"<a[^>]*class=""bclast""[^>]*>(.*)</a>", RegexOptions.IgnoreCase);
                 String title = titleMatch.Success ? titleMatch.Groups[1].Value : "Unknown Title";
 
-                Match opMatch = Regex.Match(responseText, @"<dt class=""author"">(.*)</dt>", RegexOptions.IgnoreCase);
+                Match opMatch = Regex.Match(responseText, @"<dt class=""author"">(?:<img.*nbsp;)?(.*)</dt>", RegexOptions.IgnoreCase);
                 String op = opMatch.Success ? opMatch.Groups[1].Value : "Unknown OP";
 
                 Match forumMatch = Regex.Match(responseText, @">([^>]*)</a> &gt; <a[^>]*class=""bclast""[^>]*>", RegexOptions.IgnoreCase);
