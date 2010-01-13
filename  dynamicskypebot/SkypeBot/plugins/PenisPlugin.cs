@@ -34,7 +34,7 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            MatchCollection outputColl = Regex.Matches(message.Body, @"p(e+)nis|c(o+)ck|d(o+)ng|clitoris|d(i+)ck|s(h+)l(o+)ng", RegexOptions.IgnoreCase);
+            MatchCollection outputColl = Regex.Matches(message.Body, @"p(e+)nis|c(o+)ck|d(o+)ng|clitoris|d(i+)ck|s(h+)l(o+)ng|p(e+)cker", RegexOptions.IgnoreCase);
             if (outputColl.Count > 0) {
                 String outputString = "";
 
