@@ -7,8 +7,6 @@
 	distinctive black patches around the eyes, over the ears, and across its round body. Though it belongs to the order Carnivora,
 	the Giant Panda's diet is 99% bamboo. Other parts of its diet include honey, eggs, fish, yams, shrub leaves, oranges,
 	and bananas when available.
-	
-- Random YouTube link.
 
 - Countdown timers
 	- !countdown add christmas December 24, 2010 00:00
