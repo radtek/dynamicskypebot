@@ -5,5 +5,14 @@
     <Setting Name="HighlowScores" Type="System.Collections.Hashtable" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Quotes" Type="System.Collections.ArrayList" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UnapprovedQuotes" Type="System.Collections.ArrayList" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="NextQuoteID" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
