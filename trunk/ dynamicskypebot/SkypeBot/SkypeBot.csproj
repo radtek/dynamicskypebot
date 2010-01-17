@@ -36,8 +36,8 @@
     <PublisherName>Sebastian P.</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>18</ApplicationRevision>
-    <ApplicationVersion>1.1.6.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.1.7.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -116,6 +116,12 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\AcronymPlugin.cs" />
+    <Compile Include="plugins\config\quotemk2\QuoteConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="plugins\config\quotemk2\QuoteConfigForm.Designer.cs">
+      <DependentUpon>QuoteConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="plugins\config\quote\QuoteConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,7 @@
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\BashPlugin.cs" />
+    <Compile Include="plugins\QuotePluginMk2.cs" />
     <Compile Include="plugins\RandomLinkPlugin.cs" />
     <Compile Include="plugins\PenisPlugin.cs" />
     <Compile Include="plugins\SomethingAwfulPlugin.cs" />
@@ -150,6 +157,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="plugins\config\quotemk2\QuoteConfigForm.resx">
+      <DependentUpon>QuoteConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="plugins\config\quote\QuoteConfigForm.resx">
@@ -248,6 +259,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PluginSettings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Properties\DataSources\SkypeBot.plugins.QuotePluginMk2+Quote.datasource" />
     <None Include="Service References\UrbanDictionary\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
