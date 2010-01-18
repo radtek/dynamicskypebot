@@ -82,6 +82,7 @@ namespace SkypeBot.plugins.config.quotemk2 {
                 stream.Close();
 
                 foreach (QuotePluginMk2.Quote quote in quotes) {
+                    quote.QuoteText = quote.QuoteText.Replace("\n", "\r\n");
                     list.Add(quote);
                 }
             }
