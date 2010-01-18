@@ -27,6 +27,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuoteConfigForm));
             this.groupApproved = new System.Windows.Forms.GroupBox();
             this.approvedId = new System.Windows.Forms.TextBox();
+            this.approvedBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.approvedQuote = new System.Windows.Forms.TextBox();
             this.approvedTime = new System.Windows.Forms.DateTimePicker();
@@ -46,6 +47,7 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pendingId = new System.Windows.Forms.TextBox();
+            this.pendingBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.pendingQuote = new System.Windows.Forms.TextBox();
             this.pendingTime = new System.Windows.Forms.DateTimePicker();
@@ -63,18 +65,24 @@
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.approvedBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.pendingBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.approveButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.approveButton = new System.Windows.Forms.ToolStripButton();
+            this.pendingSaveBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.pendingLoadBtn = new System.Windows.Forms.ToolStripButton();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.approvedExportBtn = new System.Windows.Forms.ToolStripButton();
+            this.approvedImportBtn = new System.Windows.Forms.ToolStripButton();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupApproved.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.approvedBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.approvedNavigator)).BeginInit();
             this.approvedNavigator.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pendingBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pendingNavigator)).BeginInit();
             this.pendingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.approvedBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pendingBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupApproved
@@ -100,6 +108,11 @@
             this.approvedId.Name = "approvedId";
             this.approvedId.Size = new System.Drawing.Size(68, 20);
             this.approvedId.TabIndex = 12;
+            // 
+            // approvedBindingSource
+            // 
+            this.approvedBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePluginMk2.Quote);
+            this.approvedBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.approvedBindingSource_ListChanged);
             // 
             // label1
             // 
@@ -163,7 +176,10 @@
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
             this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem});
+            this.bindingNavigatorDeleteItem,
+            this.toolStripSeparator6,
+            this.approvedExportBtn,
+            this.approvedImportBtn});
             this.approvedNavigator.Location = new System.Drawing.Point(3, 16);
             this.approvedNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.approvedNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -284,6 +300,11 @@
             this.pendingId.Size = new System.Drawing.Size(68, 20);
             this.pendingId.TabIndex = 12;
             // 
+            // pendingBindingSource
+            // 
+            this.pendingBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePluginMk2.Quote);
+            this.pendingBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.approvedBindingSource_ListChanged);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -348,7 +369,10 @@
             this.toolStripButton1,
             this.toolStripButton2,
             this.toolStripSeparator4,
-            this.approveButton});
+            this.approveButton,
+            this.toolStripSeparator5,
+            this.pendingSaveBtn,
+            this.pendingLoadBtn});
             this.pendingNavigator.Location = new System.Drawing.Point(3, 16);
             this.pendingNavigator.MoveFirstItem = this.toolStripButton3;
             this.pendingNavigator.MoveLastItem = this.toolStripButton6;
@@ -445,15 +469,10 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // approvedBindingSource
+            // toolStripSeparator4
             // 
-            this.approvedBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePluginMk2.Quote);
-            this.approvedBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.approvedBindingSource_ListChanged);
-            // 
-            // pendingBindingSource
-            // 
-            this.pendingBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePluginMk2.Quote);
-            this.pendingBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.approvedBindingSource_ListChanged);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // approveButton
             // 
@@ -465,10 +484,67 @@
             this.approveButton.Text = "Approve";
             this.approveButton.Click += new System.EventHandler(this.approveButton_Click);
             // 
-            // toolStripSeparator4
+            // pendingSaveBtn
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.pendingSaveBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pendingSaveBtn.Image = ((System.Drawing.Image)(resources.GetObject("pendingSaveBtn.Image")));
+            this.pendingSaveBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pendingSaveBtn.Name = "pendingSaveBtn";
+            this.pendingSaveBtn.Size = new System.Drawing.Size(23, 22);
+            this.pendingSaveBtn.Text = "Export";
+            this.pendingSaveBtn.Click += new System.EventHandler(this.pendingSaveBtn_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // pendingLoadBtn
+            // 
+            this.pendingLoadBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pendingLoadBtn.Image = ((System.Drawing.Image)(resources.GetObject("pendingLoadBtn.Image")));
+            this.pendingLoadBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pendingLoadBtn.Name = "pendingLoadBtn";
+            this.pendingLoadBtn.Size = new System.Drawing.Size(23, 22);
+            this.pendingLoadBtn.Text = "Import";
+            this.pendingLoadBtn.Click += new System.EventHandler(this.pendingLoadBtn_Click);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "xml";
+            this.saveFileDialog.Filter = "XML File|*.xml";
+            this.saveFileDialog.Title = "Export...";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // approvedExportBtn
+            // 
+            this.approvedExportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.approvedExportBtn.Image = ((System.Drawing.Image)(resources.GetObject("approvedExportBtn.Image")));
+            this.approvedExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.approvedExportBtn.Name = "approvedExportBtn";
+            this.approvedExportBtn.Size = new System.Drawing.Size(23, 22);
+            this.approvedExportBtn.Text = "Export";
+            this.approvedExportBtn.Click += new System.EventHandler(this.approvedExportBtn_Click);
+            // 
+            // approvedImportBtn
+            // 
+            this.approvedImportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.approvedImportBtn.Image = ((System.Drawing.Image)(resources.GetObject("approvedImportBtn.Image")));
+            this.approvedImportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.approvedImportBtn.Name = "approvedImportBtn";
+            this.approvedImportBtn.Size = new System.Drawing.Size(23, 22);
+            this.approvedImportBtn.Text = "Import";
+            this.approvedImportBtn.Click += new System.EventHandler(this.approvedImportBtn_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.DefaultExt = "xml";
+            this.openFileDialog.Filter = "XML File|*.xml";
+            this.openFileDialog.Title = "Import...";
             // 
             // QuoteConfigForm
             // 
@@ -482,16 +558,16 @@
             this.Text = "QuoteConfigForm";
             this.groupApproved.ResumeLayout(false);
             this.groupApproved.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.approvedBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.approvedNavigator)).EndInit();
             this.approvedNavigator.ResumeLayout(false);
             this.approvedNavigator.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pendingBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pendingNavigator)).EndInit();
             this.pendingNavigator.ResumeLayout(false);
             this.pendingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.approvedBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pendingBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -540,6 +616,14 @@
         private System.Windows.Forms.BindingSource pendingBindingSource;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton approveButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton pendingSaveBtn;
+        private System.Windows.Forms.ToolStripButton pendingLoadBtn;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripButton approvedExportBtn;
+        private System.Windows.Forms.ToolStripButton approvedImportBtn;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
 
 
     }
