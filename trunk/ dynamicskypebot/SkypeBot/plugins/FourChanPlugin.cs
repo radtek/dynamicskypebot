@@ -42,7 +42,12 @@ namespace SkypeBot.plugins {
                 logMessage("Going to visit /b/ to find a thread...", false);
                 WebRequest webReq = WebRequest.Create("http://boards.4chan.org/b/");
                 webReq.Timeout = 10000;
-                WebResponse response = webReq.GetResponse();
+                try {
+                    WebResponse response = webReq.GetResponse();
+                } catch (WebException e) {
+                    message.Chat.SendMessage("Sorry, some kind of error occurred in trying to contact 4chan.");
+                    return;   
+                }
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
                 Regex threadFinderRx = new Regex(@"<a href=""res/(\d+)"">Reply</a>");
                 MatchCollection threadFinderColl = threadFinderRx.Matches(responseText);
