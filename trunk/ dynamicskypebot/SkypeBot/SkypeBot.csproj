@@ -135,6 +135,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\PluginSettings.cs" />
     <Compile Include="plugins\QuotePluginMk2.cs" />
     <Compile Include="plugins\RandomLinkPlugin.cs" />
     <Compile Include="plugins\PenisPlugin.cs" />

@@ -25,39 +25,6 @@ namespace SkypeBot.plugins {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Hashtable HighlowScores {
-            get {
-                return ((global::System.Collections.Hashtable)(this["HighlowScores"]));
-            }
-            set {
-                this["HighlowScores"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.ArrayList Quotes {
-            get {
-                return ((global::System.Collections.ArrayList)(this["Quotes"]));
-            }
-            set {
-                this["Quotes"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.ArrayList UnapprovedQuotes {
-            get {
-                return ((global::System.Collections.ArrayList)(this["UnapprovedQuotes"]));
-            }
-            set {
-                this["UnapprovedQuotes"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int NextQuoteID {
             get {
