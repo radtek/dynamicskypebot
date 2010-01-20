@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F96FDE20-FCBE-4287-923D-3655E723560D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -17,8 +17,6 @@
     <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <SuiteName>Dynamic Skype Bot</SuiteName>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
     <StartupObject>SkypeBot.Program</StartupObject>
     <PublishUrl>ftp://mathemaniac.org/public_html/apps/skypebot/</PublishUrl>
     <Install>true</Install>
@@ -34,11 +32,13 @@
     <SupportUrl>http://skypebot.uservoice.com</SupportUrl>
     <ProductName>Dynamic Skype Bot</ProductName>
     <PublisherName>Sebastian P.</PublisherName>
+    <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.1.7.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -129,6 +129,12 @@
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\BashPlugin.cs" />
+    <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
+      <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="plugins\QuotePluginMk2.cs" />
     <Compile Include="plugins\RandomLinkPlugin.cs" />
     <Compile Include="plugins\PenisPlugin.cs" />
@@ -166,6 +172,9 @@
     <EmbeddedResource Include="plugins\config\quote\QuoteConfigForm.resx">
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="plugins\config\youtube\YoutubePluginConfigForm.resx">
+      <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -209,6 +218,11 @@
     <None Include="SkypeBot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -223,6 +237,11 @@
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
       <Visible>False</Visible>
@@ -308,6 +327,7 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="doc\todo.txt">
@@ -317,6 +337,7 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
