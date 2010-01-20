@@ -106,6 +106,16 @@ namespace SkypeBot {
                             }
                         }
                         message.Chat.SendMessage(outputMsg);
+                        return;
+                    }
+
+                    output = Regex.Match(message.Body, @"^!version", RegexOptions.IgnoreCase);
+                    if (output.Success && System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) {
+                        message.Chat.SendMessage(
+                            "Running Dynamic Skype Bot v" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion
+                            + " (http://mathemaniac.org/wp/dynamic-skype-bot/)"
+                        );
+                        return;
                     }
 
                     if (onSkypeMessage != null) {
