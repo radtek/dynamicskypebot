@@ -45,7 +45,7 @@ namespace SkypeBot.plugins {
                 WebResponse response;
                 try {
                     response = webReq.GetResponse();
-                } catch (WebException e) {
+                } catch (WebException) {
                     message.Chat.SendMessage("Sorry, some kind of error occurred in trying to contact 4chan.");
                     return;   
                 }
