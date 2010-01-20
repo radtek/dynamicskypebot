@@ -1,4 +1,4 @@
-﻿namespace SkypeBot.plugins.config.quotemk2 {
+﻿namespace SkypeBot.plugins.config.quote {
     partial class QuoteConfigForm {
         /// <summary>
         /// Required designer variable.
@@ -111,7 +111,7 @@
             // 
             // approvedBindingSource
             // 
-            this.approvedBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePluginMk2.Quote);
+            this.approvedBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePlugin.Quote);
             this.approvedBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.approvedBindingSource_ListChanged);
             // 
             // label1
@@ -302,7 +302,7 @@
             // 
             // pendingBindingSource
             // 
-            this.pendingBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePluginMk2.Quote);
+            this.pendingBindingSource.DataSource = typeof(SkypeBot.plugins.QuotePlugin.Quote);
             this.pendingBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.approvedBindingSource_ListChanged);
             // 
             // label3
