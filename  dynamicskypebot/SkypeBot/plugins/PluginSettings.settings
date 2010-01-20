@@ -2,15 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SkypeBot.plugins" GeneratedClassName="PluginSettings">
   <Profiles />
   <Settings>
-    <Setting Name="HighlowScores" Type="System.Collections.Hashtable" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="Quotes" Type="System.Collections.ArrayList" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="UnapprovedQuotes" Type="System.Collections.ArrayList" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="NextQuoteID" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
