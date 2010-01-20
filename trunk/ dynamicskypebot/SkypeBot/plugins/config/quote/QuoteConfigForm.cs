@@ -11,15 +11,15 @@ using System.Collections;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace SkypeBot.plugins.config.quotemk2 {
+namespace SkypeBot.plugins.config.quote {
     public partial class QuoteConfigForm : Form {
         private Boolean inited;
 
         public QuoteConfigForm() {
             InitializeComponent();
 
-            this.approvedBindingSource.DataSource = PluginSettings.Default.Quotes.Cast<QuotePluginMk2.Quote>();
-            this.pendingBindingSource.DataSource = PluginSettings.Default.UnapprovedQuotes.Cast<QuotePluginMk2.Quote>();
+            this.approvedBindingSource.DataSource = PluginSettings.Default.Quotes.Cast<QuotePlugin.Quote>();
+            this.pendingBindingSource.DataSource = PluginSettings.Default.UnapprovedQuotes.Cast<QuotePlugin.Quote>();
 
             approvedBindingSource.AllowNew = true;
             pendingBindingSource.AllowNew = true;
@@ -36,7 +36,7 @@ namespace SkypeBot.plugins.config.quotemk2 {
         }
 
         private void approveButton_Click(object sender, EventArgs e) {
-            QuotePluginMk2.Quote quote = pendingBindingSource.Current as QuotePluginMk2.Quote;
+            QuotePlugin.Quote quote = pendingBindingSource.Current as QuotePlugin.Quote;
             quote.Id = PluginSettings.Default.NextQuoteID ++;
             approvedBindingSource.Add(quote);
             pendingBindingSource.RemoveCurrent();
@@ -54,9 +54,9 @@ namespace SkypeBot.plugins.config.quotemk2 {
             saveFileDialog.ShowDialog();
 
             if (!saveFileDialog.FileName.Equals("")) {
-                XmlSerializer xsl = new XmlSerializer(typeof(QuotePluginMk2.Quote[]));
+                XmlSerializer xsl = new XmlSerializer(typeof(QuotePlugin.Quote[]));
                 Stream stream = saveFileDialog.OpenFile();
-                xsl.Serialize(stream, new ArrayList(list).ToArray(typeof(QuotePluginMk2.Quote)));
+                xsl.Serialize(stream, new ArrayList(list).ToArray(typeof(QuotePlugin.Quote)));
                 stream.Flush();
                 stream.Close();
             }
@@ -74,14 +74,14 @@ namespace SkypeBot.plugins.config.quotemk2 {
             openFileDialog.ShowDialog();
 
             if (!openFileDialog.FileName.Equals("")) {
-                XmlSerializer xsl = new XmlSerializer(typeof(QuotePluginMk2.Quote[]));
+                XmlSerializer xsl = new XmlSerializer(typeof(QuotePlugin.Quote[]));
                 Stream stream = openFileDialog.OpenFile();
                 list.Clear();
                 
-                QuotePluginMk2.Quote[] quotes = xsl.Deserialize(stream) as QuotePluginMk2.Quote[];
+                QuotePlugin.Quote[] quotes = xsl.Deserialize(stream) as QuotePlugin.Quote[];
                 stream.Close();
 
-                foreach (QuotePluginMk2.Quote quote in quotes) {
+                foreach (QuotePlugin.Quote quote in quotes) {
                     quote.QuoteText = quote.QuoteText.Replace("\n", "\r\n");
                     list.Add(quote);
                 }

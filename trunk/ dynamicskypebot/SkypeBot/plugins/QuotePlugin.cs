@@ -8,17 +8,17 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
-using SkypeBot.plugins.config.quotemk2;
+using SkypeBot.plugins.config.quote;
 using System.Data;
 using System.ComponentModel;
 
 namespace SkypeBot.plugins {
-    public class QuotePluginMk2 : Plugin {
+    public class QuotePlugin : Plugin {
         public event MessageDelegate onMessage;
 
         private Random rand;
 
-        public String name() { return "Quote Plugin (Mk II)"; }
+        public String name() { return "Quote Plugin"; }
 
         public String help() { return "!quote [number], !addquote <quote>, !listquotes"; }
 
@@ -30,7 +30,7 @@ namespace SkypeBot.plugins {
             qcf.Visible = true;
         }
 
-        public QuotePluginMk2() {
+        public QuotePlugin() {
             rand = new Random();
             if (PluginSettings.Default.Quotes == null)
                 PluginSettings.Default.Quotes = new ArrayList();
