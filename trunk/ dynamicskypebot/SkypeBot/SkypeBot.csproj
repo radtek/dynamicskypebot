@@ -35,7 +35,7 @@
     <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.1.7.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -87,7 +87,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -122,12 +121,6 @@
     <Compile Include="plugins\config\quotemk2\QuoteConfigForm.Designer.cs">
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="plugins\config\quote\QuoteConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="plugins\config\quote\QuoteConfigForm.Designer.cs">
-      <DependentUpon>QuoteConfigForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="plugins\BashPlugin.cs" />
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.cs">
       <SubType>Form</SubType>
@@ -152,7 +145,6 @@
     <Compile Include="plugins\PornPlugin.cs" />
     <Compile Include="plugins\FourChanPlugin.cs" />
     <Compile Include="plugins\DicePlugin.cs" />
-    <Compile Include="plugins\QuotePlugin.cs" />
     <Compile Include="plugins\UrbanDictionaryPlugin.cs" />
     <Compile Include="plugins\CypherPlugin.cs" />
     <Compile Include="plugins\DictionaryPlugin.cs" />
@@ -167,10 +159,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="plugins\config\quotemk2\QuoteConfigForm.resx">
-      <DependentUpon>QuoteConfigForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="plugins\config\quote\QuoteConfigForm.resx">
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -202,21 +190,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="SkypeBotDB.cs">
-      <DependentUpon>SkypeBotDB.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SkypeBotDB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SkypeBotDB.xsd</DependentUpon>
-    </Compile>
     <Compile Include="utils\JSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\wordlist.txt" />
     <None Include="Service References\UrbanDictionary\soap.wsdl" />
-    <None Include="SkypeBot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -243,11 +221,6 @@
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
-      <Visible>False</Visible>
-      <ProductName>SQL Server Compact 3.5</ProductName>
-      <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
@@ -287,17 +260,6 @@
     <None Include="Service References\UrbanDictionary\SkypeBot.UrbanDictionary.Definition.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="SkypeBotDB.xsc">
-      <DependentUpon>SkypeBotDB.xsd</DependentUpon>
-    </None>
-    <None Include="SkypeBotDB.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>SkypeBotDB.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="SkypeBotDB.xss">
-      <DependentUpon>SkypeBotDB.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
@@ -306,9 +268,6 @@
     <Content Include="Bootstrapper\Skype4COM\product.xml" />
     <Content Include="doc\readme.txt" />
     <Content Include="doc\todo.txt" />
-    <Content Include="SkypeBotDB.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SKYPE4COMLib">

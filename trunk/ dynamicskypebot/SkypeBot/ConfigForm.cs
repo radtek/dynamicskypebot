@@ -22,7 +22,6 @@ namespace SkypeBot {
             new YouTubePlugin(),
             new CypherPlugin(),
             new UrbanDictionaryPlugin(),
-            new QuotePlugin(),
             new DicePlugin(),
             new FourChanPlugin(),
             new PornPlugin(),
