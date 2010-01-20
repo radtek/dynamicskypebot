@@ -8,7 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Configuration;
 namespace SkypeBot.plugins {
     
     
@@ -26,7 +25,6 @@ namespace SkypeBot.plugins {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
         public global::System.Collections.Hashtable HighlowScores {
             get {
                 return ((global::System.Collections.Hashtable)(this["HighlowScores"]));
@@ -38,7 +36,6 @@ namespace SkypeBot.plugins {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
         public global::System.Collections.ArrayList Quotes {
             get {
                 return ((global::System.Collections.ArrayList)(this["Quotes"]));
@@ -50,7 +47,6 @@ namespace SkypeBot.plugins {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
         public global::System.Collections.ArrayList UnapprovedQuotes {
             get {
                 return ((global::System.Collections.ArrayList)(this["UnapprovedQuotes"]));
@@ -69,6 +65,18 @@ namespace SkypeBot.plugins {
             }
             set {
                 this["NextQuoteID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int YoutubeIterations {
+            get {
+                return ((int)(this["YoutubeIterations"]));
+            }
+            set {
+                this["YoutubeIterations"] = value;
             }
         }
     }

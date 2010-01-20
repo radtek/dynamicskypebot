@@ -12,6 +12,7 @@ using System.Xml.XPath;
 using Google.GData.YouTube;
 using Google.YouTube;
 using Google.GData.Client;
+using SkypeBot.plugins.config.youtube;
 
 
 namespace SkypeBot.plugins {
@@ -28,8 +29,11 @@ namespace SkypeBot.plugins {
                                              "Also lets people search for YouTube videos.\n" +
                                              "Also gives random YouTube links."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public bool canConfig() { return true; }
+        public void openConfig() {
+            YoutubePluginConfigForm ycf = new YoutubePluginConfigForm();
+            ycf.Visible = true;
+        }
 
         public YouTubePlugin() {
             random = new Random();
@@ -104,7 +108,7 @@ namespace SkypeBot.plugins {
 
                 Video vid = feed.Entries.ElementAt<Video>(random.Next(count));
                 logMessage("Picked \""+vid.Title+"\" as my starting point.", false);
-                for (int i = 0; i < 15; i++) {
+                for (int i = 0; i < PluginSettings.Default.YoutubeIterations; i++) {
                     Feed<Video> related = ytr.GetRelatedVideos(vid);
                     count = related.Entries.Count<Video>();
                     vid = related.Entries.ElementAt<Video>(random.Next(count));
