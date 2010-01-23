@@ -135,6 +135,9 @@
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\MazePlugin.cs" />
+    <Compile Include="plugins\maze\Direction.cs" />
+    <Compile Include="plugins\maze\generator\DFSMazeGenerator.cs" />
+    <Compile Include="plugins\maze\generator\MazeGenerator.cs" />
     <Compile Include="plugins\maze\Maze.cs" />
     <Compile Include="plugins\maze\MazeCell.cs" />
     <Compile Include="plugins\maze\MazeFactory.cs" />

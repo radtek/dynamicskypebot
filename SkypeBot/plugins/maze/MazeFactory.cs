@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SkypeBot.plugins.maze.generator;
 
 namespace SkypeBot.plugins.maze {
     public class MazeFactory {
@@ -11,6 +12,8 @@ namespace SkypeBot.plugins.maze {
 
         public static Maze MakeMaze(int width, int height, int depth) {
             Maze maze = new Maze(width, height);
+
+            DFSMazeGenerator.Instance.Generate(maze, depth);
 
             return maze;
         }

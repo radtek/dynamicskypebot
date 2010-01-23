@@ -6,7 +6,7 @@ using System.Text;
 namespace SkypeBot.plugins.maze {
     [Serializable]
     public class MazeCell {
-        private MazeLink north, west, south, east;
+        private MazeLink[] exits;
         private int x, y;
 
         private bool hasDown, seen;
@@ -19,24 +19,8 @@ namespace SkypeBot.plugins.maze {
             get { return y; }
         }
 
-        public MazeLink North {
-            get { return north; }
-            set { north = value; }
-        }
-
-        public MazeLink West {
-            get { return west; }
-            set { west = value; }
-        }
-
-        public MazeLink South {
-            get { return south; }
-            set { south = value; }
-        }
-
-        public MazeLink East {
-            get { return east; }
-            set { east = value; }
+        public MazeLink this[Direction dir] {
+            get { return exits[dir.AsInt]; }
         }
 
         public Boolean HasDown {
@@ -53,10 +37,11 @@ namespace SkypeBot.plugins.maze {
             this.x = x;
             this.y = y;
 
-            north = new MazeLink(walled);
-            west = new MazeLink(walled);
-            east = new MazeLink(walled);
-            south = new MazeLink(walled);
+            exits = new MazeLink[4];
+
+            foreach (Direction dir in Direction.Values) {
+                exits[dir.AsInt] = new MazeLink(dir, walled);
+            }
 
             hasDown = false;
             seen = false;

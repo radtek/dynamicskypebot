@@ -8,6 +8,7 @@ namespace SkypeBot.plugins.maze {
     public class MazeLink {
         MazeCell otherSide;
         bool wall;
+        Direction direction;
 
         public MazeCell OtherSide {
             get { return otherSide; }
@@ -16,10 +17,22 @@ namespace SkypeBot.plugins.maze {
 
         public Boolean Wall {
             get { return wall; }
-            set { wall = value; }
+            set {
+                wall = value;
+                if (otherSide != null &&
+                    otherSide[direction.Reverse].Wall != value) {
+                    otherSide[direction.Reverse].Wall = value;
+                }
+
+            }
         }
 
-        public MazeLink(bool walled) {
+        public Direction Direction {
+            get { return direction; }
+        }
+
+        public MazeLink(Direction dir, bool walled) {
+            direction = dir;
             wall = walled;
         }
     }
