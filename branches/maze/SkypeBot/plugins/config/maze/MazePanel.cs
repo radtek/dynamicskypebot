@@ -17,7 +17,8 @@ namespace SkypeBot.plugins.config.maze {
 
         private static class MazeColors {
             public static readonly Brush SEEN   = Brushes.White,
-                                         UNSEEN = Brushes.Black;
+                                         UNSEEN = Brushes.Black,
+                                         STAIRS = Brushes.PeachPuff;
 
             public static readonly Pen WALL = Pens.DodgerBlue;
         }
@@ -60,7 +61,7 @@ namespace SkypeBot.plugins.config.maze {
                 Rectangle cellRect = new Rectangle(x, y, w, w);
 
                 if (cell.Seen) {
-                    canvas.FillRectangle(MazeColors.SEEN, cellRect);
+                    canvas.FillRectangle(cell.HasDown ? MazeColors.STAIRS : MazeColors.SEEN, cellRect);
                 }
             }
 
@@ -83,10 +84,14 @@ namespace SkypeBot.plugins.config.maze {
 
                 if (cell[Direction.SOUTH].Wall && (cell.Seen || (cell[Direction.SOUTH].OtherSide != null && cell[Direction.SOUTH].OtherSide.Seen)))
                     canvas.DrawLine(MazeColors.WALL, bottomLeft, bottomRight);
+
+                if (cell.Seen && cell.HasDown) {
+                    canvas.DrawImage(MazeResources.arrow_fat_down, topLeft.X + 2, topLeft.Y + 2);
+                }
             }
 
             MazeCell walkerCell = control.Walker.Position;
-            canvas.DrawImageUnscaled(MazeResources.person, walkerCell.X * CELL_SIZE + 2, walkerCell.Y * CELL_SIZE + 2);
+            canvas.DrawImage(MazeResources.person, walkerCell.X * CELL_SIZE + 2, walkerCell.Y * CELL_SIZE + 2);
         }
 
     }

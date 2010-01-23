@@ -294,6 +294,7 @@
     <Content Include="Bootstrapper\Skype4COM\product.xml" />
     <Content Include="doc\readme.txt" />
     <Content Include="doc\todo.txt" />
+    <None Include="Resources\arrow_fat_down.gif" />
     <None Include="Resources\person.gif" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SkypeBot.plugins.maze.model.generator {
     abstract class MazeGenerator {
-        protected static readonly Random random = new Random();
+        internal static Random random;
 
         public abstract void Generate(Maze maze, int depth);
     }
