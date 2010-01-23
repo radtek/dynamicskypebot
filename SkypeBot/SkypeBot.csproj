@@ -115,6 +115,12 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\AcronymPlugin.cs" />
+    <Compile Include="plugins\config\maze\MazeConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="plugins\config\maze\MazePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="plugins\config\quote\QuoteConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\MazePlugin.cs" />
     <Compile Include="plugins\maze\Maze.cs" />
     <Compile Include="plugins\maze\MazeCell.cs" />
     <Compile Include="plugins\maze\MazeFactory.cs" />

@@ -5,15 +5,31 @@ using System.Text;
 
 namespace SkypeBot.plugins.maze {
     [Serializable]
-    class Maze {
+    public class Maze : IEnumerable<MazeCell> {
         private MazeCell[,] cells;
+        private int width, height;
 
-        protected Maze(int width, int height) {
+        public int Width {
+            get { return width; }
+        }
+
+        public int Height {
+            get { return height; }
+        }
+
+        public MazeCell this[int x, int y] {
+            get { return cells[x, y]; }
+        }
+
+        internal Maze(int width, int height) {
+            this.width = width;
+            this.height = height;
+
             cells = new MazeCell[width, height];
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    cells[x, y] = new MazeCell(true);
+                    cells[x, y] = new MazeCell(x, y, true);
                 }
             }
 
@@ -30,5 +46,21 @@ namespace SkypeBot.plugins.maze {
                 }
             }
         }
+
+        #region IEnumerable<MazeCell> Members
+
+        public IEnumerator<MazeCell> GetEnumerator() {
+            return cells.Cast<MazeCell>().GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return cells.GetEnumerator();
+        }
+
+        #endregion
     }
 }
