@@ -11,10 +11,22 @@ using SKYPE4COMLib;
 using SkypeBot.plugins.config.maze;
 using SkypeBot.plugins.maze.model;
 using SkypeBot.plugins.maze.control;
+using SkypeBot.plugins.maze.view;
+using System.Globalization;
 
 namespace SkypeBot.plugins {
     public class MazePlugin : Plugin {
         private MazeController control;
+        private MazeReporter reporter;
+
+        private enum Command { North, East, West, South, Look, Unknown }
+        private Command CommandFromString(String str) {
+            try {
+                return (Command)Enum.Parse(typeof(Command), CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str));
+            } catch (ArgumentException) {
+                return Command.Unknown;
+            }
+        }
 
         public event MessageDelegate onMessage;
 
@@ -32,6 +44,7 @@ namespace SkypeBot.plugins {
 
         public MazePlugin() {
             control = new MazeController();
+            reporter = new MazeReporter(control);
         }
 
         public void load() {
@@ -43,13 +56,36 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            Match output = Regex.Match(message.Body, @"^!maze (north|south|east|west)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            if (output.Success) {
-                String cmd = output.Groups[1].Value.ToLower();
+            Match input = Regex.Match(message.Body, @"^!maze (.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            if (input.Success) {
+                Command cmd = CommandFromString(input.Groups[1].Value.ToLower());
 
-                Direction dir = Direction.FromString(cmd);
-                if (control.Walker.CanWalk(dir))
-                    control.Walker.Walk(dir);
+                logMessage("Got the command '" + cmd + "'", false);
+
+                String output = "";
+
+                switch (cmd) {
+                    case Command.North:
+                    case Command.South:
+                    case Command.East:
+                    case Command.West:
+                        Direction dir = Direction.FromString(cmd.ToString());
+                        if (control.Walker.CanWalk(dir)) {
+                            control.Walker.Walk(dir);
+                            output += reporter.ReportWalk(dir);
+                        } else {
+                            output += reporter.ReportCannotWalk;
+                        }
+                        break;
+                    case Command.Look:
+                        output += reporter.ReportLook;
+                        break;
+                    default:
+                        output += "Invalid command!";
+                        break;
+                }
+
+                message.Chat.SendMessage(output);
             }
         }
 
