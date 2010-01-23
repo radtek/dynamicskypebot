@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace SkypeBot.plugins.maze {
+    [Serializable]
     public class Direction {
         public static readonly Direction NORTH = new Direction("North");
         public static readonly Direction SOUTH = new Direction("South");
