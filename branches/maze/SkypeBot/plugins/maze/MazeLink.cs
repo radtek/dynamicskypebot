@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SkypeBot.plugins.maze {
     [Serializable]
-    class MazeLink {
+    public class MazeLink {
         MazeCell otherSide;
         bool wall;
 

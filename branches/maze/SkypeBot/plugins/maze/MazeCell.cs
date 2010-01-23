@@ -5,10 +5,19 @@ using System.Text;
 
 namespace SkypeBot.plugins.maze {
     [Serializable]
-    class MazeCell {
+    public class MazeCell {
         private MazeLink north, west, south, east;
+        private int x, y;
 
         private bool hasDown, seen;
+
+        public int X {
+            get { return x; }
+        }
+
+        public int Y {
+            get { return y; }
+        }
 
         public MazeLink North {
             get { return north; }
@@ -40,7 +49,10 @@ namespace SkypeBot.plugins.maze {
             set { seen = value; }
         }
 
-        public MazeCell(bool walled) {
+        public MazeCell(int x, int y, bool walled) {
+            this.x = x;
+            this.y = y;
+
             north = new MazeLink(walled);
             west = new MazeLink(walled);
             east = new MazeLink(walled);

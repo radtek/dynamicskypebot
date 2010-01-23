@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 
 namespace SkypeBot.plugins.maze {
-    class MazeFactory {
-        private static const Random random = new Random();
+    public class MazeFactory {
+        private static readonly Random random = new Random();
 
         private MazeFactory() { }
 
+        public static Maze MakeMaze(int width, int height, int depth) {
+            Maze maze = new Maze(width, height);
+
+            return maze;
+        }
     }
 }
