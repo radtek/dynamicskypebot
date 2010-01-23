@@ -54,13 +54,13 @@ namespace SkypeBot.plugins.config.maze {
                 //if (cell.Seen) {
                     canvas.FillRectangle(Brushes.Yellow, cellRect);
 
-                    if (cell.West.Wall)
+                    if (cell[Direction.WEST].Wall)
                         canvas.DrawLine(Pens.Blue, topLeft, bottomLeft);
-                    if (cell.East.Wall)
+                    if (cell[Direction.EAST].Wall)
                         canvas.DrawLine(Pens.Blue, topRight, bottomRight);
-                    if (cell.North.Wall)
+                    if (cell[Direction.NORTH].Wall)
                         canvas.DrawLine(Pens.Blue, topLeft, topRight);
-                    if (cell.South.Wall)
+                    if (cell[Direction.SOUTH].Wall)
                         canvas.DrawLine(Pens.Blue, bottomLeft, bottomRight);
                 /*} else {
                     canvas.FillRectangle(Brushes.Black, cellRect);
