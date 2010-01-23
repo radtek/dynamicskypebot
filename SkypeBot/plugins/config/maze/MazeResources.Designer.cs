@@ -60,6 +60,13 @@ namespace SkypeBot.plugins.config.maze {
             }
         }
         
+        internal static System.Drawing.Bitmap arrow_fat_down {
+            get {
+                object obj = ResourceManager.GetObject("arrow_fat_down", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap person {
             get {
                 object obj = ResourceManager.GetObject("person", resourceCulture);

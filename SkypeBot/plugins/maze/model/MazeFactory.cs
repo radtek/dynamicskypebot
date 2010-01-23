@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SkypeBot.plugins.maze.model.generator;
+using SkypeBot.plugins.maze.control;
 
 namespace SkypeBot.plugins.maze.model {
     public class MazeFactory {
-        private static readonly Random random = new Random();
+        internal static Random random;
 
         private MazeFactory() { }
 
@@ -14,6 +15,8 @@ namespace SkypeBot.plugins.maze.model {
             Maze maze = new Maze(width, height);
 
             DFSMazeGenerator.Instance.Generate(maze, depth);
+
+            maze[random.Next(width), random.Next(height)].HasDown = true;
 
             return maze;
         }

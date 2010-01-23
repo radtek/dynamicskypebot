@@ -19,7 +19,7 @@ namespace SkypeBot.plugins {
         private MazeController control;
         private MazeReporter reporter;
 
-        private enum Command { North, East, West, South, Look, Unknown }
+        private enum Command { North, East, West, South, Down, Look, Unknown }
         private Command CommandFromString(String str) {
             try {
                 return (Command)Enum.Parse(typeof(Command), CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str));
@@ -75,6 +75,14 @@ namespace SkypeBot.plugins {
                             output += reporter.ReportWalk(dir);
                         } else {
                             output += reporter.ReportCannotWalk;
+                        }
+                        break;
+                    case Command.Down:
+                        if (control.Walker.Position.HasDown) {
+                            control.Descend();
+                            output += reporter.ReportDescend;
+                        } else {
+                            output += reporter.ReportCannotDescend;
                         }
                         break;
                     case Command.Look:

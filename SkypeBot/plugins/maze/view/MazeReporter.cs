@@ -28,7 +28,17 @@ namespace SkypeBot.plugins.maze.view {
 
         public String ReportLook {
             get {
-                return ReportExits;
+                return ReportStaircase
+                     + ReportExits;
+            }
+        }
+
+        public String ReportStaircase {
+            get {
+                if (control.Walker.Position.HasDown)
+                    return "There happens to be a huge gaping hole in the floor here.\n";
+                else
+                    return "";
             }
         }
 
@@ -49,9 +59,29 @@ namespace SkypeBot.plugins.maze.view {
                     first = false;
                     output += dir;
                 }
+                
+                if (room.HasDown) {
+                    output += ", Down";
+                }
+
                 output += ".";
 
                 return output;
+            }
+        }
+
+        public String ReportCannotDescend {
+            get {
+                return "You can't seem to go down here.\n" +
+                       "Maybe it has something to do with the solid concrete floor below you.\n" +
+                       "We may never know.";
+            }
+        }
+
+        public String ReportDescend {
+            get {
+                return "You jump into the gaping hole, landing on your face.\n" +
+                    ReportLook;
             }
         }
     }
