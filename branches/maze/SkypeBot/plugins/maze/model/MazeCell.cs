@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkypeBot.plugins.maze {
+namespace SkypeBot.plugins.maze.model {
     [Serializable]
     public class MazeCell {
         private MazeLink[] exits;
@@ -47,5 +47,7 @@ namespace SkypeBot.plugins.maze {
             seen = false;
         }
 
+        public delegate void ChangeHandler(object sender);
+        public event ChangeHandler OnChange;
     }
 }

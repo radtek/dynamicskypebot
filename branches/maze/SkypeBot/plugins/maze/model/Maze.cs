@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkypeBot.plugins.maze {
+namespace SkypeBot.plugins.maze.model {
     [Serializable]
     public class Maze : IEnumerable<MazeCell> {
         private MazeCell[,] cells;
@@ -30,6 +30,10 @@ namespace SkypeBot.plugins.maze {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     cells[x, y] = new MazeCell(x, y, true);
+                    cells[x, y].OnChange += (obj) => {
+                        if (this.OnChange != null)
+                            this.OnChange(this);
+                    };
                 }
             }
 
@@ -62,5 +66,8 @@ namespace SkypeBot.plugins.maze {
         }
 
         #endregion
+
+        public delegate void ChangeHandler(object sender);
+        public event ChangeHandler OnChange;
     }
 }

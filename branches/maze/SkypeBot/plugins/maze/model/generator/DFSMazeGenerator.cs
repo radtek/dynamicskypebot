@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkypeBot.plugins.maze.generator {
+namespace SkypeBot.plugins.maze.model.generator {
     class DFSMazeGenerator : MazeGenerator {
         public static readonly MazeGenerator Instance = new DFSMazeGenerator();
 

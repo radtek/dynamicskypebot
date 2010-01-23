@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SkypeBot.plugins.maze.generator;
+using SkypeBot.plugins.maze.model.generator;
 
-namespace SkypeBot.plugins.maze {
+namespace SkypeBot.plugins.maze.model {
     public class MazeFactory {
         private static readonly Random random = new Random();
 
