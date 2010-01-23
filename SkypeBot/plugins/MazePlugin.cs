@@ -8,12 +8,13 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
-using SkypeBot.plugins.maze;
 using SkypeBot.plugins.config.maze;
+using SkypeBot.plugins.maze.model;
+using SkypeBot.plugins.maze.control;
 
 namespace SkypeBot.plugins {
     public class MazePlugin : Plugin {
-        private Maze maze;
+        private MazeController control;
 
         public event MessageDelegate onMessage;
 
@@ -25,12 +26,12 @@ namespace SkypeBot.plugins {
 
         public bool canConfig() { return true; }
         public void openConfig() {
-            MazeConfigForm mcf = new MazeConfigForm(maze);
+            MazeConfigForm mcf = new MazeConfigForm(control);
             mcf.Visible = true;
         }
 
         public MazePlugin() {
-            maze = MazeFactory.MakeMaze(30, 30, 1);
+            control = new MazeController();
         }
 
         public void load() {
@@ -42,7 +43,14 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            // Your code goes here. Yay!
+            Match output = Regex.Match(message.Body, @"^!maze (north|south|east|west)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            if (output.Success) {
+                String cmd = output.Groups[1].Value.ToLower();
+
+                Direction dir = Direction.FromString(cmd);
+                if (control.Walker.CanWalk(dir))
+                    control.Walker.Walk(dir);
+            }
         }
 
         private void logMessage(String msg, Boolean isError) {

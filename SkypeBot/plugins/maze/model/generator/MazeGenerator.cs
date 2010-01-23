@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkypeBot.plugins.maze.generator {
+namespace SkypeBot.plugins.maze.model.generator {
     abstract class MazeGenerator {
         protected static readonly Random random = new Random();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkypeBot.plugins.maze {
+namespace SkypeBot.plugins.maze.model {
     [Serializable]
     public class Direction {
         public static readonly Direction NORTH = new Direction("North");
@@ -12,6 +12,8 @@ namespace SkypeBot.plugins.maze {
         public static readonly Direction WEST = new Direction("West");
 
         private String name;
+
+        private Direction() { }
 
         private Direction(String name) {
             this.name = name;
@@ -47,6 +49,14 @@ namespace SkypeBot.plugins.maze {
 
         public override string ToString() {
             return name;
+        }
+
+        public static Direction FromString(String name) {
+            name = name.ToLower();
+            return name == "north" ? NORTH :
+                   name == "south" ? SOUTH :
+                   name == "west" ? WEST :
+                   name == "east" ? EAST : null;
         }
     }
 

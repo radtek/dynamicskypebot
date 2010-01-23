@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkypeBot.plugins.maze {
+namespace SkypeBot.plugins.maze.model {
     [Serializable]
     public class MazeLink {
         MazeCell otherSide;
