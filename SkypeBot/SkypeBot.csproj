@@ -128,6 +128,10 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\maze\Maze.cs" />
+    <Compile Include="plugins\maze\MazeCell.cs" />
+    <Compile Include="plugins\maze\MazeFactory.cs" />
+    <Compile Include="plugins\maze\MazeLink.cs" />
     <Compile Include="plugins\PluginSettings.cs" />
     <Compile Include="plugins\QuotePlugin.cs" />
     <Compile Include="plugins\RandomLinkPlugin.cs" />
