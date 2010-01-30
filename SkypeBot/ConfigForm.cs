@@ -35,6 +35,7 @@ namespace SkypeBot {
             new RandomLinkPlugin(),
             new QuotePlugin(),
             new MazePlugin(),
+            new EightBallPlugin(),
 
         });
 

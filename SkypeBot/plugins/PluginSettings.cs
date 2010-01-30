@@ -39,5 +39,16 @@ namespace SkypeBot.plugins {
                 this["UnapprovedQuotes"] = value;
             }
         }
+
+        [UserScopedSettingAttribute()]
+        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
+        public global::System.Collections.Generic.List<string> EightBallReplies {
+            get {
+                return ((global::System.Collections.Generic.List<string>)(this["EightBallReplies"]));
+            }
+            set {
+                this["EightBallReplies"] = value;
+            }
+        }
     }
 }

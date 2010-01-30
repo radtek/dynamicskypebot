@@ -139,6 +139,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\EightBallPlugin.cs" />
     <Compile Include="plugins\MazePlugin.cs" />
     <Compile Include="plugins\maze\control\MazeController.cs" />
     <Compile Include="plugins\maze\model\Direction.cs" />
