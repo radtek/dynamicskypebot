@@ -30,9 +30,9 @@ namespace SkypeBot.plugins {
 
         public event MessageDelegate onMessage;
 
-        public String name() { return "Maze Plugin"; }
+        public String name() { return "Maze Plugin (beta)"; }
 
-        public String help() { return null; }
+        public String help() { return "!maze <north/south/east/west/down/look> (BETA)"; }
 
         public String description() { return "Allows for maze exploration."; }
 
