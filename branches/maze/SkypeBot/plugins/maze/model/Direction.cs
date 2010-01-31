@@ -54,9 +54,13 @@ namespace SkypeBot.plugins.maze.model {
         public static Direction FromString(String name) {
             name = name.ToLower();
             return name == "north" ? NORTH :
+                   name == "n" ? NORTH :
                    name == "south" ? SOUTH :
+                   name == "s" ? SOUTH :
                    name == "west" ? WEST :
-                   name == "east" ? EAST : null;
+                   name == "w" ? WEST :
+                   name == "east" ? EAST : 
+                   name == "e" ? EAST : null;
         }
     }
 
