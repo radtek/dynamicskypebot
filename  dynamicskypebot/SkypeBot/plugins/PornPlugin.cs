@@ -40,15 +40,15 @@ namespace SkypeBot.plugins {
             Match output = Regex.Match(message.Body, @"^!porn", RegexOptions.IgnoreCase);
             if (output.Success) {
                 logMessage("Loading category list...", false);
-                WebRequest webReq = WebRequest.Create("http://www.easygals.com/main.php");
+                WebRequest webReq = WebRequest.Create("http://www.easygals.com/");
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
                 logMessage("Picking a category...", false);
-                Regex categoryFinderRx = new Regex(@"<a href=([^\s]+) title=""([^""]+)"" class=C>");
+                Regex categoryFinderRx = new Regex(@"<a class=""catLink"" href=""([^\s]+)"".*?>(.+?)</a>");
                 MatchCollection categoryFinderColl = categoryFinderRx.Matches(responseText);
                 if (categoryFinderColl.Count <= 0) {
-                    message.Chat.SendMessage("Sorry, some kind of error occurred in trying obtain porn. :(");
+                    message.Chat.SendMessage("Sorry, some kind of error occurred in trying to obtain porn. :(");
                     return;
                 }
                 Match categoryFinder = categoryFinderColl[random.Next(categoryFinderColl.Count)];
@@ -61,7 +61,7 @@ namespace SkypeBot.plugins {
                 webReq.Timeout = 10000;
                 response = webReq.GetResponse();
                 responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                Regex pornFinderRx = new Regex(@"<a href=([^\s]+) class=g>");
+                Regex pornFinderRx = new Regex(@"<a href=""/cgi-bin/atx/out.+?u=(http:.+?)""");
                 MatchCollection pornFinderColl = pornFinderRx.Matches(responseText);
                 if (pornFinderColl.Count <= 0) {
                     message.Chat.SendMessage("Argh, I couldn't find any " + categoryFinder.Groups[2].Value + "! Bummer.");
