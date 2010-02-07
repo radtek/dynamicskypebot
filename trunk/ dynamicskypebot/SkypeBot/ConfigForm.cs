@@ -151,12 +151,19 @@ namespace SkypeBot {
                 updateTimer = new Timer();
                 updateTimer.Interval = 30 * 60 * 1000; // Check for updates every 30 minutes.
                 updateTimer.Tick += (obj, e) => {
-                    if (System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CheckForUpdate()) {
-                        taskIcon.BalloonTipTitle = "Skype Bot";
-                        taskIcon.BalloonTipText = "A new version of the Skype Bot is ready for download.";
-                        taskIcon.BalloonTipIcon = ToolTipIcon.Info;
-                        taskIcon.ShowBalloonTip(1000 * 60 * 30);
-                    }
+                    try {
+                        if (System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CheckForUpdate()) {
+                            if (taskIcon.Visible) {
+                                taskIcon.BalloonTipTitle = "Skype Bot";
+                                taskIcon.BalloonTipText = "A new version of the Skype Bot is ready for download.";
+                                taskIcon.BalloonTipIcon = ToolTipIcon.Info;
+                                taskIcon.ShowBalloonTip(1000 * 60 * 30);
+                            } else {
+                                updateTimer.Stop();
+                                MessageBox.Show("A new version is ready for download!");
+                            }
+                        }
+                    } catch(Exception) { }
                 };
                 updateTimer.Start();
             }
