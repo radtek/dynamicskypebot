@@ -35,6 +35,8 @@ namespace SkypeBot {
             new RandomLinkPlugin(),
             new QuotePlugin(),
             new TwitterPlugin(),
+            new MazePlugin(),
+            new EightBallPlugin(),
 
         });
 
@@ -98,6 +100,7 @@ namespace SkypeBot {
 
                     Match output = Regex.Match(message.Body, @"^!help", RegexOptions.IgnoreCase);
                     if (output.Success) {
+                        /*
                         String outputMsg = "The following commands are loaded:\n";
                         foreach (Plugin p in plugins) {
                             if (isLoaded(p)) {
@@ -106,7 +109,10 @@ namespace SkypeBot {
                                     outputMsg += helpMsg + "\n";
                             }
                         }
+                        */
+                        String outputMsg = "Help for the bot can be found at http://mathemaniac.org/apps/skypebot/help/.";
                         message.Chat.SendMessage(outputMsg);
+                        
                         return;
                     }
 

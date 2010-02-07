@@ -119,6 +119,17 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\AcronymPlugin.cs" />
+    <Compile Include="plugins\config\maze\MazeConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="plugins\config\maze\MazePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="plugins\config\maze\MazeResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MazeResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="plugins\config\quote\QuoteConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +144,18 @@
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\TwitterPlugin.cs" />
+    <Compile Include="plugins\EightBallPlugin.cs" />
+    <Compile Include="plugins\MazePlugin.cs" />
+    <Compile Include="plugins\maze\control\MazeController.cs" />
+    <Compile Include="plugins\maze\model\Direction.cs" />
+    <Compile Include="plugins\maze\model\generator\DFSMazeGenerator.cs" />
+    <Compile Include="plugins\maze\model\generator\MazeGenerator.cs" />
+    <Compile Include="plugins\maze\model\Maze.cs" />
+    <Compile Include="plugins\maze\model\MazeCell.cs" />
+    <Compile Include="plugins\maze\model\MazeFactory.cs" />
+    <Compile Include="plugins\maze\model\MazeLink.cs" />
+    <Compile Include="plugins\maze\view\MazeReporter.cs" />
+    <Compile Include="plugins\maze\model\MazeWalker.cs" />
     <Compile Include="plugins\PluginSettings.cs" />
     <Compile Include="plugins\QuotePlugin.cs" />
     <Compile Include="plugins\RandomLinkPlugin.cs" />
@@ -162,6 +185,10 @@
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="plugins\config\maze\MazeResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MazeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="plugins\config\quote\QuoteConfigForm.resx">
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
@@ -273,6 +300,8 @@
     <Content Include="Bootstrapper\Skype4COM\product.xml" />
     <Content Include="doc\readme.txt" />
     <Content Include="doc\todo.txt" />
+    <None Include="Resources\arrow_fat_down.gif" />
+    <None Include="Resources\person.gif" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SKYPE4COMLib">
