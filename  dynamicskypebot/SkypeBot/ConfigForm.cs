@@ -34,6 +34,7 @@ namespace SkypeBot {
             new PenisPlugin(),
             new RandomLinkPlugin(),
             new QuotePlugin(),
+            new TwitterPlugin(),
 
         });
 

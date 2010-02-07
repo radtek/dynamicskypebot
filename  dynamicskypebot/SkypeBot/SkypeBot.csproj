@@ -77,6 +77,10 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dimebrain.TweetSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c148cfba29ed1a4d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Library\TweetSharp\.NET Framework 3.5\Dimebrain.TweetSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Google\Google Data API SDK\Redist\Google.GData.Client.dll</HintPath>
     </Reference>
@@ -128,6 +132,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\TwitterPlugin.cs" />
     <Compile Include="plugins\PluginSettings.cs" />
     <Compile Include="plugins\QuotePlugin.cs" />
     <Compile Include="plugins\RandomLinkPlugin.cs" />
@@ -151,7 +156,7 @@
     <Compile Include="plugins\GoogleImageSearchPlugin.cs" />
     <Compile Include="plugins\Plugin.cs" />
     <Compile Include="plugins\SamplePlugin.cs" />
-    <Compile Include="plugins\YouTubeInfoPlugin.cs" />
+    <Compile Include="plugins\YouTubePlugin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ConfigForm.resx">
