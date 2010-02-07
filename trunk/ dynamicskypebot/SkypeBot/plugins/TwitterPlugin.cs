@@ -47,11 +47,17 @@ namespace SkypeBot.plugins {
                                           .Request()
                                           .AsStatuses();
 
-                var tweet = tweets.First();
+                if (tweets == null) {
+                    message.Chat.SendMessage(
+                        String.Format("I don't think \"{0}\" is a Twitter username.", query)
+                    );
+                } else {
+                    var tweet = tweets.First();
 
-                message.Chat.SendMessage(
-                    String.Format("{0} ({1})", tweet.Text, tweet.CreatedDate.ToRelativeTime(false))
-                );
+                    message.Chat.SendMessage(
+                        String.Format("{0} ({1})", tweet.Text, tweet.CreatedDate.ToRelativeTime(false))
+                    );
+                }
             }
         }
 
