@@ -43,6 +43,7 @@ namespace SkypeBot {
         private Skype skype;
         private int lastId = -1;
         private String blocked; // Blocklist of nick/channel combos that aren't allowed.
+        private Timer updateTimer;
 
         public event _ISkypeEvents_MessageStatusEventHandler onSkypeMessage;
         public ConfigForm() {
@@ -144,6 +145,21 @@ namespace SkypeBot {
                 blocked = new StreamReader(response.GetResponseStream()).ReadToEnd();
             };
             baw.RunWorkerAsync();
+
+            // Update check
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) {
+                updateTimer = new Timer();
+                updateTimer.Interval = 30 * 60 * 1000; // Check for updates every 30 minutes.
+                updateTimer.Tick += (obj, e) => {
+                    if (System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CheckForUpdate()) {
+                        taskIcon.BalloonTipTitle = "Skype Bot";
+                        taskIcon.BalloonTipText = "A new version of the Skype Bot is ready for download.";
+                        taskIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        taskIcon.ShowBalloonTip(1000 * 60 * 30);
+                    }
+                };
+                updateTimer.Start();
+            }
         }
 
         private void populatePluginList() {
@@ -188,6 +204,7 @@ namespace SkypeBot {
         private void ConfigForm_Resize(object sender, EventArgs e) {
             taskIcon.BalloonTipTitle = "Skype Bot";
             taskIcon.BalloonTipText = "Skype Bot now lives down here!";
+            taskIcon.BalloonTipIcon = ToolTipIcon.Info;
 
             if (WindowState == FormWindowState.Minimized) {
                 taskIcon.Visible = true;
