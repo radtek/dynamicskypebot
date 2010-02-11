@@ -35,7 +35,7 @@
     <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>1.1.7.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -119,6 +119,12 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\AcronymPlugin.cs" />
+    <Compile Include="plugins\config\eightball\EightballConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="plugins\config\eightball\EightballConfigForm.Designer.cs">
+      <DependentUpon>EightballConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="plugins\config\maze\MazeConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +191,9 @@
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="plugins\config\eightball\EightballConfigForm.resx">
+      <DependentUpon>EightballConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="plugins\config\maze\MazeResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

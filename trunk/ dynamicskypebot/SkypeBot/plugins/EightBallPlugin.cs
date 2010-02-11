@@ -8,6 +8,7 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using SkypeBot.plugins.config.eightball;
 
 namespace SkypeBot.plugins {
     public class EightBallPlugin : Plugin {
@@ -21,8 +22,11 @@ namespace SkypeBot.plugins {
 
         public String description() { return "Gives ambiguous answers to your queries."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public bool canConfig() { return true; }
+        public void openConfig() {
+            EightballConfigForm ecf = new EightballConfigForm();
+            ecf.Visible = true;
+        }
         // TODO: Make a configuration thing.
 
         public EightBallPlugin() {
@@ -32,7 +36,7 @@ namespace SkypeBot.plugins {
             random = new Random();
         }
 
-        private void InitializeReplies() {
+        public static void InitializeReplies() {
             List<string> ebr = new List<string>(
                 new string[] {
                     @"Outlook Good",
