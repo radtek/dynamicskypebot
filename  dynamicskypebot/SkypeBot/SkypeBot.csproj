@@ -150,6 +150,7 @@
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\DeviantArtPlugin.cs" />
+    <Compile Include="plugins\QDBPlugin.cs" />
     <Compile Include="plugins\TwitterPlugin.cs" />
     <Compile Include="plugins\EightBallPlugin.cs" />
     <Compile Include="plugins\MazePlugin.cs" />
