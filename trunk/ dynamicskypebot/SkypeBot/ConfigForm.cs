@@ -38,6 +38,7 @@ namespace SkypeBot {
             new MazePlugin(),
             new EightBallPlugin(),
             new DeviantArtPlugin(),
+            new QDBPlugin(),
 
         });
 
