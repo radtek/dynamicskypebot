@@ -50,5 +50,16 @@ namespace SkypeBot.plugins {
                 this["EightBallReplies"] = value;
             }
         }
+
+        [UserScopedSettingAttribute()]
+        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
+        public global::System.Collections.Generic.List<WordFilterPlugin.Filter> WordFilters {
+            get {
+                return ((global::System.Collections.Generic.List<WordFilterPlugin.Filter>)(this["WordFilters"]));
+            }
+            set {
+                this["WordFilters"] = value;
+            }
+        }
     }
 }

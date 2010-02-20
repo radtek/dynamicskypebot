@@ -35,8 +35,8 @@
     <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>20</ApplicationRevision>
-    <ApplicationVersion>1.1.7.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.1.8.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -143,12 +143,19 @@
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\BashPlugin.cs" />
+    <Compile Include="plugins\config\wordfilter\WordFilterConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="plugins\config\wordfilter\WordFilterConfigForm.Designer.cs">
+      <DependentUpon>WordFilterConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\WordFilterPlugin.cs" />
     <Compile Include="plugins\DeviantArtPlugin.cs" />
     <Compile Include="plugins\QDBPlugin.cs" />
     <Compile Include="plugins\TwitterPlugin.cs" />
@@ -204,6 +211,9 @@
     <EmbeddedResource Include="plugins\config\quote\QuoteConfigForm.resx">
       <DependentUpon>QuoteConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="plugins\config\wordfilter\WordFilterConfigForm.resx">
+      <DependentUpon>WordFilterConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="plugins\config\youtube\YoutubePluginConfigForm.resx">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
