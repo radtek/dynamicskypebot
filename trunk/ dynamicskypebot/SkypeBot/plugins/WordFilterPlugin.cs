@@ -41,11 +41,11 @@ namespace SkypeBot.plugins {
             get {
                 return new List<Filter>(
                     new Filter[] {
-                        new Filter("fuck -> gently caress", @"\bfuck\b", "gently caress", false),
-                        new Filter("are -> am", @"\bare\b", "am", false),
-                        new Filter("Phone number", @"\b(\d{3})(\d{3})(\d{4})\b", "($1) $2-$3", false),
-                        new Filter("penis -> jesus", @"\bp(e+)nis\b", "j$1sus", false),
-                        new Filter("lol -> lots of love", @"\bl(o+)l\b", "lots of l$1ve", false),
+                        new Filter("fuck -> gently caress", @"\bfuck\b", "gently caress", false, 0),
+                        new Filter("are -> am", @"\bare\b", "am", false, 0),
+                        new Filter("Phone number", @"\b(\d{3})(\d{3})(\d{4})\b", "($1) $2-$3", false, 0),
+                        new Filter("penis -> jesus", @"\bp(e+)nis\b", "j$1sus", false, 0),
+                        new Filter("lol -> lots of love", @"\bl(o+)l\b", "lots of l$1ve", false, 0),
                     }
                 );
             }
@@ -89,22 +89,47 @@ namespace SkypeBot.plugins {
         }
 
         [Serializable]
-        public class Filter {
+        public class Filter : IComparable<Filter> {
             public String name = "";
             public String regex = "";
             public String replacement = "";
             public Boolean caseSensitive = false;
+            public int priority = 0;
 
-            public Filter(String name, String regex, String replacement, Boolean caseSensitive) {
+            public Filter(String name, String regex, String replacement, Boolean caseSensitive, int priority) {
                 this.name = name;
                 this.regex = regex;
                 this.replacement = replacement;
                 this.caseSensitive = false;
+                this.priority = priority;
             }
 
             public override string ToString() {
-                return name + " [regex: " + regex + ", replacement: " + replacement + ", case-sensitive: " + caseSensitive + "]";
+                return String.Format(
+                    "{0} [rx: {1}, rep: {2}, cs: {3}, pri: {4}]",
+                    name,
+                    regex,
+                    replacement,
+                    caseSensitive,
+                    priority
+                );
             }
+
+            #region IComparable<Filter> Members
+
+            public int CompareTo(Filter other) {
+                if (other == null) return 1;
+
+                if (priority < other.priority) {
+                    return -1;
+                } else if (priority > other.priority) {
+                    return 1;
+                } else {
+                    return name.CompareTo(other.name);
+                }
+            }
+
+            #endregion
         }
     }
 }   
