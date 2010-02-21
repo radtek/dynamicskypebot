@@ -41,9 +41,11 @@ namespace SkypeBot.plugins {
             get {
                 return new List<Filter>(
                     new Filter[] {
-                        new Filter("fuck -> gently caress", @"\bfuck\b", "gently caress"),
-                        new Filter("are -> am", @"\bare\b", "am"),
-                        new Filter("Phone number", @"\b(\d{3})(\d{3})(\d{4})\b", "($1) $2-$3")
+                        new Filter("fuck -> gently caress", @"\bfuck\b", "gently caress", false),
+                        new Filter("are -> am", @"\bare\b", "am", false),
+                        new Filter("Phone number", @"\b(\d{3})(\d{3})(\d{4})\b", "($1) $2-$3", false),
+                        new Filter("penis -> jesus", @"\bp(e+)nis\b", "j$1sus", false),
+                        new Filter("lol -> lots of love", @"\bl(o+)l\b", "lots of l$1ve", false),
                     }
                 );
             }
@@ -66,7 +68,11 @@ namespace SkypeBot.plugins {
 
             foreach (Filter filter in PluginSettings.Default.WordFilters) {
                 try {
-                    messageText = Regex.Replace(messageText, filter.regex, filter.replacement);
+                    if (filter.caseSensitive) {
+                        messageText = Regex.Replace(messageText, filter.regex, filter.replacement);
+                    } else {
+                        messageText = Regex.Replace(messageText, filter.regex, filter.replacement, RegexOptions.IgnoreCase);
+                    }
                 } catch {
                     logMessage("Error in filter: " + filter, true);
                 }
@@ -84,18 +90,20 @@ namespace SkypeBot.plugins {
 
         [Serializable]
         public class Filter {
-            public String name;
-            public String regex;
-            public String replacement;
+            public String name = "";
+            public String regex = "";
+            public String replacement = "";
+            public Boolean caseSensitive = false;
 
-            public Filter(String name, String regex, String replacement) {
+            public Filter(String name, String regex, String replacement, Boolean caseSensitive) {
                 this.name = name;
                 this.regex = regex;
                 this.replacement = replacement;
+                this.caseSensitive = false;
             }
 
             public override string ToString() {
-                return name + " [regex: " + regex + ", replacement: " + replacement + "]";
+                return name + " [regex: " + regex + ", replacement: " + replacement + ", case-sensitive: " + caseSensitive + "]";
             }
         }
     }

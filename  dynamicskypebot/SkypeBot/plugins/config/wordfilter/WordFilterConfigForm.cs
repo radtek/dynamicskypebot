@@ -36,12 +36,13 @@ namespace SkypeBot.plugins.config.wordfilter {
 
         private void addBtn_Click(object sender, EventArgs e) {
             WordFilterPlugin.Filter filter = new WordFilterPlugin.Filter(
-                nameTxt.Text, regexTxt.Text, replacementTxt.Text
+                nameTxt.Text, regexTxt.Text, replacementTxt.Text, caseSensitive.Checked
             );
 
             nameTxt.Text = "";
             regexTxt.Text = "";
             replacementTxt.Text = "";
+            caseSensitive.Checked = false;
 
             PluginSettings.Default.WordFilters.Add(filter);
             PluginSettings.Default.Save();
@@ -57,6 +58,7 @@ namespace SkypeBot.plugins.config.wordfilter {
                 nameTxt.Text = filter.name;
                 regexTxt.Text = filter.regex;
                 replacementTxt.Text = filter.replacement;
+                caseSensitive.Checked = filter.caseSensitive;
             }
         }
 
@@ -69,6 +71,7 @@ namespace SkypeBot.plugins.config.wordfilter {
                 nameTxt.Text = filter.name;
                 regexTxt.Text = filter.regex;
                 replacementTxt.Text = filter.replacement;
+                caseSensitive.Checked = filter.caseSensitive;
             }
         }
 

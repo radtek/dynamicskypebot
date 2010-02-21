@@ -38,6 +38,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.loadBtn = new System.Windows.Forms.Button();
             this.sampleFilterBox = new System.Windows.Forms.ListBox();
+            this.caseSensitive = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -45,6 +46,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.caseSensitive);
             this.groupBox1.Controls.Add(this.addBtn);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.replacementTxt);
@@ -186,6 +188,16 @@
             this.sampleFilterBox.Size = new System.Drawing.Size(159, 82);
             this.sampleFilterBox.TabIndex = 0;
             // 
+            // caseSensitive
+            // 
+            this.caseSensitive.AutoSize = true;
+            this.caseSensitive.Location = new System.Drawing.Point(9, 98);
+            this.caseSensitive.Name = "caseSensitive";
+            this.caseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.caseSensitive.TabIndex = 7;
+            this.caseSensitive.Text = "Case sensitive";
+            this.caseSensitive.UseVisualStyleBackColor = true;
+            // 
             // WordFilterConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,5 +235,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button loadBtn;
         private System.Windows.Forms.ListBox sampleFilterBox;
+        private System.Windows.Forms.CheckBox caseSensitive;
     }
 }
