@@ -41,6 +41,7 @@
             this.sampleFilterBox = new System.Windows.Forms.ListBox();
             this.priorityBox = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.enabledBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -49,6 +50,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.enabledBox);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.priorityBox);
             this.groupBox1.Controls.Add(this.caseSensitive);
@@ -229,6 +231,18 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Priority:";
             // 
+            // enabledBox
+            // 
+            this.enabledBox.AutoSize = true;
+            this.enabledBox.Checked = true;
+            this.enabledBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enabledBox.Location = new System.Drawing.Point(109, 128);
+            this.enabledBox.Name = "enabledBox";
+            this.enabledBox.Size = new System.Drawing.Size(65, 17);
+            this.enabledBox.TabIndex = 10;
+            this.enabledBox.Text = "Enabled";
+            this.enabledBox.UseVisualStyleBackColor = true;
+            // 
             // WordFilterConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,5 +284,6 @@
         private System.Windows.Forms.CheckBox caseSensitive;
         private System.Windows.Forms.NumericUpDown priorityBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox enabledBox;
     }
 }

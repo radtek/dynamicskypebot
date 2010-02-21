@@ -41,11 +41,11 @@ namespace SkypeBot.plugins {
             get {
                 return new List<Filter>(
                     new Filter[] {
-                        new Filter("fuck -> gently caress", @"\bfuck\b", "gently caress", false, 0),
-                        new Filter("are -> am", @"\bare\b", "am", false, 0),
-                        new Filter("Phone number", @"\b(\d{3})(\d{3})(\d{4})\b", "($1) $2-$3", false, 0),
-                        new Filter("penis -> jesus", @"\bp(e+)nis\b", "j$1sus", false, 0),
-                        new Filter("lol -> lots of love", @"\bl(o+)l\b", "lots of l$1ve", false, 0),
+                        new Filter("fuck -> gently caress", @"\bfuck\b", "gently caress", false, 0, false),
+                        new Filter("are -> am", @"\bare\b", "am", false, 0, false),
+                        new Filter("Phone number", @"\b(\d{3})(\d{3})(\d{4})\b", "($1) $2-$3", false, 0, false),
+                        new Filter("penis -> jesus", @"\bp(e+)nis\b", "j$1sus", false, 0, false),
+                        new Filter("lol -> lots of love", @"\bl(o+)l\b", "lots of l$1ve", false, 0, false),
                     }
                 );
             }
@@ -67,6 +67,7 @@ namespace SkypeBot.plugins {
             String messageText = message.Body;
 
             foreach (Filter filter in PluginSettings.Default.WordFilters) {
+                if (filter.disabled) continue;
                 try {
                     if (filter.caseSensitive) {
                         messageText = Regex.Replace(messageText, filter.regex, filter.replacement);
@@ -95,13 +96,16 @@ namespace SkypeBot.plugins {
             public String replacement = "";
             public Boolean caseSensitive = false;
             public int priority = 0;
+            public Boolean disabled = false;
 
-            public Filter(String name, String regex, String replacement, Boolean caseSensitive, int priority) {
+            public Filter(String name, String regex, String replacement,
+                          Boolean caseSensitive, int priority, Boolean disabled) {
                 this.name = name;
                 this.regex = regex;
                 this.replacement = replacement;
-                this.caseSensitive = false;
+                this.caseSensitive = caseSensitive;
                 this.priority = priority;
+                this.disabled = disabled;
             }
 
             public override string ToString() {
