@@ -23,7 +23,11 @@ namespace SkypeBot.plugins.config.wordfilter {
         private void loadCurrentList() {
             currentFilterBox.Items.Clear();
             foreach (WordFilterPlugin.Filter filter in PluginSettings.Default.WordFilters) {
-                currentFilterBox.Items.Add(filter.name);
+                currentFilterBox.Items.Add(String.Format(
+                    "({0}) {1}",
+                    filter.priority,
+                    filter.name
+                ));
             }
         }
 
@@ -36,15 +40,18 @@ namespace SkypeBot.plugins.config.wordfilter {
 
         private void addBtn_Click(object sender, EventArgs e) {
             WordFilterPlugin.Filter filter = new WordFilterPlugin.Filter(
-                nameTxt.Text, regexTxt.Text, replacementTxt.Text, caseSensitive.Checked
+                nameTxt.Text, regexTxt.Text, replacementTxt.Text,
+                caseSensitive.Checked, (int)priorityBox.Value
             );
 
             nameTxt.Text = "";
             regexTxt.Text = "";
             replacementTxt.Text = "";
             caseSensitive.Checked = false;
+            priorityBox.Value = 0;
 
             PluginSettings.Default.WordFilters.Add(filter);
+            PluginSettings.Default.WordFilters.Sort();
             PluginSettings.Default.Save();
 
             loadCurrentList();
@@ -59,6 +66,7 @@ namespace SkypeBot.plugins.config.wordfilter {
                 regexTxt.Text = filter.regex;
                 replacementTxt.Text = filter.replacement;
                 caseSensitive.Checked = filter.caseSensitive;
+                priorityBox.Value = filter.priority;
             }
         }
 
@@ -72,6 +80,7 @@ namespace SkypeBot.plugins.config.wordfilter {
                 regexTxt.Text = filter.regex;
                 replacementTxt.Text = filter.replacement;
                 caseSensitive.Checked = filter.caseSensitive;
+                priorityBox.Value = filter.priority;
             }
         }
 
