@@ -34,10 +34,39 @@ namespace SkypeBot.plugins {
 
         public void load() {
             logMessage("Plugin successfully loaded.", false);
+            if (randomQuotes.Count == 0) {
+                logMessage("No cached quotes; fetching...", false);
+                fetchRandomQuotes();
+            }
         }
 
         public void unload() {
             logMessage("Plugin successfully unloaded.", false);
+        }
+
+        private void fetchRandomQuotes() {
+            WebRequest webReq = WebRequest.Create("http://qdb.us/qdb.xml?action=random&fixed=0&client=Dynamic+Skype+Bot");
+            webReq.Timeout = 10000;
+            WebResponse response = webReq.GetResponse();
+            String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            XDocument doc = XDocument.Parse(responseText);
+            XNamespace d = "http://purl.org/rss/1.0/";
+
+            foreach (XElement item in doc.Descendants(d + "item")) {
+                Quote q = new Quote();
+                q.id = item.Element(d + "title").Value;
+
+                String quoteText = item.Element(d + "description").Value;
+                quoteText = Regex.Replace(quoteText, "<.+?>", "");
+                quoteText = HttpUtility.HtmlDecode(quoteText);
+
+                q.quote = quoteText;
+
+                randomQuotes.Enqueue(q);
+            }
+
+            logMessage(String.Format("Fetched {0} random quotes.", randomQuotes.Count), false);
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -78,28 +107,7 @@ namespace SkypeBot.plugins {
 
                     if (randomQuotes.Count == 0) {
                         logMessage("No cached quotes; fetching...", false);
-                        webReq = WebRequest.Create("http://qdb.us/qdb.xml?action=random&fixed=0&client=Dynamic+Skype+Bot");
-                        webReq.Timeout = 10000;
-                        response = webReq.GetResponse();
-                        responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-                        XDocument doc = XDocument.Parse(responseText);
-                        XNamespace d = "http://purl.org/rss/1.0/";
-
-                        foreach (XElement item in doc.Descendants(d + "item")) {
-                            Quote q = new Quote();
-                            q.id = item.Element(d + "title").Value;
-                            
-                            quoteText = item.Element(d + "description").Value;
-                            quoteText = Regex.Replace(quoteText, "<.+?>", "");
-                            quoteText = HttpUtility.HtmlDecode(quoteText);
-
-                            q.quote = quoteText;
-
-                            randomQuotes.Enqueue(q);
-                        }
-
-                        logMessage(String.Format("Fetched {0} random quotes.", randomQuotes.Count), false);
+                        fetchRandomQuotes();
                     }
 
                     logMessage("Picking a random quote...", false);
