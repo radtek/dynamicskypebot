@@ -13,6 +13,7 @@ using Google.GData.YouTube;
 using Google.YouTube;
 using Google.GData.Client;
 using SkypeBot.plugins.config.youtube;
+using System.Threading;
 
 
 namespace SkypeBot.plugins {
@@ -98,11 +99,12 @@ namespace SkypeBot.plugins {
             output = Regex.Match(message.Body, @"^!youtube", RegexOptions.IgnoreCase);
             if (output.Success) {
                 logMessage("Got a request for a random video.", false);
-                YouTubeQuery ytq = new YouTubeQuery(YouTubeQuery.MostRecentVideo);
+                YouTubeQuery ytq = new YouTubeQuery(YouTubeQuery.MostPopular);
                 ytq.SafeSearch = YouTubeQuery.SafeSearchValues.None;
-                ytq.NumberToRetrieve = 20;
+                ytq.NumberToRetrieve = 40;
 
-                logMessage("Fetching list of most recent videos...", false);
+                logMessage("Fetching list of most popular videos...", false);
+                
                 Feed<Video> feed = ytr.Get<Video>(ytq);
                 int count = feed.Entries.Count<Video>();
 
