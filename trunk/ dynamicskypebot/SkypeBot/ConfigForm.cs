@@ -244,5 +244,25 @@ namespace SkypeBot {
             Properties.Settings.Default.Save();
             PluginSettings.Default.Save();
         }
+
+        private void downloadPageToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start("http://mathemaniac.org/wp/dynamic-skype-bot/");
+        }
+
+        private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start("http://mathemaniac.org/apps/skypebot/help/");
+        }
+
+        private void suggestionBugPageToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start("http://skypebot.uservoice.com");
+        }
+
+        private void changelogToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start("http://code.google.com/p/dynamicskypebot/source/list");
+        }
+
+        private void settingsItem_Click(object sender, EventArgs e) {
+
+        }
     }
 }
