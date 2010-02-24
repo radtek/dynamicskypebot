@@ -156,9 +156,10 @@ namespace SkypeBot {
             baw.RunWorkerAsync();
 
             // Update check
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) {
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed &&
+                Properties.Settings.Default.UpdateCheck) {
                 updateTimer = new Timer();
-                updateTimer.Interval = 30 * 60 * 1000; // Check for updates every 30 minutes.
+                updateTimer.Interval = Properties.Settings.Default.UpdateCheckInterval * 60 * 1000;
                 updateTimer.Tick += (obj, e) => {
                     try {
                         if (System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CheckForUpdate()) {
@@ -166,7 +167,7 @@ namespace SkypeBot {
                                 taskIcon.BalloonTipTitle = "Skype Bot";
                                 taskIcon.BalloonTipText = "A new version of the Skype Bot is ready for download.";
                                 taskIcon.BalloonTipIcon = ToolTipIcon.Info;
-                                taskIcon.ShowBalloonTip(1000 * 60 * 30);
+                                taskIcon.ShowBalloonTip(Properties.Settings.Default.UpdateCheckInterval * 60 * 1000);
                             } else {
                                 updateTimer.Stop();
                                 MessageBox.Show("A new version is ready for download!");
@@ -224,7 +225,9 @@ namespace SkypeBot {
 
             if (WindowState == FormWindowState.Minimized) {
                 taskIcon.Visible = true;
-                taskIcon.ShowBalloonTip(1000);
+                if (Properties.Settings.Default.ShowMinimizeHelpBubble) {
+                    taskIcon.ShowBalloonTip(1000);
+                }
                 Hide();
             }
             else
@@ -262,7 +265,8 @@ namespace SkypeBot {
         }
 
         private void settingsItem_Click(object sender, EventArgs e) {
-
+            SettingsForm sf = new SettingsForm();
+            sf.Visible = true;
         }
     }
 }
