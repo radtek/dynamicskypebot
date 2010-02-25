@@ -23,15 +23,25 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.updateInterval = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.updateCheckToggle = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.helpOnMinimized = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.domainHelpButton = new System.Windows.Forms.Button();
+            this.domainMode = new System.Windows.Forms.ComboBox();
+            this.domainHelp = new System.Windows.Forms.ToolTip(this.components);
+            this.whiteList = new System.Windows.Forms.ListBox();
+            this.addToWhitelist = new System.Windows.Forms.Button();
+            this.deleteFromWhitelist = new System.Windows.Forms.Button();
+            this.clearWhitelist = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updateInterval)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -95,7 +105,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.helpOnMinimized);
-            this.groupBox2.Location = new System.Drawing.Point(12, 83);
+            this.groupBox2.Location = new System.Drawing.Point(12, 255);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(257, 44);
             this.groupBox2.TabIndex = 1;
@@ -114,11 +124,100 @@
             this.helpOnMinimized.UseVisualStyleBackColor = true;
             this.helpOnMinimized.CheckedChanged += new System.EventHandler(this.checkbox_CheckedChanged);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.clearWhitelist);
+            this.groupBox3.Controls.Add(this.deleteFromWhitelist);
+            this.groupBox3.Controls.Add(this.addToWhitelist);
+            this.groupBox3.Controls.Add(this.whiteList);
+            this.groupBox3.Controls.Add(this.domainHelpButton);
+            this.groupBox3.Controls.Add(this.domainMode);
+            this.groupBox3.Location = new System.Drawing.Point(12, 83);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(257, 166);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Domain";
+            // 
+            // domainHelpButton
+            // 
+            this.domainHelpButton.Image = global::SkypeBot.Properties.Resources.help;
+            this.domainHelpButton.Location = new System.Drawing.Point(229, 21);
+            this.domainHelpButton.Name = "domainHelpButton";
+            this.domainHelpButton.Size = new System.Drawing.Size(22, 22);
+            this.domainHelpButton.TabIndex = 1;
+            this.domainHelp.SetToolTip(this.domainHelpButton, "Determines where the bot reacts.\r\nIf you select \"Blacklist\", it reacts in all cha" +
+                    "ts except the ones listed.\r\nIf you select \"Whitelist\", it reacts only in the cha" +
+                    "ts listed.");
+            this.domainHelpButton.UseVisualStyleBackColor = true;
+            this.domainHelpButton.Click += new System.EventHandler(this.domainHelpButton_Click);
+            // 
+            // domainMode
+            // 
+            this.domainMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.domainMode.FormattingEnabled = true;
+            this.domainMode.Items.AddRange(new object[] {
+            "Blacklist",
+            "Whitelist"});
+            this.domainMode.Location = new System.Drawing.Point(6, 21);
+            this.domainMode.Name = "domainMode";
+            this.domainMode.Size = new System.Drawing.Size(217, 21);
+            this.domainMode.TabIndex = 0;
+            this.domainMode.SelectedIndexChanged += new System.EventHandler(this.domainMode_SelectedIndexChanged);
+            // 
+            // domainHelp
+            // 
+            this.domainHelp.AutomaticDelay = 100;
+            this.domainHelp.AutoPopDelay = 60000;
+            this.domainHelp.InitialDelay = 100;
+            this.domainHelp.IsBalloon = true;
+            this.domainHelp.ReshowDelay = 20;
+            // 
+            // whiteList
+            // 
+            this.whiteList.FormattingEnabled = true;
+            this.whiteList.Location = new System.Drawing.Point(6, 48);
+            this.whiteList.Name = "whiteList";
+            this.whiteList.Size = new System.Drawing.Size(245, 82);
+            this.whiteList.TabIndex = 2;
+            this.whiteList.Tag = "Whitelist";
+            // 
+            // addToWhitelist
+            // 
+            this.addToWhitelist.Location = new System.Drawing.Point(6, 136);
+            this.addToWhitelist.Name = "addToWhitelist";
+            this.addToWhitelist.Size = new System.Drawing.Size(42, 23);
+            this.addToWhitelist.TabIndex = 3;
+            this.addToWhitelist.Text = "Add";
+            this.addToWhitelist.UseVisualStyleBackColor = true;
+            this.addToWhitelist.Click += new System.EventHandler(this.addToWhitelist_Click);
+            // 
+            // deleteFromWhitelist
+            // 
+            this.deleteFromWhitelist.Location = new System.Drawing.Point(146, 136);
+            this.deleteFromWhitelist.Name = "deleteFromWhitelist";
+            this.deleteFromWhitelist.Size = new System.Drawing.Size(54, 23);
+            this.deleteFromWhitelist.TabIndex = 4;
+            this.deleteFromWhitelist.Text = "Delete";
+            this.deleteFromWhitelist.UseVisualStyleBackColor = true;
+            this.deleteFromWhitelist.Click += new System.EventHandler(this.deleteFromWhitelist_Click);
+            // 
+            // clearWhitelist
+            // 
+            this.clearWhitelist.Location = new System.Drawing.Point(206, 136);
+            this.clearWhitelist.Name = "clearWhitelist";
+            this.clearWhitelist.Size = new System.Drawing.Size(45, 23);
+            this.clearWhitelist.TabIndex = 5;
+            this.clearWhitelist.Text = "Clear";
+            this.clearWhitelist.UseVisualStyleBackColor = true;
+            this.clearWhitelist.Click += new System.EventHandler(this.clearWhitelist_Click);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(278, 140);
+            this.ClientSize = new System.Drawing.Size(278, 306);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -129,6 +228,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.updateInterval)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -141,6 +241,14 @@
         private System.Windows.Forms.NumericUpDown updateInterval;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox helpOnMinimized;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox domainMode;
+        private System.Windows.Forms.Button domainHelpButton;
+        private System.Windows.Forms.ToolTip domainHelp;
+        private System.Windows.Forms.Button clearWhitelist;
+        private System.Windows.Forms.Button deleteFromWhitelist;
+        private System.Windows.Forms.Button addToWhitelist;
+        private System.Windows.Forms.ListBox whiteList;
 
     }
 }
