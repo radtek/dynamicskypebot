@@ -123,28 +123,28 @@
             // downloadPageToolStripMenuItem
             // 
             this.downloadPageToolStripMenuItem.Name = "downloadPageToolStripMenuItem";
-            this.downloadPageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.downloadPageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.downloadPageToolStripMenuItem.Text = "Website";
             this.downloadPageToolStripMenuItem.Click += new System.EventHandler(this.downloadPageToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
             this.helpToolStripMenuItem1.Text = "Command list";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // suggestionBugPageToolStripMenuItem
             // 
             this.suggestionBugPageToolStripMenuItem.Name = "suggestionBugPageToolStripMenuItem";
-            this.suggestionBugPageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.suggestionBugPageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.suggestionBugPageToolStripMenuItem.Text = "Suggestions";
             this.suggestionBugPageToolStripMenuItem.Click += new System.EventHandler(this.suggestionBugPageToolStripMenuItem_Click);
             // 
             // changelogToolStripMenuItem
             // 
             this.changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
-            this.changelogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.changelogToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.changelogToolStripMenuItem.Text = "Changelog";
             this.changelogToolStripMenuItem.Click += new System.EventHandler(this.changelogToolStripMenuItem_Click);
             // 

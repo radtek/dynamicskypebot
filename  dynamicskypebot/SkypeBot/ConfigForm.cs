@@ -83,6 +83,8 @@ namespace SkypeBot {
 
             if (Properties.Settings.Default.LoadedPlugins == null)
                 Properties.Settings.Default.LoadedPlugins = new System.Collections.Specialized.StringCollection();
+            if (Properties.Settings.Default.Whitelist == null)
+                Properties.Settings.Default.Whitelist = new System.Collections.Specialized.StringCollection();
 
             skype = new Skype();
             if (!skype.Client.IsRunning)
@@ -92,6 +94,11 @@ namespace SkypeBot {
 
             skype.MessageStatus += (ChatMessage message, TChatMessageStatus status) =>
             {
+                if (Properties.Settings.Default.UseWhitelist ^
+                    Properties.Settings.Default.Whitelist.Contains(message.Chat.Name)) {
+                    return;
+                }
+
                 Boolean isBlocked = blocked.Contains(
                         skype.CurrentUser.Handle + " :: " + message.ChatName
                     );
@@ -265,7 +272,7 @@ namespace SkypeBot {
         }
 
         private void settingsItem_Click(object sender, EventArgs e) {
-            SettingsForm sf = new SettingsForm();
+            SettingsForm sf = new SettingsForm(skype);
             sf.Visible = true;
         }
     }

@@ -69,5 +69,28 @@ namespace SkypeBot.Properties {
                 this["UpdateCheckInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseWhitelist {
+            get {
+                return ((bool)(this["UseWhitelist"]));
+            }
+            set {
+                this["UseWhitelist"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection Whitelist {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Whitelist"]));
+            }
+            set {
+                this["Whitelist"] = value;
+            }
+        }
     }
 }
