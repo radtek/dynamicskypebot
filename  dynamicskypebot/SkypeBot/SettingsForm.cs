@@ -65,10 +65,6 @@ namespace SkypeBot {
             Properties.Settings.Default.Save();
         }
 
-        private void domainHelpButton_Click(object sender, EventArgs e) {
-            domainHelp.Show("Hello", domainHelpButton);
-        }
-
         private void addToWhitelist_Click(object sender, EventArgs e) {
             SkypeChatPicker scp = new SkypeChatPicker(skype);
             DialogResult result = scp.ShowDialog();
