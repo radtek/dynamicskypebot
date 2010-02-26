@@ -31,13 +31,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.helpOnMinimized = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.clearWhitelist = new System.Windows.Forms.Button();
+            this.deleteFromWhitelist = new System.Windows.Forms.Button();
+            this.addToWhitelist = new System.Windows.Forms.Button();
+            this.whiteList = new System.Windows.Forms.ListBox();
             this.domainHelpButton = new System.Windows.Forms.Button();
             this.domainMode = new System.Windows.Forms.ComboBox();
             this.domainHelp = new System.Windows.Forms.ToolTip(this.components);
-            this.whiteList = new System.Windows.Forms.ListBox();
-            this.addToWhitelist = new System.Windows.Forms.Button();
-            this.deleteFromWhitelist = new System.Windows.Forms.Button();
-            this.clearWhitelist = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updateInterval)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -139,6 +139,45 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Domain";
             // 
+            // clearWhitelist
+            // 
+            this.clearWhitelist.Location = new System.Drawing.Point(206, 136);
+            this.clearWhitelist.Name = "clearWhitelist";
+            this.clearWhitelist.Size = new System.Drawing.Size(45, 23);
+            this.clearWhitelist.TabIndex = 5;
+            this.clearWhitelist.Text = "Clear";
+            this.clearWhitelist.UseVisualStyleBackColor = true;
+            this.clearWhitelist.Click += new System.EventHandler(this.clearWhitelist_Click);
+            // 
+            // deleteFromWhitelist
+            // 
+            this.deleteFromWhitelist.Location = new System.Drawing.Point(146, 136);
+            this.deleteFromWhitelist.Name = "deleteFromWhitelist";
+            this.deleteFromWhitelist.Size = new System.Drawing.Size(54, 23);
+            this.deleteFromWhitelist.TabIndex = 4;
+            this.deleteFromWhitelist.Text = "Delete";
+            this.deleteFromWhitelist.UseVisualStyleBackColor = true;
+            this.deleteFromWhitelist.Click += new System.EventHandler(this.deleteFromWhitelist_Click);
+            // 
+            // addToWhitelist
+            // 
+            this.addToWhitelist.Location = new System.Drawing.Point(6, 136);
+            this.addToWhitelist.Name = "addToWhitelist";
+            this.addToWhitelist.Size = new System.Drawing.Size(42, 23);
+            this.addToWhitelist.TabIndex = 3;
+            this.addToWhitelist.Text = "Add";
+            this.addToWhitelist.UseVisualStyleBackColor = true;
+            this.addToWhitelist.Click += new System.EventHandler(this.addToWhitelist_Click);
+            // 
+            // whiteList
+            // 
+            this.whiteList.FormattingEnabled = true;
+            this.whiteList.Location = new System.Drawing.Point(6, 48);
+            this.whiteList.Name = "whiteList";
+            this.whiteList.Size = new System.Drawing.Size(245, 82);
+            this.whiteList.TabIndex = 2;
+            this.whiteList.Tag = "Whitelist";
+            // 
             // domainHelpButton
             // 
             this.domainHelpButton.Image = global::SkypeBot.Properties.Resources.help;
@@ -150,7 +189,6 @@
                     "ts except the ones listed.\r\nIf you select \"Whitelist\", it reacts only in the cha" +
                     "ts listed.");
             this.domainHelpButton.UseVisualStyleBackColor = true;
-            this.domainHelpButton.Click += new System.EventHandler(this.domainHelpButton_Click);
             // 
             // domainMode
             // 
@@ -172,45 +210,6 @@
             this.domainHelp.InitialDelay = 100;
             this.domainHelp.IsBalloon = true;
             this.domainHelp.ReshowDelay = 20;
-            // 
-            // whiteList
-            // 
-            this.whiteList.FormattingEnabled = true;
-            this.whiteList.Location = new System.Drawing.Point(6, 48);
-            this.whiteList.Name = "whiteList";
-            this.whiteList.Size = new System.Drawing.Size(245, 82);
-            this.whiteList.TabIndex = 2;
-            this.whiteList.Tag = "Whitelist";
-            // 
-            // addToWhitelist
-            // 
-            this.addToWhitelist.Location = new System.Drawing.Point(6, 136);
-            this.addToWhitelist.Name = "addToWhitelist";
-            this.addToWhitelist.Size = new System.Drawing.Size(42, 23);
-            this.addToWhitelist.TabIndex = 3;
-            this.addToWhitelist.Text = "Add";
-            this.addToWhitelist.UseVisualStyleBackColor = true;
-            this.addToWhitelist.Click += new System.EventHandler(this.addToWhitelist_Click);
-            // 
-            // deleteFromWhitelist
-            // 
-            this.deleteFromWhitelist.Location = new System.Drawing.Point(146, 136);
-            this.deleteFromWhitelist.Name = "deleteFromWhitelist";
-            this.deleteFromWhitelist.Size = new System.Drawing.Size(54, 23);
-            this.deleteFromWhitelist.TabIndex = 4;
-            this.deleteFromWhitelist.Text = "Delete";
-            this.deleteFromWhitelist.UseVisualStyleBackColor = true;
-            this.deleteFromWhitelist.Click += new System.EventHandler(this.deleteFromWhitelist_Click);
-            // 
-            // clearWhitelist
-            // 
-            this.clearWhitelist.Location = new System.Drawing.Point(206, 136);
-            this.clearWhitelist.Name = "clearWhitelist";
-            this.clearWhitelist.Size = new System.Drawing.Size(45, 23);
-            this.clearWhitelist.TabIndex = 5;
-            this.clearWhitelist.Text = "Clear";
-            this.clearWhitelist.UseVisualStyleBackColor = true;
-            this.clearWhitelist.Click += new System.EventHandler(this.clearWhitelist_Click);
             // 
             // SettingsForm
             // 
