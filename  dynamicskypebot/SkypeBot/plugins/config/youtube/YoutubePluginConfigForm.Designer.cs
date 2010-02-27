@@ -24,13 +24,13 @@
         /// </summary>
         private void InitializeComponent() {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cacheSizeBox = new System.Windows.Forms.NumericUpDown();
             this.iterationBox = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.cacheSizeBox = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iterationBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheSizeBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iterationBox)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -45,6 +45,28 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Randomizer";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Cache size:";
+            // 
+            // cacheSizeBox
+            // 
+            this.cacheSizeBox.Location = new System.Drawing.Point(116, 40);
+            this.cacheSizeBox.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.cacheSizeBox.Name = "cacheSizeBox";
+            this.cacheSizeBox.Size = new System.Drawing.Size(42, 20);
+            this.cacheSizeBox.TabIndex = 2;
+            this.cacheSizeBox.ValueChanged += new System.EventHandler(this.cacheSizeBox_ValueChanged);
             // 
             // iterationBox
             // 
@@ -68,27 +90,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Number of iterations:";
             // 
-            // cacheSizeBox
-            // 
-            this.cacheSizeBox.Location = new System.Drawing.Point(116, 40);
-            this.cacheSizeBox.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.cacheSizeBox.Name = "cacheSizeBox";
-            this.cacheSizeBox.Size = new System.Drawing.Size(42, 20);
-            this.cacheSizeBox.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Cache size:";
-            // 
             // YoutubePluginConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,8 +102,8 @@
             this.Load += new System.EventHandler(this.YoutubePluginConfigForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iterationBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheSizeBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iterationBox)).EndInit();
             this.ResumeLayout(false);
 
         }
