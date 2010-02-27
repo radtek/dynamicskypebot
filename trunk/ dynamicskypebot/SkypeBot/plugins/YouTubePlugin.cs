@@ -21,6 +21,7 @@ namespace SkypeBot.plugins {
         public event MessageDelegate onMessage;
         private Random random;
         private YouTubeRequest ytr;
+        private Queue<String> randomCache;
 
         public String name() { return "YouTube Plugin"; }
 
@@ -43,10 +44,14 @@ namespace SkypeBot.plugins {
                                                "ytapi-SebastianPaaske-DynamicSkypeBot-b3hp906d-0",
                                                "AI39si59QPSboGTxgVnE0OD5nO49p1ok9KAoM0BuT9KkyL-VNzkrUA2F1O46FqArUrppYc5AGwrE-xQhaefb_cp4mgHuw36F9Q")
                     );
+            randomCache = new Queue<string>();
         }
 
         public void load() {
             logMessage("Plugin successfully loaded.", false);
+            if (randomCache.Count < PluginSettings.Default.YoutubeCacheSize) {
+                generateRandomVideos(false);
+            }
         }
 
         public void unload() {
@@ -99,30 +104,58 @@ namespace SkypeBot.plugins {
             output = Regex.Match(message.Body, @"^!youtube", RegexOptions.IgnoreCase);
             if (output.Success) {
                 logMessage("Got a request for a random video.", false);
-                YouTubeQuery ytq = new YouTubeQuery(YouTubeQuery.MostPopular);
-                ytq.SafeSearch = YouTubeQuery.SafeSearchValues.None;
-                ytq.NumberToRetrieve = 40;
 
-                logMessage("Fetching list of most popular videos...", false);
-                
-                Feed<Video> feed = ytr.Get<Video>(ytq);
-                int count = feed.Entries.Count<Video>();
-
-                Video vid = feed.Entries.ElementAt<Video>(random.Next(count));
-                logMessage("Picked \""+vid.Title+"\" as my starting point.", false);
-                for (int i = 0; i < PluginSettings.Default.YoutubeIterations; i++) {
-                    Feed<Video> related = ytr.GetRelatedVideos(vid);
-                    count = related.Entries.Count<Video>();
-                    vid = related.Entries.ElementAt<Video>(random.Next(count));
-                    logMessage("Next link: " + vid.Title, false);
-                }
-
-                logMessage("Found my random video!", false);
-                String url = vid.WatchPage.ToString();
+                String url = randomCache.Count > 0 ? randomCache.Dequeue() : generateRandomVideos(true);
 
                 message.Chat.SendMessage(String.Format(@"Random YouTube video: {0}", url));
+
+                generateRandomVideos(false);
                 return;
             }
+        }
+
+        public String generateRandomVideos(bool onlyOne) {
+            if (onlyOne) {
+                logMessage("Cache is empty; generating video...", false);
+            } else {
+                logMessage(String.Format("Cache currently contains {0} items; refilling to {1}...", randomCache.Count, PluginSettings.Default.YoutubeCacheSize), false);
+            }
+            while (randomCache.Count < PluginSettings.Default.YoutubeCacheSize) {
+                try {
+                    logMessage("Generating a random video...", false);
+                    YouTubeQuery ytq = new YouTubeQuery(YouTubeQuery.MostPopular);
+                    ytq.SafeSearch = YouTubeQuery.SafeSearchValues.None;
+                    ytq.NumberToRetrieve = 40;
+
+                    logMessage("Fetching list of most popular videos...", false);
+
+                    Feed<Video> feed = ytr.Get<Video>(ytq);
+                    int count = feed.Entries.Count<Video>();
+
+                    Video vid = feed.Entries.ElementAt<Video>(random.Next(count));
+                    logMessage("Picked \"" + vid.Title + "\" as my starting point.", false);
+                    for (int i = 0; i < PluginSettings.Default.YoutubeIterations; i++) {
+                        Feed<Video> related = ytr.GetRelatedVideos(vid);
+                        count = related.Entries.Count<Video>();
+                        vid = related.Entries.ElementAt<Video>(random.Next(count));
+                        logMessage("Next link: " + vid.Title, false);
+                    }
+
+                    logMessage("Found my random video!", false);
+                    String url = vid.WatchPage.ToString();
+
+                    if (onlyOne) {
+                        return url;
+                    }
+
+                    logMessage("Adding to cache...", false);
+                    randomCache.Enqueue(url);
+                } catch (Exception) {
+                    logMessage("Failed in generating a video.", true);
+                }
+            }
+
+            return null;
         }
 
         private void logMessage(String msg, Boolean isError) {
