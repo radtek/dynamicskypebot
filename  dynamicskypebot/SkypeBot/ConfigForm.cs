@@ -195,9 +195,12 @@ namespace SkypeBot {
 
         public void loadPlugin(Plugin plugin) {
             BackgroundWorker baw = new BackgroundWorker();
-            baw.DoWork += (obj, e) => { plugin.load(); };
+            baw.DoWork += (obj, e) => {
+                plugin.load();
+                onSkypeMessage += plugin.Skype_MessageStatus;
+            };
             baw.RunWorkerAsync();
-            onSkypeMessage += plugin.Skype_MessageStatus;
+            
             Properties.Settings.Default.LoadedPlugins.Add(plugin.name());
             Properties.Settings.Default.Save();
         }
