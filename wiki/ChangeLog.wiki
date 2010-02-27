@@ -1,0 +1,9 @@
+#summary The changelog
+#labels Featured
+
+= Changelog =
+
+== v 1.1.9.2 ==
+  * Introduced a proper changelog.
+  * Make loading/unloading of plugins appear snappier.
+  * YouTube: Randomizer now keeps a cache of random videos, to speed it up.
