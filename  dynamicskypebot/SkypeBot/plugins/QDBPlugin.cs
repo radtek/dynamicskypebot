@@ -98,6 +98,7 @@ namespace SkypeBot.plugins {
                     quote.id = item.Element(d + "title").Value;
 
                     quoteText = item.Element(d + "description").Value;
+                    quoteText = Regex.Replace(quoteText, "<br>", "\n\n");
                     quoteText = Regex.Replace(quoteText, "<.+?>", "");
                     quoteText = HttpUtility.HtmlDecode(quoteText);
 
