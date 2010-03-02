@@ -5,6 +5,7 @@
 
 == v 1.1.9.3 (in the making) ==
   * Update changelog link in the menus.
+  * QDB: Handle the appended "Comment:" lines better.
 
 == v 1.1.9.2 ==
   * Introduced a proper changelog.
