@@ -40,6 +40,7 @@ namespace SkypeBot {
             new DeviantArtPlugin(),
             new QDBPlugin(),
             new WordFilterPlugin(),
+            new FMLPlugin(),
 
         });
 
