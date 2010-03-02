@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Upcoming release ==
+  * Make !wiki work again.
+
 == v 1.1.9.3 ==
   * New plugin: FML
   * Update changelog link in the menus.
