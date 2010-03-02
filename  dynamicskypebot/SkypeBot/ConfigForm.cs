@@ -276,7 +276,7 @@ namespace SkypeBot {
         }
 
         private void changelogToolStripMenuItem_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start("http://code.google.com/p/dynamicskypebot/source/list");
+            System.Diagnostics.Process.Start("http://code.google.com/p/dynamicskypebot/wiki/ChangeLog");
         }
 
         private void settingsItem_Click(object sender, EventArgs e) {
