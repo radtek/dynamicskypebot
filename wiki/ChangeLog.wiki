@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== v 1.1.9.3 (in the making) ==
+== v 1.1.9.3 ==
   * New plugin: FML
   * Update changelog link in the menus.
   * QDB: Handle the appended "Comment:" lines better.
