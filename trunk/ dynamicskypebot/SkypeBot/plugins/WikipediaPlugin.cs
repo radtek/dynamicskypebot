@@ -40,6 +40,7 @@ namespace SkypeBot.plugins {
             if (output.Success) {
                 logMessage("Requesting random page.", false);
                 WebRequest webReq = WebRequest.Create("http://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&prop=info&inprop=url&format=xml");
+                (webReq as HttpWebRequest).UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.1.249.1021 Safari/532.5";
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
                 logMessage("Gotcha!", false);
