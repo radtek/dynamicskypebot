@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Upcoming release ==
+== v 1.1.9.4 ==
   * Wikipedia: Make the random wiki link command work again.
   * New plugin: Overheard In...
 
