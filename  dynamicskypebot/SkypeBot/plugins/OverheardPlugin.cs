@@ -18,7 +18,7 @@ namespace SkypeBot.plugins {
 
         public String name() { return "Overheard In... Plugin"; }
 
-        public String help() { return "!overheard [ny/office/beach/everywhere]"; }
+        public String help() { return "!overheard [ny/office/beach]"; }
 
         public String description() { return "Gives a random quote from one of the 'Overheard In...' sites."; }
 
@@ -34,8 +34,9 @@ namespace SkypeBot.plugins {
                     new OverheardSite("ny", "overheardinnewyork.com", "Overheard In New York"),
                     new OverheardSite("office", "overheardintheoffice.com", "Overheard In The Office"),
                     new OverheardSite("beach", "overheardatthebeach.com", "Overheard At The Beach"),
-                    new OverheardSite("everywhere", "overheardeverywhere.com", "Overheard Everywhere"),
-                    //new OverheardSite("celebrity", "celebritywit.com", "Celebrity Wit"), // no random feature atm
+                    // no random feature atm :
+                    //new OverheardSite("everywhere", "overheardeverywhere.com", "Overheard Everywhere"),
+                    //new OverheardSite("celebrity", "celebritywit.com", "Celebrity Wit"), 
                 };
             }
             if (random == null) {
