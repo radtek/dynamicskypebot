@@ -5,6 +5,7 @@
 
 == Upcoming release ==
   * Wikipedia: Make the random wiki link command work again.
+  * New plugin: Overheard In...
 
 == v 1.1.9.3 ==
   * New plugin: FML
