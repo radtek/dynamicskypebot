@@ -8,6 +8,7 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using System.Web;
 
 namespace SkypeBot.plugins {
     public class OverheardPlugin : Plugin {
@@ -95,6 +96,7 @@ namespace SkypeBot.plugins {
 
                 contents = contents.Replace("<br/>", "\n");
                 contents = Regex.Replace(contents, "<.+?>", "");
+                contents = HttpUtility.HtmlDecode(contents);
 
                 message.Chat.SendMessage(String.Format(
                     "{0}: {1}\n{2}",
