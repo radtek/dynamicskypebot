@@ -41,6 +41,7 @@ namespace SkypeBot {
             new QDBPlugin(),
             new WordFilterPlugin(),
             new FMLPlugin(),
+            new OverheardPlugin(),
 
         });
 

@@ -155,6 +155,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\OverheardPlugin.cs" />
     <Compile Include="plugins\FMLPlugin.cs" />
     <Compile Include="plugins\WordFilterPlugin.cs" />
     <Compile Include="plugins\DeviantArtPlugin.cs" />
