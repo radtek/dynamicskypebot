@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Upcoming Release ==
+  * Overheard In...: Unescape HTML character entities.
+
 == v 1.1.9.5 ==
   * Overheard In...: Minor bugfix.
 
