@@ -42,6 +42,7 @@ namespace SkypeBot {
             new WordFilterPlugin(),
             new FMLPlugin(),
             new OverheardPlugin(),
+            new TextsFromLastNightPlugin(),
 
         });
 
