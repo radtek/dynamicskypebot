@@ -5,7 +5,7 @@
 
 == v 1.1.9.6 ==
   * New plugin: Texts From Last Night
-  * Overheard In...: Unescape HTML character entities.
+  * Overheard In...: Decode HTML character entities.
 
 == v 1.1.9.5 ==
   * Overheard In...: Minor bugfix.
