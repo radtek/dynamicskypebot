@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next release ==
+  * Discard messages older than 1 hour.
+
 == v 1.1.9.6 ==
   * New plugin: Texts From Last Night
   * Overheard In...: Decode HTML character entities.
