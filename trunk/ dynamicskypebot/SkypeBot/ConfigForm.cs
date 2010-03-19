@@ -112,6 +112,11 @@ namespace SkypeBot {
 
                     lastId = message.Id;
 
+                    // Ignore messages older than 1 hour.
+                    if (message.Timestamp.CompareTo(DateTime.Now.AddHours(-1.0)) < 0) {
+                        addLogLine("AgeCheck", "Message too old; not going to react.", false);
+                    }
+
                     Match output = Regex.Match(message.Body, @"^!help", RegexOptions.IgnoreCase);
                     if (output.Success) {
                         String outputMsg = "Help for the bot can be found at http://mathemaniac.org/apps/skypebot/help/.";
