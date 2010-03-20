@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Next release ==
+== v 1.1.10.0 ==
   * Wikipedia: Add ability to look up articles with `!wiki <article>`.
   * Discard messages older than 1 hour.
 
