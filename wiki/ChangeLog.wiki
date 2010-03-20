@@ -4,7 +4,7 @@
 = Changelog =
 
 == Next release ==
-  * Wikipedia: Small parsing bugs.
+  * Wikipedia: Correct small parsing bugs.
 
 == v 1.1.10.0 ==
   * Wikipedia: Add ability to look up articles with `!wiki <article>`.
