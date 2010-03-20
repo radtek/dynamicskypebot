@@ -5,6 +5,7 @@
 
 == Next release ==
   * Wikipedia: Correct small parsing bugs.
+  * FML: Fix the occasional non-decoded HTML character entity.
 
 == v 1.1.10.0 ==
   * Wikipedia: Add ability to look up articles with `!wiki <article>`.
