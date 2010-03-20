@@ -103,7 +103,9 @@ namespace SkypeBot.plugins {
             // Remove emphasis
             articleText = Regex.Replace(articleText, "'{2,}", "");
             // Remove references
-            articleText = Regex.Replace(articleText, "<ref.*?>.*?</ref>", "");
+            articleText = Regex.Replace(articleText, "<ref.*?>.*?</ref>", "", RegexOptions.Singleline);
+            // Remove nowiki-tags
+            articleText = Regex.Replace(articleText, "<nowiki.*?>.*?</nowiki>", "", RegexOptions.Singleline);
             // Remove all text after first header
             articleText = Regex.Replace(articleText, "==.+?==.*", "", RegexOptions.Singleline);
             // Decode HTML entities
