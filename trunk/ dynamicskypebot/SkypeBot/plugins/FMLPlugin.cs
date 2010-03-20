@@ -8,6 +8,7 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using System.Web;
 
 namespace SkypeBot.plugins {
     public class FMLPlugin : Plugin {
@@ -107,6 +108,7 @@ namespace SkypeBot.plugins {
 
                 String text = fml.Groups[1].Value;
                 text = Regex.Replace(text, "<.+?>", "");
+                text = HttpUtility.HtmlDecode(text);
 
                 message.Chat.SendMessage(String.Format(
                     @"FML #{0} (+{2}/-{3}): {1}",
