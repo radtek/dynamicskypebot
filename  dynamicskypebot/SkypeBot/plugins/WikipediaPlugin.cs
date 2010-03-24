@@ -106,6 +106,8 @@ namespace SkypeBot.plugins {
             articleText = Regex.Replace(articleText, "<ref.*?>.*?</ref>", "", RegexOptions.Singleline);
             // Remove nowiki-tags
             articleText = Regex.Replace(articleText, "<nowiki.*?>.*?</nowiki>", "", RegexOptions.Singleline);
+            // Strip remaining HTML-tags
+            articleText = Regex.Replace(articleText, "<.+?>", "");
             // Remove all text after first header
             articleText = Regex.Replace(articleText, "==.+?==.*", "", RegexOptions.Singleline);
             // Decode HTML entities
