@@ -8,6 +8,7 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using System.Web;
 
 namespace SkypeBot.plugins {
     public class SomethingAwfulPlugin : Plugin {
@@ -74,12 +75,15 @@ namespace SkypeBot.plugins {
                 logMessage("Extracting information...", false);
                 Match titleMatch = Regex.Match(responseText, @"<a[^>]*class=""bclast""[^>]*>(.*)</a>", RegexOptions.IgnoreCase);
                 String title = titleMatch.Success ? titleMatch.Groups[1].Value : "Unknown Title";
+                title = HttpUtility.HtmlDecode(title);
 
                 Match opMatch = Regex.Match(responseText, @"<dt class=""author"">(?:<img.*nbsp;)?(.*)</dt>", RegexOptions.IgnoreCase);
                 String op = opMatch.Success ? opMatch.Groups[1].Value : "Unknown OP";
+                op = HttpUtility.HtmlDecode(op);
 
                 Match forumMatch = Regex.Match(responseText, @">([^>]*)</a> &gt; <a[^>]*class=""bclast""[^>]*>", RegexOptions.IgnoreCase);
                 String forum = forumMatch.Success ? forumMatch.Groups[1].Value : "Unknown Subforum";
+                forum = HttpUtility.HtmlDecode(forum);
 
                 message.Chat.SendMessage(String.Format(
                     "SA: {0} > {1} ({2})",
