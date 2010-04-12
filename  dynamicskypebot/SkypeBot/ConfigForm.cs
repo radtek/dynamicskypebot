@@ -43,6 +43,7 @@ namespace SkypeBot {
             new FMLPlugin(),
             new OverheardPlugin(),
             new TextsFromLastNightPlugin(),
+            new NotAlwaysRightPlugin(),
 
         });
 
