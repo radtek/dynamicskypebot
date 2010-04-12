@@ -3,7 +3,8 @@
 
 = Changelog =
 
-== Next release ==
+== v 1.1.10.2 ==
+  * New plugin: Not Always Right
   * Penis: Add Richard to list of names.
 
 == v 1.1.10.1 ==
