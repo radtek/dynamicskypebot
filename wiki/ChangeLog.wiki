@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.1.10.3 ==
+  * New plugin: Transformation
+
 == v 1.1.10.2 ==
   * New plugin: Not Always Right
   * Penis: Add Richard to list of names.
