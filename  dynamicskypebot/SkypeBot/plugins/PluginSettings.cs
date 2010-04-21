@@ -61,5 +61,16 @@ namespace SkypeBot.plugins {
                 this["WordFilters"] = value;
             }
         }
+
+        [UserScopedSettingAttribute()]
+        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
+        public TransformationPlugin.Transformation ActiveTransformation {
+            get {
+                return ((TransformationPlugin.Transformation)(this["ActiveTransformation"]));
+            }
+            set {
+                this["ActiveTransformation"] = value;
+            }
+        }
     }
 }

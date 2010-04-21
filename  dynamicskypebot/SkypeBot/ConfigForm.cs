@@ -44,6 +44,7 @@ namespace SkypeBot {
             new OverheardPlugin(),
             new TextsFromLastNightPlugin(),
             new NotAlwaysRightPlugin(),
+            new TransformationPlugin(),
 
         });
 
