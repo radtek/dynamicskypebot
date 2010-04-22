@@ -12,7 +12,7 @@
     <AssemblyName>SkypeBot</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ManifestCertificateThumbprint>3A5E0BC84838FE7E5A3A927E2409A7BC54F7A6EE</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1B2E1AA1E793A1BFAA84F002DE31C52FA23548A1</ManifestCertificateThumbprint>
     <ManifestKeyFile>SkypeBot_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
@@ -35,7 +35,7 @@
     <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.1.10.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -356,6 +356,7 @@
     <None Include="Resources\help.png" />
     <None Include="Resources\arrow_fat_down.gif" />
     <None Include="Resources\person.gif" />
+    <None Include="SkypeBot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SKYPE4COMLib">
