@@ -5,6 +5,7 @@
 
 == Upcoming release ==
   * Penis: Add a few new ones.
+  * Transformation: Added MiXeD CaSe and random poop.
 
 == v 1.1.10.3 ==
   * New plugin: Transformation
