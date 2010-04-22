@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Upcoming release ==
+  * Penis: Add a few new ones.
+
 == v 1.1.10.3 ==
   * New plugin: Transformation
   * NB: I had to update the certificate used for signing my deployment, as it expired a few days ago. This may or may not give some trouble.
