@@ -13,6 +13,7 @@ using SkypeBot.plugins.config.transformation;
 namespace SkypeBot.plugins {
     public class TransformationPlugin : Plugin {
         public event MessageDelegate onMessage;
+        private static Random random = new Random();
 
         public String name() { return "Transformation Plugin"; }
 
@@ -33,7 +34,12 @@ namespace SkypeBot.plugins {
                         new Transformation("ALLCAPS", (src) => src.ToUpperInvariant()),
                         new Transformation("lowercase", (src) => src.ToLowerInvariant()),
                         new Transformation("No vowels", (src) => Regex.Replace(src, "[aeiou]", "", RegexOptions.IgnoreCase)),
-                        new Transformation("Reverse", ReverseTransform)
+                        new Transformation("Reverse", ReverseTransform),
+                        new Transformation("MiXeD CaSe", MixedCaseTransform),
+                        new Transformation("Random poop (1/20 chance)", (src) => PoopTransform(src, 20)),
+                        new Transformation("Random poop (1/500 chance)", (src) => PoopTransform(src, 500)),
+                        new Transformation("Random poop (1/3000 chance)", (src) => PoopTransform(src, 3000)),
+                        new Transformation("Random poop (1/10000 chance)", (src) => PoopTransform(src, 10000))
                     }
                 );
             }
@@ -59,7 +65,9 @@ namespace SkypeBot.plugins {
                 return;
             }
 
-            message.Body = PluginSettings.Default.ActiveTransformation.Transform(message.Body);
+            String newBody = PluginSettings.Default.ActiveTransformation.Transform(message.Body);
+            if (newBody != message.Body) // avoid editing if the message doesn't change
+                message.Body = newBody;
         }
 
         private void logMessage(String msg, Boolean isError) {
@@ -71,6 +79,31 @@ namespace SkypeBot.plugins {
             char[] arr = source.ToCharArray();
             Array.Reverse(arr);
             return new string(arr);
+        }
+
+        private static string MixedCaseTransform(string source) {
+            char[] arr = source.ToCharArray();
+            StringBuilder result = new StringBuilder(arr.Length);
+            for (int i = 0; i < arr.Length; i ++) {
+                result.Append(i % 2 == 0 ? Char.ToUpperInvariant(arr[i])
+                                         : Char.ToLowerInvariant(arr[i]));
+            }
+            return result.ToString();
+        }
+
+        private static string PoopTransform(string source, int probability) {
+            StringBuilder result = new StringBuilder(source);
+            MatchCollection words = Regex.Matches(source, @"\w+");
+            int indexDiff = 0;
+            foreach (Match match in words) {
+                if (random.Next(probability) == 0) {
+                    String word = match.Value;
+                    result = result.Replace(word, word == word.ToLowerInvariant() ? "poop" :
+                                                  word == word.ToUpperInvariant() ? "POOP" : "Poop", match.Index + indexDiff, match.Length);
+                    indexDiff -= match.Length - 4;
+                }
+            }
+            return result.ToString();
         }
 
         [Serializable]
