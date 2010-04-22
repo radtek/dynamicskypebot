@@ -9,8 +9,6 @@ using System.Windows.Forms;
 
 namespace SkypeBot.plugins.config.transformation {
     public partial class TransformationConfigForm : Form {
-        List<TransformationPlugin.Transformation> transformations;
-
         public TransformationConfigForm() {
             InitializeComponent();
 
