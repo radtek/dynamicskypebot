@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next release ==
+  * New plugin: LML
+
 == v 1.1.10.4 ==
   * Penis: Add a few new ones.
   * Transformation: Added MiXeD CaSe and random poop.
