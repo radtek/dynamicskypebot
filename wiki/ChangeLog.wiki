@@ -4,6 +4,7 @@
 = Changelog =
 
 == Upcoming version ==
+  * New plugin: There, I Fixed It
   * Add right-click menu to taskbar icon.
   * Dice: Add support for roll modifiers. That is, allow things like 3d4+3 and 10d5-3.
 
