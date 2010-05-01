@@ -37,21 +37,30 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            Match output = Regex.Match(message.Body, @"^!roll (\d+)d(\d+)", RegexOptions.IgnoreCase);
+            Match output = Regex.Match(message.Body, @"^!roll (\d+)d(\d+)(?:([+-])(\d+))?", RegexOptions.IgnoreCase);
             if (output.Success) {
                 int num = Math.Max(1, Math.Min(200, Convert.ToInt32(output.Groups[1].Value)));
                 int size = Math.Max(1, Math.Min(1000000, Convert.ToInt32(output.Groups[2].Value)));
+
+                String pm = "+";
+                int mod = 0;
+                if (output.Groups[3].Length > 0) {
+                    pm = output.Groups[3].Value;
+                    mod = Math.Max(0, Math.Min(1000000, Convert.ToInt32(output.Groups[4].Value)));
+                }
+
 
                 int[] vals = new int[num];
                 for (int i = 0; i < num; i++)
                     vals[i] = random.Next(size)+1;
 
                 message.Chat.SendMessage(String.Format(
-                    @"{0}d{1} rolled; result: {2} ({3})", 
+                    @"{0}d{1}{4} rolled; result: {2} ({3})", 
                     num, 
                     size, 
-                    vals.Sum(),
-                    String.Join(", ", Array.ConvertAll<int, String>(vals, new Converter<int, string>(Convert.ToString)))
+                    vals.Sum() + (pm == "+" ? 1 : -1) * mod,
+                    String.Join(", ", Array.ConvertAll<int, String>(vals, new Converter<int, string>(Convert.ToString))),
+                    mod > 0 ? pm + mod : ""
                 ));
             }
         }
