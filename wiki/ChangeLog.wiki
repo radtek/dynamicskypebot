@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Upcoming version ==
+  * Add right-click menu to taskbar icon.
+
 == v 1.1.10.5 ==
   * New plugin: LML
 
