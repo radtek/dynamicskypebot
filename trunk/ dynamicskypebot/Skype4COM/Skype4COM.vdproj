@@ -240,7 +240,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Skype4COM"
         "ProductCode" = "8:{66B5F156-42FD-43A8-B23F-CDB7D35CC379}"
-        "PackageCode" = "8:{DCC2A7EB-1E41-4317-A0A7-19CFA58536EE}"
+        "PackageCode" = "8:{DB97B32E-78ED-412C-84FB-C42CB8D11BB3}"
         "UpgradeCode" = "8:{54AC6F03-6CC1-4120-98D5-B774E4025D6D}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"

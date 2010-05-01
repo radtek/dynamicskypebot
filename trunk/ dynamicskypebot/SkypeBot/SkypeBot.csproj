@@ -161,6 +161,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\ThereIFixedItPlugin.cs" />
     <Compile Include="plugins\LMLPlugin.cs" />
     <Compile Include="plugins\TransformationPlugin.cs" />
     <Compile Include="plugins\NotAlwaysRightPlugin.cs" />
