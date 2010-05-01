@@ -17,7 +17,7 @@ namespace SkypeBot.plugins {
 
         public String name() { return "Dice Plugin"; }
 
-        public String help() { return "!roll <n>d<m>"; }
+        public String help() { return "!roll <n>d<m>[<+/-><mod>]"; }
 
         public String description() { return "Allows people to roll dice"; }
 
