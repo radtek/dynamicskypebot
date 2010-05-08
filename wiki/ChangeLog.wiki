@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.1.10.7 ==
+  * Sort of fix the right-click menu; will be fixed properly once I get time.
+
 == v 1.1.10.6 ==
   * New plugin: There, I Fixed It
   * Add right-click menu to taskbar icon.
