@@ -57,7 +57,7 @@ namespace SkypeBot.plugins {
 
                 logMessage("Attempting to find some " + categoryFinder.Groups[2].Value + "...", false);
 
-                webReq = WebRequest.Create("http://www.easygals.com/" + categoryFinder.Groups[1].Value);
+                webReq = WebRequest.Create("http://www.easygals.com/" + categoryFinder.Groups[1].Value + "&rs=1");
                 webReq.Timeout = 10000;
                 response = webReq.GetResponse();
                 responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
