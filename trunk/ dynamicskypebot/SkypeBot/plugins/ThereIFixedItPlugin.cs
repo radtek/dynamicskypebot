@@ -46,8 +46,8 @@ namespace SkypeBot.plugins {
 
                 Match fixImg = Regex.Match(
                     responseText,
-                    @"<meta name=""title"" content=""(.+?)"" /><link rel=""image_src"" href="".*?(http://thereifixedit\.files\.wordpress[^'""]+)",
-                    RegexOptions.IgnoreCase
+                    @"<title>\s*(.*?) - There, I Fixed It.*?<link rel=""image_src"" href="".*?(http://thereifixedit\.files\.wordpress.*?)""",
+                    RegexOptions.IgnoreCase | RegexOptions.Singleline
                 );
                 if (!fixImg.Success) {
                     message.Chat.SendMessage("Unable to fetch an image. Try again, maybe?");
