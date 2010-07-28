@@ -87,9 +87,8 @@ namespace SkypeBot.plugins {
                  */
 
                 Regex fmlRx = new Regex(@"
-                        <div\sclass=""post""><p>(.*?)</p>               # text
-                        .*?
-                        id=""article_(\d+)""                            # number
+                        <div\sclass=""post""\sid=""(\d+)"">             # id
+                        <p>(.*?)</p>                                    # text
                         .*?
                         I\sagree,\syour\slife\ssucks</a>\s\((\d+)\)     # pro
                         .*?
@@ -106,13 +105,13 @@ namespace SkypeBot.plugins {
 
                 Match fml = fmlColl[random.Next(fmlColl.Count)];
 
-                String text = fml.Groups[1].Value;
+                String text = fml.Groups[2].Value;
                 text = Regex.Replace(text, "<.+?>", "");
                 text = HttpUtility.HtmlDecode(text);
 
                 message.Chat.SendMessage(String.Format(
                     @"FML #{0} (+{2}/-{3}): {1}",
-                    fml.Groups[2].Value,
+                    fml.Groups[1].Value,
                     text,
                     fml.Groups[3].Value,
                     fml.Groups[4].Value
