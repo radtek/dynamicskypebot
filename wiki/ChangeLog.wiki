@@ -3,6 +3,12 @@
 
 = Changelog =
 
+== v 1.1.10.9 ==
+  * There, I Fixed It: Make it work again.
+
+== v 1.1.10.8 ==
+  * FML: Make it work again.
+
 == v 1.1.10.7 ==
   * Sort of fix the right-click menu; will be fixed properly once I get time.
 
