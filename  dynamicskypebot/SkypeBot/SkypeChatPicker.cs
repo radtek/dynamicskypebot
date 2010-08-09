@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using System.Runtime.InteropServices;
 
 namespace SkypeBot {
     public partial class SkypeChatPicker : Form {
@@ -20,8 +21,10 @@ namespace SkypeBot {
 
             chatList.Items.Clear();
             foreach (Chat chat in skype.Chats) {
-                chats.Add(chat.Name);
-                chatList.Items.Add(chat.FriendlyName);
+                try {
+                    chats.Add(chat.Name);
+                    chatList.Items.Add(chat.FriendlyName);
+                } catch (COMException) { } // Skype generates invalid chats. Fun times.
             }
         }
 
