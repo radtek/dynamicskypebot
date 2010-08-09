@@ -5,6 +5,7 @@
 
 == Next release ==
   * Fixed the bug that sometimes caused trying to add to whitelist to crash the bot.
+  * Properly fix right-click menu.
 
 == v 1.1.10.9 ==
   * There, I Fixed It: Make it work again.
