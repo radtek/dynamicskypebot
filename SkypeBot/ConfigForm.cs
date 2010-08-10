@@ -71,10 +71,13 @@ namespace SkypeBot {
 
             PluginListBox.ItemCheck += (obj, e) =>
             {
-                if (e.NewValue == CheckState.Checked)
+                if (e.NewValue == CheckState.Checked) {
+                    log.Debug("Loading " + plugins[e.Index].name());
                     loadPlugin(plugins[e.Index]);
-                else
+                } else {
+                    log.Debug("Unloading " + plugins[e.Index].name());
                     unloadPlugin(plugins[e.Index]);
+                }
             };
 
             PluginListBox.SelectedIndexChanged += (obj, e) =>
@@ -127,13 +130,14 @@ namespace SkypeBot {
                 if ((status.Equals(TChatMessageStatus.cmsReceived) || status.Equals(TChatMessageStatus.cmsSent) ||
                     (status.Equals(TChatMessageStatus.cmsRead) && message.Id > lastId) ) && !isBlocked) {
                     
-                    log.Info(String.Format("{0}MSG: {1}", status.Equals(TChatMessageStatus.cmsRead) ? "r" : "", message.Body));
+                    log.Info(String.Format("{0}MSG: {1}", status.Equals(TChatMessageStatus.cmsRead) ? "r" :
+                                                          status.Equals(TChatMessageStatus.cmsSent) ? "s" : "", message.Body));
 
                     lastId = message.Id;
 
                     // Ignore messages older than 1 hour.
                     if (message.Timestamp.CompareTo(DateTime.Now.AddHours(-1.0)) < 0) {
-                        addLogLine("AgeCheck", "Message too old; not going to react.", false);
+                        log.Debug("Message too old; not going to react.");
                     }
 
                     Match output = Regex.Match(message.Body, @"^!help", RegexOptions.IgnoreCase);
@@ -182,10 +186,15 @@ namespace SkypeBot {
             blocked = "";
             BackgroundWorker baw = new BackgroundWorker();
             baw.DoWork += (obj, e) => {
+                log.Debug("Fetching list of blocked people/chat combinations...");
                 WebRequest webReq = WebRequest.Create("http://mathemaniac.org/apps/skypebot/blocked.txt");
-                webReq.Timeout = 10000;
-                WebResponse response = webReq.GetResponse();
-                blocked = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                try {
+                    webReq.Timeout = 10000;
+                    WebResponse response = webReq.GetResponse();
+                    blocked = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                } catch (Exception ex) {
+                    log.Warn("Failed to fetch list of blocked people/chat combinations.", ex);
+                }
             };
             baw.RunWorkerAsync();
 
@@ -195,8 +204,10 @@ namespace SkypeBot {
                 updateTimer = new Timer();
                 updateTimer.Interval = Properties.Settings.Default.UpdateCheckInterval * 60 * 1000;
                 updateTimer.Tick += (obj, e) => {
+                    log.Info("Checking for updates...");
                     try {
                         if (System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CheckForUpdate()) {
+                            log.Info("Update available for download!");
                             if (taskIcon.Visible) {
                                 taskIcon.BalloonTipTitle = "Skype Bot";
                                 taskIcon.BalloonTipText = "A new version of the Skype Bot is ready for download.";
@@ -206,14 +217,19 @@ namespace SkypeBot {
                                 updateTimer.Stop();
                                 MessageBox.Show("A new version is ready for download!");
                             }
+                        } else {
+                            log.Info("No updates found.");
                         }
-                    } catch(Exception) { }
+                    } catch(Exception ex) {
+                        log.Warn("Exception arose while checking for update.", ex);
+                    }
                 };
                 updateTimer.Start();
             }
         }
 
         private void populatePluginList() {
+            log.Debug("Populating plugin list...");
             foreach (Plugin plugin in plugins) {
                 plugin.onMessage += new MessageDelegate(addLogLine);
                 PluginListBox.Items.Add(plugin.name(), Properties.Settings.Default.LoadedPlugins.Contains(plugin.name()));
@@ -271,16 +287,19 @@ namespace SkypeBot {
             taskIcon.BalloonTipTitle = "Skype Bot";
             taskIcon.BalloonTipText = "Skype Bot now lives down here!";
             taskIcon.BalloonTipIcon = ToolTipIcon.Info;
-    
+
             if (WindowState == FormWindowState.Minimized) {
                 taskIcon.Visible = true;
                 if (Properties.Settings.Default.ShowMinimizeHelpBubble) {
                     taskIcon.ShowBalloonTip(1000);
                 }
                 Hide();
-            }
-            else
+
+                log.Debug("Minimized window to tray.");
+            } else {
                 taskIcon.Visible = false;
+                log.Debug("Restored window from tray.");
+            }
         }
 
         private void taskIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
@@ -293,31 +312,38 @@ namespace SkypeBot {
         }
 
         private void ConfigButton_Click(object sender, EventArgs e) {
+            log.Debug(String.Format("Opening configuration window for {0}.", plugins[PluginListBox.SelectedIndex].name()));
             plugins[PluginListBox.SelectedIndex].openConfig();
         }
 
         private void ConfigForm_FormClosed(object sender, FormClosedEventArgs e) {
+            log.Info("Main window closed; shutting down. Goodbye.");
             Properties.Settings.Default.Save();
             PluginSettings.Default.Save();
         }
 
         private void downloadPageToolStripMenuItem_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Website");
             System.Diagnostics.Process.Start("http://mathemaniac.org/wp/dynamic-skype-bot/");
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Help");
             System.Diagnostics.Process.Start("http://mathemaniac.org/apps/skypebot/help/");
         }
 
         private void suggestionBugPageToolStripMenuItem_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Suggestions");
             System.Diagnostics.Process.Start("http://skypebot.uservoice.com");
         }
 
         private void changelogToolStripMenuItem_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Changelog");
             System.Diagnostics.Process.Start("http://code.google.com/p/dynamicskypebot/wiki/ChangeLog");
         }
 
         private void settingsItem_Click(object sender, EventArgs e) {
+            log.Debug("Opening settings window...");
             SettingsForm sf = new SettingsForm(skype);
             sf.Visible = true;
         }
