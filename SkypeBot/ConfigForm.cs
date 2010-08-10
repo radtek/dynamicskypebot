@@ -12,9 +12,12 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
+using log4net;
 
 namespace SkypeBot {
     public partial class ConfigForm : Form {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private List<Plugin> plugins = new List<Plugin>( new Plugin[] {
             new GoogleImageSearchPlugin(),
             new AcronymPlugin(),
@@ -58,6 +61,7 @@ namespace SkypeBot {
         public event _ISkypeEvents_MessageStatusEventHandler onSkypeMessage;
         public ConfigForm() {
             InitializeComponent();
+            FormConsoleAppender.appendMethod += addLogLine;
 
             plugins.Sort(
                 delegate(Plugin p1, Plugin p2) {
@@ -88,16 +92,26 @@ namespace SkypeBot {
                 
             };
 
-            if (Properties.Settings.Default.LoadedPlugins == null)
+            if (Properties.Settings.Default.LoadedPlugins == null) {
+                log.Debug("Creating LoadedPlugins property.");
                 Properties.Settings.Default.LoadedPlugins = new System.Collections.Specialized.StringCollection();
-            if (Properties.Settings.Default.Whitelist == null)
+            }
+            if (Properties.Settings.Default.Whitelist == null) {
+                log.Debug("Creating LoadedPlugins property.");
                 Properties.Settings.Default.Whitelist = new System.Collections.Specialized.StringCollection();
+            }
 
+            log.Debug("Initiating connection to Skype...");
             skype = new Skype();
-            if (!skype.Client.IsRunning)
+            if (!skype.Client.IsRunning) {
+                log.Debug("Skype is not running; starting...");
                 skype.Client.Start(false, false);
+            }
 
+            log.Debug("Attaching to Skype...");
             skype.Attach(9, true);
+
+            log.Debug("Attached to Skype.");
 
             skype.MessageStatus += (ChatMessage message, TChatMessageStatus status) =>
             {
@@ -112,7 +126,8 @@ namespace SkypeBot {
 
                 if ((status.Equals(TChatMessageStatus.cmsReceived) || status.Equals(TChatMessageStatus.cmsSent) ||
                     (status.Equals(TChatMessageStatus.cmsRead) && message.Id > lastId) ) && !isBlocked) {
-                    addLogLine(String.Format("{0}MSG", status.Equals(TChatMessageStatus.cmsRead) ? "r" : ""), message.Body, false);
+                    
+                    log.Info(String.Format("{0}MSG: {1}", status.Equals(TChatMessageStatus.cmsRead) ? "r" : "", message.Body));
 
                     lastId = message.Id;
 
@@ -238,10 +253,18 @@ namespace SkypeBot {
                 AddLogLineCallback ac = new AddLogLineCallback(addLogLine);
                 this.Invoke(ac, new object[] { sender, msg, isError });
             } else {
-                messageLog.Text += String.Format("{0}{1}: {2}", isError ? "[ERROR]" : "", sender, msg) + Environment.NewLine;
+                if (sender.StartsWith("SkypeBot.plugins.")) {
+                    messageLog.Text += String.Format("{0}{1}: {2}", isError ? "[ERROR]" : "", sender.Split('.').Last<String>(), msg) + Environment.NewLine;
+                } else {
+                    messageLog.Text += msg + Environment.NewLine;
+                }
                 messageLog.SelectionStart = messageLog.Text.Length;
                 messageLog.ScrollToCaret();
             }
+        }
+
+        public void addLogLine(String sender, String msg) {
+            addLogLine(sender, msg, false);
         }
 
         private void ConfigForm_Resize(object sender, EventArgs e) {
@@ -305,6 +328,23 @@ namespace SkypeBot {
 
         private void exitSkypeBotToolStripMenuItem_Click(object sender, EventArgs e) {
             System.Windows.Forms.Application.Exit();
+        }
+    }
+
+    public class FormConsoleAppender : log4net.Appender.AppenderSkeleton {
+        public static Action<String, String> appendMethod = null;
+
+        protected override void Append(log4net.Core.LoggingEvent loggingEvent) {
+            // Cannot log to screen before we know how to append.
+            if (appendMethod == null)
+                return;
+
+            try {
+                appendMethod.Invoke(loggingEvent.LoggerName, loggingEvent.RenderedMessage);
+            } catch (Exception e) {
+                ErrorHandler.Error("Something went wrong trying to write to the visible 'console'.", e);
+            }
+        
         }
     }
 }
