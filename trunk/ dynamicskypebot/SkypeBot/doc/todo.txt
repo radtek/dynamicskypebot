@@ -1,13 +1,5 @@
 ﻿TODO:
 
-- Wikipedia article summary.
-	- Eg: !wiki Panda ->
-	The Giant Panda (Ailuropoda melanoleuca, literally meaning "cat-foot black-and-white") is a mammal native to central-western 
-	and south western China. The Giant Panda is a member of the Ursidae (bear) family. It is easily recognized by its large,
-	distinctive black patches around the eyes, over the ears, and across its round body. Though it belongs to the order Carnivora,
-	the Giant Panda's diet is 99% bamboo. Other parts of its diet include honey, eggs, fish, yams, shrub leaves, oranges,
-	and bananas when available.
-
 - Countdown timers
 	- !countdown add christmas December 24, 2010 00:00
 	- !countdown status christmas
