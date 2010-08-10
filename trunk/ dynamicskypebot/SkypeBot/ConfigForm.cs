@@ -248,20 +248,6 @@ namespace SkypeBot {
             taskIcon.BalloonTipTitle = "Skype Bot";
             taskIcon.BalloonTipText = "Skype Bot now lives down here!";
             taskIcon.BalloonTipIcon = ToolTipIcon.Info;
-
-            // TODO: Fix this. ToolStripItems autoremoves themselves from previous strip on add to another.
-            taskIcon.ContextMenuStrip = new ContextMenuStrip();
-            int cnt = 0;//menuStrip1.Items.Count;
-            ToolStripItem[] items = new ToolStripItem[cnt+2];
-            //menuStrip1.Items.CopyTo(items, 1);
-
-            items[0] = new ToolStripMenuItem("Restore window");
-            items[0].Click += (snd, evt) => ShowWindow();
-
-            items[cnt + 1] = new ToolStripMenuItem("Exit");
-            items[cnt + 1].Click += (snd, evt) => System.Windows.Forms.Application.Exit();
-
-            taskIcon.ContextMenuStrip.Items.AddRange(items);
     
             if (WindowState == FormWindowState.Minimized) {
                 taskIcon.Visible = true;
@@ -311,6 +297,14 @@ namespace SkypeBot {
         private void settingsItem_Click(object sender, EventArgs e) {
             SettingsForm sf = new SettingsForm(skype);
             sf.Visible = true;
+        }
+
+        private void restoreWindowToolStripMenuItem_Click(object sender, EventArgs e) {
+            ShowWindow();
+        }
+
+        private void exitSkypeBotToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Windows.Forms.Application.Exit();
         }
     }
 }

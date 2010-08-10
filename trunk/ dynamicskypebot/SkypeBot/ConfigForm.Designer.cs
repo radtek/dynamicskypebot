@@ -30,14 +30,26 @@
             this.taskIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.DescriptionBox = new System.Windows.Forms.TextBox();
             this.ConfigButton = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.settingsItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.suggestionBugPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
+            this.taskIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.restoreWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitSkypeBotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mainMenuStrip.SuspendLayout();
+            this.taskIconMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // PluginListBox
@@ -64,6 +76,7 @@
             // 
             // taskIcon
             // 
+            this.taskIcon.ContextMenuStrip = this.taskIconMenu;
             this.taskIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("taskIcon.Icon")));
             this.taskIcon.Text = "Skype Bot";
             this.taskIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.taskIcon_MouseDoubleClick);
@@ -91,16 +104,16 @@
             this.ConfigButton.Visible = false;
             this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
             // 
-            // menuStrip1
+            // mainMenuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsItem,
             this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(695, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuStrip.Name = "mainMenuStrip";
+            this.mainMenuStrip.Size = new System.Drawing.Size(695, 24);
+            this.mainMenuStrip.TabIndex = 4;
+            this.mainMenuStrip.Text = "menuStrip1";
             // 
             // settingsItem
             // 
@@ -123,30 +136,112 @@
             // downloadPageToolStripMenuItem
             // 
             this.downloadPageToolStripMenuItem.Name = "downloadPageToolStripMenuItem";
-            this.downloadPageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.downloadPageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.downloadPageToolStripMenuItem.Text = "Website";
             this.downloadPageToolStripMenuItem.Click += new System.EventHandler(this.downloadPageToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.helpToolStripMenuItem1.Text = "Command list";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // suggestionBugPageToolStripMenuItem
             // 
             this.suggestionBugPageToolStripMenuItem.Name = "suggestionBugPageToolStripMenuItem";
-            this.suggestionBugPageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.suggestionBugPageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.suggestionBugPageToolStripMenuItem.Text = "Suggestions";
             this.suggestionBugPageToolStripMenuItem.Click += new System.EventHandler(this.suggestionBugPageToolStripMenuItem_Click);
             // 
             // changelogToolStripMenuItem
             // 
             this.changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
-            this.changelogToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.changelogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.changelogToolStripMenuItem.Text = "Changelog";
             this.changelogToolStripMenuItem.Click += new System.EventHandler(this.changelogToolStripMenuItem_Click);
+            // 
+            // taskIconMenu
+            // 
+            this.taskIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.restoreWindowToolStripMenuItem,
+            this.toolStripMenuItem7,
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripSeparator1,
+            this.exitSkypeBotToolStripMenuItem});
+            this.taskIconMenu.Name = "taskIconMenu";
+            this.taskIconMenu.Size = new System.Drawing.Size(159, 126);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.toolStripMenuItem1.Text = "Settings";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.settingsItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(158, 22);
+            this.toolStripMenuItem2.Text = "Links";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Text = "Website";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.downloadPageToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem4.Text = "Command list";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem5.Text = "Suggestions";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.suggestionBugPageToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem6.Text = "Changelog";
+            this.toolStripMenuItem6.Click += new System.EventHandler(this.changelogToolStripMenuItem_Click);
+            // 
+            // restoreWindowToolStripMenuItem
+            // 
+            this.restoreWindowToolStripMenuItem.Name = "restoreWindowToolStripMenuItem";
+            this.restoreWindowToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.restoreWindowToolStripMenuItem.Text = "Restore window";
+            this.restoreWindowToolStripMenuItem.Click += new System.EventHandler(this.restoreWindowToolStripMenuItem_Click);
+            // 
+            // exitSkypeBotToolStripMenuItem
+            // 
+            this.exitSkypeBotToolStripMenuItem.Name = "exitSkypeBotToolStripMenuItem";
+            this.exitSkypeBotToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.exitSkypeBotToolStripMenuItem.Text = "Exit";
+            this.exitSkypeBotToolStripMenuItem.Click += new System.EventHandler(this.exitSkypeBotToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(155, 6);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
             // 
             // ConfigForm
             // 
@@ -157,14 +252,15 @@
             this.Controls.Add(this.DescriptionBox);
             this.Controls.Add(this.messageLog);
             this.Controls.Add(this.PluginListBox);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.mainMenuStrip);
+            this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "ConfigForm";
             this.Text = "Skype Bot Configuration Panel";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigForm_FormClosed);
             this.Resize += new System.EventHandler(this.ConfigForm_Resize);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainMenuStrip.ResumeLayout(false);
+            this.mainMenuStrip.PerformLayout();
+            this.taskIconMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,13 +273,24 @@
         private System.Windows.Forms.NotifyIcon taskIcon;
         private System.Windows.Forms.TextBox DescriptionBox;
         private System.Windows.Forms.Button ConfigButton;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem settingsItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem suggestionBugPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changelogToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip taskIconMenu;
+        private System.Windows.Forms.ToolStripMenuItem restoreWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitSkypeBotToolStripMenuItem;
     }
 }
 
