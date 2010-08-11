@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using System.Web;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class NotAlwaysRightPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "Not Always Right Plugin"; }
 
@@ -27,11 +28,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -39,10 +40,10 @@ namespace SkypeBot.plugins {
             if (output.Success) {
                 WebRequest webReq = WebRequest.Create("http://notalwaysright.com/?random");
                 webReq.Timeout = 10000;
-                logMessage("Connecting to NotAlwaysRight.com...", false);
+                log.Info("Connecting to NotAlwaysRight.com...");
 
                 WebResponse response = webReq.GetResponse();
-                logMessage("Response received; parsing...", false);
+                log.Info("Response received; parsing...");
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 Regex notRightRx = new Regex(@"
@@ -56,7 +57,7 @@ namespace SkypeBot.plugins {
 
                 Match match = notRightRx.Match(responseText);
                 if (!match.Success) {
-                    logMessage("Couldn't find any stories. Site layout changed?", true);
+                    log.Warn("Couldn't find any stories. If this problem persists, please file a bug report.");
                     message.Chat.SendMessage("Sorry, I couldn't find any stories.");
                     return;
                 }
@@ -80,11 +81,6 @@ namespace SkypeBot.plugins {
                     title, job, story
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

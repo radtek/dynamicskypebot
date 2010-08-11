@@ -8,10 +8,11 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class DeviantArtPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "deviantART Plugin"; }
 
@@ -26,32 +27,27 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!dA", RegexOptions.IgnoreCase);
             if (output.Success) {
-                logMessage("Requesting random page.", false);
+                log.Info("Requesting random page...");
                 WebRequest webReq = WebRequest.Create("http://www.deviantart.com/random/deviation");
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
-                logMessage("Gotcha!", false);
+                log.Debug("Gotcha!");
 
                 message.Chat.SendMessage(String.Format(
                     @"Random deviation: {0}",
                     response.ResponseUri
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

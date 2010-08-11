@@ -13,9 +13,12 @@ using SkypeBot.plugins.maze.model;
 using SkypeBot.plugins.maze.control;
 using SkypeBot.plugins.maze.view;
 using System.Globalization;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class MazePlugin : Plugin {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private MazeController control;
         private MazeReporter reporter;
 
@@ -27,8 +30,6 @@ namespace SkypeBot.plugins {
                 return Command.Unknown;
             }
         }
-
-        public event MessageDelegate onMessage;
 
         public String name() { return "Maze Plugin (beta)"; }
 
@@ -48,11 +49,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -60,7 +61,7 @@ namespace SkypeBot.plugins {
             if (input.Success) {
                 Command cmd = CommandFromString(input.Groups[1].Value.ToLower());
 
-                logMessage("Got the command '" + cmd + "'", false);
+                log.Debug("Got the command '" + cmd + "'");
 
                 String output = "";
 
@@ -99,11 +100,6 @@ namespace SkypeBot.plugins {
 
                 message.Chat.SendMessage(output);
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

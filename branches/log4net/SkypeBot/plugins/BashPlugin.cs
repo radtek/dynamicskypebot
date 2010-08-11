@@ -9,10 +9,11 @@ using System.Web;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class BashPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private Random random;
 
@@ -30,11 +31,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -50,9 +51,9 @@ namespace SkypeBot.plugins {
                 } catch (Exception) {
                     webReq = WebRequest.Create("http://bash.org/?random");
                     webReq.Timeout = 10000;
-                    logMessage("Finding random quote...", false);
+                    log.Info("Finding random quote...");
                     response = webReq.GetResponse();
-                    logMessage("Response received; parsing...", false);
+                    log.Info("Response received; parsing...");
                     responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
                     Regex quoteNoRx = new Regex(@"<b>#(\d+)</b>");
                     MatchCollection quoteNoColl = quoteNoRx.Matches(responseText);
@@ -64,11 +65,11 @@ namespace SkypeBot.plugins {
                     quoteNo = int.Parse(quoteNoFinder.Groups[1].Value);
                 }
 
-                logMessage("Fetching bash.org quote #" + quoteNo, false);
+                log.Info("Fetching bash.org quote #" + quoteNo);
                 webReq = WebRequest.Create("http://bash.org/?" + quoteNo);
                 webReq.Timeout = 10000;
                 response = webReq.GetResponse();
-                logMessage("Response received; parsing...", false);
+                log.Info("Response received; parsing...");
                 responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 /*
@@ -89,6 +90,7 @@ namespace SkypeBot.plugins {
                 Match quoteMatch = quoteRx.Match(responseText);
 
                 if (!quoteMatch.Success) {
+                    log.Error("bash.org failed to respond or has changed format. Please submit bug report.");
                     message.Chat.SendMessage("Sorry, some kind of error occurred in trying to contact bash.org.");
                     return;
                 }
@@ -107,11 +109,6 @@ namespace SkypeBot.plugins {
                 ));
 
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

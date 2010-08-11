@@ -14,11 +14,12 @@ using Google.YouTube;
 using Google.GData.Client;
 using SkypeBot.plugins.config.youtube;
 using System.Threading;
+using log4net;
 
 
 namespace SkypeBot.plugins {
     public class YouTubePlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Random random;
         private YouTubeRequest ytr;
         private Queue<String> randomCache;
@@ -48,14 +49,14 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
             if (randomCache.Count < PluginSettings.Default.YoutubeCacheSize) {
                 generateRandomVideos(false);
             }
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -63,7 +64,7 @@ namespace SkypeBot.plugins {
             // Use non-breaking space as a marker for when to not show info.
             if (output.Success && !message.Body.Contains(" ")) {
                 String youtubeId = output.Groups[1].Value;
-                logMessage("Sending request to YouTube...", false);
+                log.Info("Sending request to YouTube...");
 
                 YouTubeQuery ytq = new YouTubeQuery("http://gdata.youtube.com/feeds/api/videos/" + youtubeId);
 
@@ -103,7 +104,7 @@ namespace SkypeBot.plugins {
 
             output = Regex.Match(message.Body, @"^!youtube", RegexOptions.IgnoreCase);
             if (output.Success) {
-                logMessage("Got a request for a random video.", false);
+                log.Debug("Got a request for a random video.");
 
                 String url = randomCache.Count > 0 ? randomCache.Dequeue() : generateRandomVideos(true);
 
@@ -116,51 +117,46 @@ namespace SkypeBot.plugins {
 
         public String generateRandomVideos(bool onlyOne) {
             if (onlyOne) {
-                logMessage("Cache is empty; generating video...", false);
+                log.Debug("Cache is empty; generating video...");
             } else {
-                logMessage(String.Format("Cache currently contains {0} items; refilling to {1}...", randomCache.Count, PluginSettings.Default.YoutubeCacheSize), false);
+                log.Debug(String.Format("Cache currently contains {0} items; refilling to {1}...", randomCache.Count, PluginSettings.Default.YoutubeCacheSize));
             }
             while (randomCache.Count < PluginSettings.Default.YoutubeCacheSize) {
                 try {
-                    logMessage("Generating a random video...", false);
+                    log.Debug("Generating a random video...");
                     YouTubeQuery ytq = new YouTubeQuery(YouTubeQuery.MostPopular);
                     ytq.SafeSearch = YouTubeQuery.SafeSearchValues.None;
                     ytq.NumberToRetrieve = 40;
 
-                    logMessage("Fetching list of most popular videos...", false);
+                    log.Debug("Fetching list of most popular videos...");
 
                     Feed<Video> feed = ytr.Get<Video>(ytq);
                     int count = feed.Entries.Count<Video>();
 
                     Video vid = feed.Entries.ElementAt<Video>(random.Next(count));
-                    logMessage("Picked \"" + vid.Title + "\" as my starting point.", false);
+                    log.Debug("Picked \"" + vid.Title + "\" as my starting point.");
                     for (int i = 0; i < PluginSettings.Default.YoutubeIterations; i++) {
                         Feed<Video> related = ytr.GetRelatedVideos(vid);
                         count = related.Entries.Count<Video>();
                         vid = related.Entries.ElementAt<Video>(random.Next(count));
-                        logMessage("Next link: " + vid.Title, false);
+                        log.Debug("Next link: " + vid.Title);
                     }
 
-                    logMessage("Found my random video!", false);
+                    log.Debug("Found my random video!");
                     String url = vid.WatchPage.ToString();
 
                     if (onlyOne) {
                         return url;
                     }
 
-                    logMessage("Adding to cache...", false);
+                    log.Debug("Adding to cache...");
                     randomCache.Enqueue(url);
-                } catch (Exception) {
-                    logMessage("Failed in generating a video.", true);
+                } catch (Exception e) {
+                    log.Error("Failed in generating a video.", e);
                 }
             }
 
             return null;
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }

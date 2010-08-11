@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using System.Web;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class OverheardPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private OverheardSite[] sites;
         private Random random;
@@ -43,17 +44,17 @@ namespace SkypeBot.plugins {
             if (random == null) {
                 this.random = new Random();
             }
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!overheard ?(\w*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
-                logMessage("It's a-me! Determining active site...", false);
+                log.Info("It's a-me! Determining active site...");
                 OverheardSite activeSite = null;
 
                 if (output.Groups[1].Length > 0) {
@@ -63,15 +64,15 @@ namespace SkypeBot.plugins {
                 }
 
                 if (activeSite == null) {
-                    logMessage("Site not found or not chosen; picking at random...", false);
+                    log.Info("Site not found or not chosen; picking at random...");
                     activeSite = sites[random.Next(sites.Length)];
                 }
 
-                logMessage("Picked " + activeSite.prettyName + "; fetching random quote...", false);
+                log.Info("Picked " + activeSite.prettyName + "; fetching random quote...");
                 WebRequest webReq = WebRequest.Create("http://www." + activeSite.urlname + "/bin/randomentry.cgi");
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
-                logMessage("Response received; parsing...", false);
+                log.Info("Response received; parsing...");
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 Regex quoteRx = new Regex(@"
@@ -84,7 +85,7 @@ namespace SkypeBot.plugins {
 
                 Match quoteMatch = quoteRx.Match(responseText);
                 if (!quoteMatch.Success) {
-                    logMessage("Regex failed to match contents.", true);
+                    log.Warn("Regex failed to match contents. Please file a bug report about this if the problem persists.");
                     message.Chat.SendMessage("Sorry, something went wrong. :(");
                     return;
                 }
@@ -105,11 +106,6 @@ namespace SkypeBot.plugins {
                     contents
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
 
         private class OverheardSite {

@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using SkypeBot.plugins.config.eightball;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class EightBallPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private Random random;
 
@@ -27,11 +28,13 @@ namespace SkypeBot.plugins {
             EightballConfigForm ecf = new EightballConfigForm();
             ecf.Visible = true;
         }
-        // TODO: Make a configuration thing.
 
         public EightBallPlugin() {
-            if (PluginSettings.Default.EightBallReplies == null)
+            if (PluginSettings.Default.EightBallReplies == null) {
+                log.Debug("No replies found for the 8ball; loading premade ones.");
                 InitializeReplies();
+
+            }
 
             random = new Random();
         }
@@ -67,11 +70,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -84,11 +87,6 @@ namespace SkypeBot.plugins {
                     reply
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   
