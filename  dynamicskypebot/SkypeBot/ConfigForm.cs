@@ -12,9 +12,12 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
+using log4net;
 
 namespace SkypeBot {
     public partial class ConfigForm : Form {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private List<Plugin> plugins = new List<Plugin>( new Plugin[] {
             new GoogleImageSearchPlugin(),
             new AcronymPlugin(),
@@ -58,6 +61,7 @@ namespace SkypeBot {
         public event _ISkypeEvents_MessageStatusEventHandler onSkypeMessage;
         public ConfigForm() {
             InitializeComponent();
+            FormConsoleAppender.appendMethod += addLogLine;
 
             plugins.Sort(
                 delegate(Plugin p1, Plugin p2) {
@@ -67,10 +71,13 @@ namespace SkypeBot {
 
             PluginListBox.ItemCheck += (obj, e) =>
             {
-                if (e.NewValue == CheckState.Checked)
+                if (e.NewValue == CheckState.Checked) {
+                    log.Debug("Loading " + plugins[e.Index].name());
                     loadPlugin(plugins[e.Index]);
-                else
+                } else {
+                    log.Debug("Unloading " + plugins[e.Index].name());
                     unloadPlugin(plugins[e.Index]);
+                }
             };
 
             PluginListBox.SelectedIndexChanged += (obj, e) =>
@@ -88,16 +95,26 @@ namespace SkypeBot {
                 
             };
 
-            if (Properties.Settings.Default.LoadedPlugins == null)
+            if (Properties.Settings.Default.LoadedPlugins == null) {
+                log.Debug("Creating LoadedPlugins property.");
                 Properties.Settings.Default.LoadedPlugins = new System.Collections.Specialized.StringCollection();
-            if (Properties.Settings.Default.Whitelist == null)
+            }
+            if (Properties.Settings.Default.Whitelist == null) {
+                log.Debug("Creating LoadedPlugins property.");
                 Properties.Settings.Default.Whitelist = new System.Collections.Specialized.StringCollection();
+            }
 
+            log.Debug("Initiating connection to Skype...");
             skype = new Skype();
-            if (!skype.Client.IsRunning)
+            if (!skype.Client.IsRunning) {
+                log.Debug("Skype is not running; starting...");
                 skype.Client.Start(false, false);
+            }
 
+            log.Debug("Attaching to Skype...");
             skype.Attach(9, true);
+
+            log.Debug("Attached to Skype.");
 
             skype.MessageStatus += (ChatMessage message, TChatMessageStatus status) =>
             {
@@ -112,13 +129,15 @@ namespace SkypeBot {
 
                 if ((status.Equals(TChatMessageStatus.cmsReceived) || status.Equals(TChatMessageStatus.cmsSent) ||
                     (status.Equals(TChatMessageStatus.cmsRead) && message.Id > lastId) ) && !isBlocked) {
-                    addLogLine(String.Format("{0}MSG", status.Equals(TChatMessageStatus.cmsRead) ? "r" : ""), message.Body, false);
+                    
+                    log.Info(String.Format("{0}MSG: {1}", status.Equals(TChatMessageStatus.cmsRead) ? "r" :
+                                                          status.Equals(TChatMessageStatus.cmsSent) ? "s" : "", message.Body));
 
                     lastId = message.Id;
 
                     // Ignore messages older than 1 hour.
                     if (message.Timestamp.CompareTo(DateTime.Now.AddHours(-1.0)) < 0) {
-                        addLogLine("AgeCheck", "Message too old; not going to react.", false);
+                        log.Debug("Message too old; not going to react.");
                     }
 
                     Match output = Regex.Match(message.Body, @"^!help", RegexOptions.IgnoreCase);
@@ -167,10 +186,15 @@ namespace SkypeBot {
             blocked = "";
             BackgroundWorker baw = new BackgroundWorker();
             baw.DoWork += (obj, e) => {
+                log.Debug("Fetching list of blocked people/chat combinations...");
                 WebRequest webReq = WebRequest.Create("http://mathemaniac.org/apps/skypebot/blocked.txt");
-                webReq.Timeout = 10000;
-                WebResponse response = webReq.GetResponse();
-                blocked = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                try {
+                    webReq.Timeout = 10000;
+                    WebResponse response = webReq.GetResponse();
+                    blocked = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                } catch (Exception ex) {
+                    log.Warn("Failed to fetch list of blocked people/chat combinations.", ex);
+                }
             };
             baw.RunWorkerAsync();
 
@@ -180,8 +204,10 @@ namespace SkypeBot {
                 updateTimer = new Timer();
                 updateTimer.Interval = Properties.Settings.Default.UpdateCheckInterval * 60 * 1000;
                 updateTimer.Tick += (obj, e) => {
+                    log.Info("Checking for updates...");
                     try {
                         if (System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CheckForUpdate()) {
+                            log.Info("Update available for download!");
                             if (taskIcon.Visible) {
                                 taskIcon.BalloonTipTitle = "Skype Bot";
                                 taskIcon.BalloonTipText = "A new version of the Skype Bot is ready for download.";
@@ -191,16 +217,20 @@ namespace SkypeBot {
                                 updateTimer.Stop();
                                 MessageBox.Show("A new version is ready for download!");
                             }
+                        } else {
+                            log.Info("No updates found.");
                         }
-                    } catch(Exception) { }
+                    } catch(Exception ex) {
+                        log.Warn("Exception arose while checking for update.", ex);
+                    }
                 };
                 updateTimer.Start();
             }
         }
 
         private void populatePluginList() {
+            log.Debug("Populating plugin list...");
             foreach (Plugin plugin in plugins) {
-                plugin.onMessage += new MessageDelegate(addLogLine);
                 PluginListBox.Items.Add(plugin.name(), Properties.Settings.Default.LoadedPlugins.Contains(plugin.name()));
             }
         }
@@ -231,14 +261,24 @@ namespace SkypeBot {
             Properties.Settings.Default.Save();
         }
 
-        delegate void AddLogLineCallback(String sender, String msg, Boolean isError);
+        delegate void AddLogLineCallback(String sender, String msg, log4net.Core.Level severity);
 
-        public void addLogLine(String sender, String msg, Boolean isError) {
+        public void addLogLine(String sender, String msg, log4net.Core.Level severity) {
             if (messageLog.InvokeRequired) {
                 AddLogLineCallback ac = new AddLogLineCallback(addLogLine);
-                this.Invoke(ac, new object[] { sender, msg, isError });
+                this.Invoke(ac, new object[] { sender, msg, severity });
             } else {
-                messageLog.Text += String.Format("{0}{1}: {2}", isError ? "[ERROR]" : "", sender, msg) + Environment.NewLine;
+                if (severity.Equals(log4net.Core.Level.Error)) {
+                    messageLog.Text += "(!!!) ";
+                } else if (severity.Equals(log4net.Core.Level.Warn)) {
+                    messageLog.Text += "(!) ";
+                }
+
+                if (sender.StartsWith("SkypeBot.plugins.")) {
+                    messageLog.Text += String.Format("{0}: {1}", sender.Split('.').Last<String>(), msg) + Environment.NewLine;
+                } else {
+                    messageLog.Text += msg + Environment.NewLine;
+                }
                 messageLog.SelectionStart = messageLog.Text.Length;
                 messageLog.ScrollToCaret();
             }
@@ -248,16 +288,19 @@ namespace SkypeBot {
             taskIcon.BalloonTipTitle = "Skype Bot";
             taskIcon.BalloonTipText = "Skype Bot now lives down here!";
             taskIcon.BalloonTipIcon = ToolTipIcon.Info;
-    
+
             if (WindowState == FormWindowState.Minimized) {
                 taskIcon.Visible = true;
                 if (Properties.Settings.Default.ShowMinimizeHelpBubble) {
                     taskIcon.ShowBalloonTip(1000);
                 }
                 Hide();
-            }
-            else
+
+                log.Debug("Minimized window to tray.");
+            } else {
                 taskIcon.Visible = false;
+                log.Debug("Restored window from tray.");
+            }
         }
 
         private void taskIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
@@ -270,31 +313,38 @@ namespace SkypeBot {
         }
 
         private void ConfigButton_Click(object sender, EventArgs e) {
+            log.Debug(String.Format("Opening configuration window for {0}.", plugins[PluginListBox.SelectedIndex].name()));
             plugins[PluginListBox.SelectedIndex].openConfig();
         }
 
         private void ConfigForm_FormClosed(object sender, FormClosedEventArgs e) {
+            log.Info("Main window closed; shutting down. Goodbye.");
             Properties.Settings.Default.Save();
             PluginSettings.Default.Save();
         }
 
         private void downloadPageToolStripMenuItem_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Website");
             System.Diagnostics.Process.Start("http://mathemaniac.org/wp/dynamic-skype-bot/");
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Help");
             System.Diagnostics.Process.Start("http://mathemaniac.org/apps/skypebot/help/");
         }
 
         private void suggestionBugPageToolStripMenuItem_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Suggestions");
             System.Diagnostics.Process.Start("http://skypebot.uservoice.com");
         }
 
         private void changelogToolStripMenuItem_Click(object sender, EventArgs e) {
+            log.Debug("Link clicked: Changelog");
             System.Diagnostics.Process.Start("http://code.google.com/p/dynamicskypebot/wiki/ChangeLog");
         }
 
         private void settingsItem_Click(object sender, EventArgs e) {
+            log.Debug("Opening settings window...");
             SettingsForm sf = new SettingsForm(skype);
             sf.Visible = true;
         }
@@ -305,6 +355,23 @@ namespace SkypeBot {
 
         private void exitSkypeBotToolStripMenuItem_Click(object sender, EventArgs e) {
             System.Windows.Forms.Application.Exit();
+        }
+    }
+
+    public class FormConsoleAppender : log4net.Appender.AppenderSkeleton {
+        public static Action<String, String, log4net.Core.Level> appendMethod = null;
+
+        protected override void Append(log4net.Core.LoggingEvent loggingEvent) {
+            // Cannot log to screen before we know how to append.
+            if (appendMethod == null)
+                return;
+
+            try {
+                appendMethod.Invoke(loggingEvent.LoggerName, loggingEvent.RenderedMessage, loggingEvent.Level);
+            } catch (Exception e) {
+                ErrorHandler.Error("Something went wrong trying to write to the visible 'console'.", e);
+            }
+        
         }
     }
 }

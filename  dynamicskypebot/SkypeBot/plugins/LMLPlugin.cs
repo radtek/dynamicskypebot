@@ -9,10 +9,12 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using System.Web;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class LMLPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private Random random;
 
         public String name() { return "LML Plugin"; }
@@ -31,11 +33,11 @@ namespace SkypeBot.plugins {
             if (random == null) {
                 random = new Random();
             }
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -50,10 +52,10 @@ namespace SkypeBot.plugins {
 
                 WebRequest webReq = WebRequest.Create(url);
                 webReq.Timeout = 10000;
-                logMessage("Connecting to LMyLife.com...", false);
+                log.Info("Connecting to LMyLife.com...");
 
                 WebResponse response = webReq.GetResponse();
-                logMessage("Response received; parsing...", false);
+                log.Info("Response received; parsing...");
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 Regex lmlRx = new Regex(@"
@@ -75,6 +77,12 @@ namespace SkypeBot.plugins {
                 MatchCollection lmlColl = lmlRx.Matches(responseText);
                 if (lmlColl.Count == 0) {
                     message.Chat.SendMessage("LML not found.");
+
+                    if (url.EndsWith("random")) {
+                        log.Warn("There appears to be a problem with LMyLife.com.");
+                        log.Warn("Please go check if the site works okay. If it doesn't, it'll fix itself, hopefully.");
+                        log.Warn("If the site does work but the bot refuses to give LMLs, please report them on the suggestion site.");
+                    }
                     return;
                 }
 
@@ -93,11 +101,6 @@ namespace SkypeBot.plugins {
                 ));
 
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

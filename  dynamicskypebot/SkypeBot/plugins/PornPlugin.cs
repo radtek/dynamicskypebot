@@ -8,10 +8,11 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class PornPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private Random random;
 
@@ -29,33 +30,36 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!porn", RegexOptions.IgnoreCase);
             if (output.Success) {
-                logMessage("Loading category list...", false);
+                log.Debug("Loading category list...");
                 WebRequest webReq = WebRequest.Create("http://www.easygals.com/");
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                logMessage("Picking a category...", false);
+                log.Debug("Picking a category...");
                 Regex categoryFinderRx = new Regex(@"<a class=""catLink"" href=""([^\s]+)"".*?>(.+?)</a>");
                 MatchCollection categoryFinderColl = categoryFinderRx.Matches(responseText);
                 if (categoryFinderColl.Count <= 0) {
+                    log.Warn("Couldn't find any porn categories.");
+                    log.Warn("Please check if http://www.easygals.com/ works okay for you.");
+                    log.Warn("If it appears to work fine and the problem persists, please submit a bug report.");
                     message.Chat.SendMessage("Sorry, some kind of error occurred in trying to obtain porn. :(");
                     return;
                 }
                 Match categoryFinder = categoryFinderColl[random.Next(categoryFinderColl.Count)];
 
-                logMessage("I think I'll go for some " + categoryFinder.Groups[2].Value + " today!", false);
+                log.Info("I think I'll go for some " + categoryFinder.Groups[2].Value + " today!");
 
-                logMessage("Attempting to find some " + categoryFinder.Groups[2].Value + "...", false);
+                log.Debug("Attempting to find some " + categoryFinder.Groups[2].Value + "...");
 
                 webReq = WebRequest.Create("http://www.easygals.com/" + categoryFinder.Groups[1].Value + "&rs=1");
                 webReq.Timeout = 10000;
@@ -64,23 +68,22 @@ namespace SkypeBot.plugins {
                 Regex pornFinderRx = new Regex(@"<a href=""/cgi-bin/atx/out.+?u=(http:.+?)""");
                 MatchCollection pornFinderColl = pornFinderRx.Matches(responseText);
                 if (pornFinderColl.Count <= 0) {
+                    log.Warn("Couldn't find any " + categoryFinder.Groups[2].Value + " porn.");
+                    log.Warn("Either the category is empty or the format of the site has changed.");
+                    log.Warn("Please check if http://www.easygals.com/" + categoryFinder.Groups[1].Value + "&rs=1 loads okay.");
+                    log.Warn("If it appears to work fine and the problem persists, please submit a bug report.");
                     message.Chat.SendMessage("Argh, I couldn't find any " + categoryFinder.Groups[2].Value + "! Bummer.");
                     return;
                 }
                 Match pornFinder = pornFinderColl[random.Next(pornFinderColl.Count)];
 
-                logMessage("Porn found! Linking to chat.", false);
+                log.Info("Porn found! Linking to chat.");
 
                 message.Chat.SendMessage(String.Format(
                     @"Random porn link: {0}",
                     pornFinder.Groups[1].Value
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }

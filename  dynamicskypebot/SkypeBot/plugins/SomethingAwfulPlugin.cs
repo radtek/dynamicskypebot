@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using System.Web;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class SomethingAwfulPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "Something Awful Plugin"; }
 
@@ -27,11 +28,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -39,7 +40,7 @@ namespace SkypeBot.plugins {
             Match output2 = Regex.Match(message.Body, @"forums.somethingawful.com/showthread.php.*postid=(\d+)", RegexOptions.IgnoreCase);
             // Use non-breaking space as a marker for when to not show info.
             if ((output.Success || output2.Success) && !message.Body.Contains(" ")) {
-                logMessage("Hey, it's my turn now!", false);
+                log.Debug("Hey, it's my turn now!");
 
                 String url;
                 WebRequest webReq;
@@ -47,11 +48,11 @@ namespace SkypeBot.plugins {
                 String responseText;
 
                 if (output.Success) {
-                    logMessage("Thread ID = " + output.Groups[1].Value, false);
+                    log.Debug("Thread ID = " + output.Groups[1].Value);
                     url = "http://forums.somethingawful.com/showthread.php?threadid=" + output.Groups[1].Value;
                 } else {
-                    logMessage("Post ID = " + output2.Groups[1].Value, false);
-                    logMessage("Finding thread ID...", false);
+                    log.Debug("Post ID = " + output2.Groups[1].Value);
+                    log.Info("Finding thread ID...");
                     webReq = WebRequest.Create("http://forums.somethingawful.com/showthread.php?action=showpost&noseen=1&postid=" + output2.Groups[1].Value);
                     webReq.Timeout = 10000;
                     response = webReq.GetResponse();
@@ -59,20 +60,22 @@ namespace SkypeBot.plugins {
 
                     Match threadIDMatch = Regex.Match(responseText, @"<td class=""postdate"">.*threadid=(\d+).*</td>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
                     if (!threadIDMatch.Success) {
+                        log.Warn("Unable to find the thread in the live forums.");
+                        log.Warn("If the thread is live and public, please file a bug report.");
                         message.Chat.SendMessage("Unable to find thread.");
                         return;
                     }
-                    logMessage("Thread ID = " + threadIDMatch.Groups[1].Value, false);
+                    log.Debug("Thread ID = " + threadIDMatch.Groups[1].Value);
                     url = "http://forums.somethingawful.com/showthread.php?threadid=" + threadIDMatch.Groups[1].Value;
                 }
 
-                logMessage("Fetching thread...", false);
+                log.Debug("Fetching thread...");
                 webReq = WebRequest.Create(url);
                 webReq.Timeout = 10000;
                 response = webReq.GetResponse();
                 responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                logMessage("Extracting information...", false);
+                log.Debug("Extracting information...");
                 Match titleMatch = Regex.Match(responseText, @"<a[^>]*class=""bclast""[^>]*>(.*)</a>", RegexOptions.IgnoreCase);
                 String title = titleMatch.Success ? titleMatch.Groups[1].Value : "Unknown Title";
                 title = HttpUtility.HtmlDecode(title);
@@ -92,11 +95,6 @@ namespace SkypeBot.plugins {
                     op
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

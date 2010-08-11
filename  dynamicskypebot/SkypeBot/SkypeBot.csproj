@@ -74,6 +74,8 @@
     <ErrorReport>prompt</ErrorReport>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -95,6 +97,9 @@
     </Reference>
     <Reference Include="Google.GData.YouTube, Version=1.4.0.2, Culture=neutral, PublicKeyToken=af04a32718ae8833, processorArchitecture=MSIL">
       <HintPath>Dependencies\Google.GData.YouTube.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\..\..\Visual Studio 2010\Libraries\log4net-1.2.10\bin\net\2.0\release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
