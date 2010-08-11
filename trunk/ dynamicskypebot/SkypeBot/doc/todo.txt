@@ -6,7 +6,5 @@
 
 - Trivia game
 
-- Add log4net logging: http://logging.apache.org/log4net
-
 - Somehow make it work as a x64 thing again, so we don't have to compile as x86.
 	- Stupid Skype COM, sigh.
