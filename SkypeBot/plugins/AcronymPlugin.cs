@@ -9,13 +9,14 @@ using System.Threading;
 using System.Globalization;
 using SKYPE4COMLib;
 using SkypeBot.Properties;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class AcronymPlugin : Plugin {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private Random random;
         private Dictionary<char, List<String>> wordList;
-
-        public event MessageDelegate onMessage;
 
         public String name() { return "Acronym Maker Plugin"; }
 
@@ -27,6 +28,7 @@ namespace SkypeBot.plugins {
         public void openConfig() { }
 
         public AcronymPlugin() {
+            log.Debug("Loading words into dictionary...");
             random = new Random();
             wordList = new Dictionary<char, List<String>>(27);
             String[] wordlist = Resources.wordlist.Split('\n');
@@ -37,21 +39,22 @@ namespace SkypeBot.plugins {
 
                 wordList[firstLetter].Add(word.Trim());
             }
+            log.Debug("Initialization complete.");
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!acro ([\w-.]+)", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String acronym = output.Groups[1].Value.ToLower();
-                logMessage(String.Format("Got request for acronym \"{0}\".", acronym), false);
+                log.Info(String.Format("Got request for acronym \"{0}\".", acronym));
                 char[] acroChars = acronym.ToCharArray();
                 String[] outputStr = new String[acroChars.Length];
                 int i = 0;
@@ -73,16 +76,10 @@ namespace SkypeBot.plugins {
                 TextInfo textInfo = cultureInfo.TextInfo;
                 expansion = textInfo.ToTitleCase(expansion);
 
-                logMessage(String.Format("Ended up with the expansion \"{0}\".", expansion), false);
+                log.Info(String.Format("Ended up with the expansion \"{0}\".", expansion));
 
                 message.Chat.SendMessage(String.Format(@"As far as I know, the acronym ""{0}"" means ""{1}"".", acronym, expansion));
-                logMessage(String.Format("Result sent to chat.", expansion), false);
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }

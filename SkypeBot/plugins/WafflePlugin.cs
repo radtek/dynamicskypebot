@@ -8,10 +8,11 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class WafflePlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Random random;
 
         public String name() { return "WaffleImages Plugin"; }
@@ -28,11 +29,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -40,28 +41,24 @@ namespace SkypeBot.plugins {
             if (output.Success) {
                 WebRequest webReq = WebRequest.Create("http://waffleimages.com/random");
                 webReq.Timeout = 10000;
-                logMessage("Contacting server...", false);
+                log.Info("Contacting server...");
                 WebResponse response = webReq.GetResponse();
-                logMessage("Response received; parsing...", false);
+                log.Debug("Response received; parsing...");
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 Match imgFinder = Regex.Match(responseText, @"http://img.waffleimages.com/[0-9a-f]+/r");
 
                 if (!imgFinder.Success) {
-                    logMessage("Couldn't find any image in the result.", true);
+                    log.Warn("Couldn't find any image in the result.");
+                    log.Warn("If this event s");
                     message.Chat.SendMessage(@"Error communicating with server.");
                 }
                 else {
-                    logMessage("Result sent to chat.", false);
+                    log.Debug("Result sent to chat.");
                     message.Chat.SendMessage(String.Format(@"Random WaffleImage: {0}", imgFinder.Value));
                 }
                 
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

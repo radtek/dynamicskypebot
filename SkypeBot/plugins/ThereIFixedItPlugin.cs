@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using System.Web;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class ThereIFixedItPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "There, I Fixed It Plugin"; }
 
@@ -27,11 +28,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -39,9 +40,9 @@ namespace SkypeBot.plugins {
             if (output.Success) {
                 WebRequest webReq = WebRequest.Create("http://thereifixedit.com/?random");
                 webReq.Timeout = 10000;
-                logMessage("Contacting site...", false);
+                log.Debug("Contacting site...");
                 WebResponse response = webReq.GetResponse();
-                logMessage("Response received; parsing...", false);
+                log.Debug("Response received; parsing...");
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 Match fixImg = Regex.Match(
@@ -67,11 +68,6 @@ namespace SkypeBot.plugins {
                 );
             }
             
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

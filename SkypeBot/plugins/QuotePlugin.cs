@@ -11,10 +11,11 @@ using SKYPE4COMLib;
 using SkypeBot.plugins.config.quote;
 using System.Data;
 using System.ComponentModel;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class QuotePlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private Random rand;
 
@@ -39,18 +40,18 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!(addquote|quote|listquotes) ?(.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 String queryString = output.Groups[1].Value.ToLower();
-                logMessage("It's me time!", false);
+                log.Debug("It's me time!");
 
                 switch (queryString) {
                     case "addquote":
@@ -125,11 +126,6 @@ namespace SkypeBot.plugins {
                         break;
                 }
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
 
         [Serializable]

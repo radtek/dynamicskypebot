@@ -36,10 +36,5 @@ namespace SkypeBot.plugins {
         /// Passes on Skype messages
         /// </summary>
         void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status);
-
-        /// <summary>
-        /// Output-handler for the configuration display.
-        /// </summary>
-        event MessageDelegate onMessage;
     }
 }

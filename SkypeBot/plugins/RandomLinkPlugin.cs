@@ -8,10 +8,11 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class RandomLinkPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "Random Link Plugin"; }
 
@@ -26,17 +27,17 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!link", RegexOptions.IgnoreCase);
             if (output.Success) {
-                logMessage("Fetching link...", false);
+                log.Info("Fetching link...");
                 WebRequest webReq = WebRequest.Create("http://del.icio.us/recent?random");
                 webReq.Timeout = 10000;
                 WebResponse response = webReq.GetResponse();
@@ -46,11 +47,6 @@ namespace SkypeBot.plugins {
                     response.ResponseUri
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   

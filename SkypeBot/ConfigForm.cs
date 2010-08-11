@@ -231,7 +231,6 @@ namespace SkypeBot {
         private void populatePluginList() {
             log.Debug("Populating plugin list...");
             foreach (Plugin plugin in plugins) {
-                plugin.onMessage += new MessageDelegate(addLogLine);
                 PluginListBox.Items.Add(plugin.name(), Properties.Settings.Default.LoadedPlugins.Contains(plugin.name()));
             }
         }
@@ -262,25 +261,27 @@ namespace SkypeBot {
             Properties.Settings.Default.Save();
         }
 
-        delegate void AddLogLineCallback(String sender, String msg, Boolean isError);
+        delegate void AddLogLineCallback(String sender, String msg, log4net.Core.Level severity);
 
-        public void addLogLine(String sender, String msg, Boolean isError) {
+        public void addLogLine(String sender, String msg, log4net.Core.Level severity) {
             if (messageLog.InvokeRequired) {
                 AddLogLineCallback ac = new AddLogLineCallback(addLogLine);
-                this.Invoke(ac, new object[] { sender, msg, isError });
+                this.Invoke(ac, new object[] { sender, msg, severity });
             } else {
+                if (severity.Equals(log4net.Core.Level.Error)) {
+                    messageLog.Text += "(!!!) ";
+                } else if (severity.Equals(log4net.Core.Level.Warn)) {
+                    messageLog.Text += "(!) ";
+                }
+
                 if (sender.StartsWith("SkypeBot.plugins.")) {
-                    messageLog.Text += String.Format("{0}{1}: {2}", isError ? "[ERROR]" : "", sender.Split('.').Last<String>(), msg) + Environment.NewLine;
+                    messageLog.Text += String.Format("{1}: {2}", sender.Split('.').Last<String>(), msg) + Environment.NewLine;
                 } else {
                     messageLog.Text += msg + Environment.NewLine;
                 }
                 messageLog.SelectionStart = messageLog.Text.Length;
                 messageLog.ScrollToCaret();
             }
-        }
-
-        public void addLogLine(String sender, String msg) {
-            addLogLine(sender, msg, false);
         }
 
         private void ConfigForm_Resize(object sender, EventArgs e) {
@@ -358,7 +359,7 @@ namespace SkypeBot {
     }
 
     public class FormConsoleAppender : log4net.Appender.AppenderSkeleton {
-        public static Action<String, String> appendMethod = null;
+        public static Action<String, String, log4net.Core.Level> appendMethod = null;
 
         protected override void Append(log4net.Core.LoggingEvent loggingEvent) {
             // Cannot log to screen before we know how to append.
@@ -366,7 +367,7 @@ namespace SkypeBot {
                 return;
 
             try {
-                appendMethod.Invoke(loggingEvent.LoggerName, loggingEvent.RenderedMessage);
+                appendMethod.Invoke(loggingEvent.LoggerName, loggingEvent.RenderedMessage, loggingEvent.Level);
             } catch (Exception e) {
                 ErrorHandler.Error("Something went wrong trying to write to the visible 'console'.", e);
             }

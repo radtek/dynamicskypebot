@@ -12,10 +12,11 @@ using SKYPE4COMLib;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Linq;
+using log4net; 
 
 namespace SkypeBot.plugins {
     public class QDBPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private Queue<Quote> randomQuotes;
 
@@ -33,15 +34,15 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
             if (randomQuotes.Count == 0) {
-                logMessage("No cached quotes; fetching...", false);
+                log.Debug("No cached quotes; fetching...");
                 fetchRandomQuotes();
             }
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         private void fetchRandomQuotes() {
@@ -66,7 +67,7 @@ namespace SkypeBot.plugins {
                 randomQuotes.Enqueue(q);
             }
 
-            logMessage(String.Format("Fetched {0} random quotes.", randomQuotes.Count), false);
+            log.Debug(String.Format("Fetched {0} random quotes.", randomQuotes.Count));
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -79,7 +80,7 @@ namespace SkypeBot.plugins {
                 Quote quote;
 
                 if (output.Groups[1].Value != "") {
-                    logMessage("No cached quotes; fetching...", false);
+                    log.Info("No cached quotes; fetching...");
                     webReq = WebRequest.Create("http://qdb.us/qdb.xml?action=quote&quote="+output.Groups[1].Value+"&fixed=0&client=Dynamic+Skype+Bot");
                     webReq.Timeout = 10000;
                     response = webReq.GetResponse();
@@ -104,14 +105,14 @@ namespace SkypeBot.plugins {
 
                     quote.quote = quoteText;
                 } else {
-                    logMessage("Fetching random quote...", false);
+                    log.Info("Fetching random quote...");
 
                     if (randomQuotes.Count == 0) {
-                        logMessage("No cached quotes; fetching...", false);
+                        log.Info("No cached quotes; fetching...");
                         fetchRandomQuotes();
                     }
 
-                    logMessage("Picking a random quote...", false);
+                    log.Debug("Picking a random quote...");
                     quote = randomQuotes.Dequeue();
                 }
 
@@ -121,11 +122,6 @@ namespace SkypeBot.plugins {
                     quote.quote
                 ));
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
 
         private class Quote {

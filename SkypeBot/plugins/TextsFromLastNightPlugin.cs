@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using System.Web;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class TextsFromLastNightPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Queue<String> randomTexts;
 
         public String name() { return "Texts From Last Night Plugin"; }
@@ -30,18 +31,19 @@ namespace SkypeBot.plugins {
 
         public void load() {
             if (randomTexts.Count == 0) {
+                log.Debug("No random texts. Fetching new ones.");
                 fetchRandomTexts();
             }
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         private void fetchRandomTexts() {
             WebRequest webReq = WebRequest.Create("http://www.textsfromlastnight.com/Random-Texts-From-Last-Night.html");
             webReq.Timeout = 10000;
-            logMessage("Connecting to TextsFromLastNight.com...", false);
+            log.Info("Connecting to TextsFromLastNight.com...");
 
             WebResponse response = webReq.GetResponse();
-            logMessage("Response received; parsing...", false);
+            log.Info("Response received; parsing...");
             String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
             Regex textRx = new Regex(@"
@@ -56,7 +58,8 @@ namespace SkypeBot.plugins {
 
             MatchCollection textColl = textRx.Matches(responseText);
             if (textColl.Count == 0) {
-                logMessage("Couldn't find any texts. Site layout changed?", true);
+                log.Warn("Couldn't find any texts. Site layout changed?");
+                log.Warn("If the problem persists, file a bug.");
                 return;
             }
 
@@ -76,11 +79,11 @@ namespace SkypeBot.plugins {
                 cnt++;
             }
 
-            logMessage(String.Format("Added {1} new texts to the cache, which now contains {0} random texts.", randomTexts.Count, cnt), false);
+            log.Debug(String.Format("Added {1} new texts to the cache, which now contains {0} random texts.", randomTexts.Count, cnt));
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -92,15 +95,10 @@ namespace SkypeBot.plugins {
                     message.Chat.SendMessage(randomTexts.Dequeue());
                 }
                 if (randomTexts.Count < 4) {
-                    logMessage("Running low on cached messages; refilling...", false);
+                    log.Debug("Running low on cached messages; refilling...");
                     fetchRandomTexts();
                 }
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   
