@@ -8,10 +8,11 @@ using System.IO;
 using System.Web;
 using SKYPE4COMLib;
 using System.Xml.XPath;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class DictionaryPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "Dictionary Plugin"; }
 
@@ -26,18 +27,18 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!dict (.*)", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String queryString = output.Groups[1].Value;
-                logMessage(String.Format(@"Performing dictionary lookup on ""{0}"".", queryString), false);
+                log.Info(String.Format(@"Performing dictionary lookup on ""{0}"".", queryString));
 
                 XPathDocument response = new XPathDocument("http://www.onelook.com/?w=" + queryString + "&xml=1");
                 XPathNavigator nav = response.CreateNavigator();
@@ -67,13 +68,7 @@ namespace SkypeBot.plugins {
                             definitions)
                     );
                 }
-                logMessage("Result sent to chat.", false);
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }

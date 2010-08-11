@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using SkypeBot.plugins.config.wordfilter;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class WordFilterPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public String name() { return "Word Filter Plugin"; }
 
@@ -52,11 +53,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -75,18 +76,13 @@ namespace SkypeBot.plugins {
                         messageText = Regex.Replace(messageText, filter.regex, filter.replacement, RegexOptions.IgnoreCase);
                     }
                 } catch {
-                    logMessage("Error in filter: " + filter, true);
+                    log.Error("Error in filter: " + filter);
                 }
             }
 
             if (messageText != message.Body) {
                 message.Body = messageText;
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
 
         [Serializable]

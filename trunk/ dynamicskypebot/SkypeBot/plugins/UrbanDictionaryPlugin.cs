@@ -9,10 +9,11 @@ using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
 using SkypeBot.UrbanDictionary;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class UrbanDictionaryPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         
         // Signups for keys are closed
         // Found it at https://cyanox.nl/trac/noxbot/changeset/21
@@ -34,11 +35,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -46,11 +47,11 @@ namespace SkypeBot.plugins {
             if (output.Success) {
                 String queryString = output.Groups[1].Value;
                 if (!dict.verify_key(KEY)) {
-                    logMessage("Invalid key used for dictionary lookup.", true);
+                    log.Error("Invalid key used for dictionary lookup.");
                     message.Chat.SendMessage("The automated Urban Dictionary lookup is down until further notice.");
                 }
                 else {
-                    logMessage("Key verified.", false);
+                    log.Debug("Key verified.");
                     Definition[] defs = dict.lookup(KEY, queryString);
                     if (defs.Length <= 0)
                         message.Chat.SendMessage(String.Format(@"UrbanDictionary lookup of ""{0}"": No results found.", queryString));
@@ -65,11 +66,6 @@ namespace SkypeBot.plugins {
                     }
                 }
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }

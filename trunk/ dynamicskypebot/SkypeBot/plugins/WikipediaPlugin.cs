@@ -11,10 +11,11 @@ using SKYPE4COMLib;
 using System.Xml.Linq;
 using System.Web;
 using System.Xml;
+using log4net;
 
 namespace SkypeBot.plugins {
     public class WikipediaPlugin : Plugin {
-        public event MessageDelegate onMessage;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Random random;
 
         public String name() { return "Wikipedia Plugin"; }
@@ -31,11 +32,11 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            logMessage("Plugin successfully loaded.", false);
+            log.Info("Plugin successfully loaded.");
         }
 
         public void unload() {
-            logMessage("Plugin successfully unloaded.", false);
+            log.Info("Plugin successfully unloaded.");
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
@@ -51,12 +52,12 @@ namespace SkypeBot.plugins {
         }
 
         private void lookupArticle(IChatMessage message, String query) {
-            logMessage("Looking up article on '"+query+"'...", false);
+            log.Info("Looking up article on '"+query+"'...");
             WebRequest webReq = WebRequest.Create("http://en.wikipedia.org/w/api.php?action=query&titles="+HttpUtility.UrlEncode(query)+"&export&redirects&format=xml");
             (webReq as HttpWebRequest).UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.1.249.1021 Safari/532.5";
             webReq.Timeout = 10000;
             WebResponse response = webReq.GetResponse();
-            logMessage("Gotcha!", false);
+            log.Debug("Gotcha!");
             String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
             XDocument doc = XDocument.Parse(responseText);
@@ -119,12 +120,12 @@ namespace SkypeBot.plugins {
         }
 
         private void findRandomPage(IChatMessage message) {
-            logMessage("Requesting random page.", false);
+            log.Info("Requesting random page.");
             WebRequest webReq = WebRequest.Create("http://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&prop=info&inprop=url&format=xml");
             (webReq as HttpWebRequest).UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.1.249.1021 Safari/532.5";
             webReq.Timeout = 10000;
             WebResponse response = webReq.GetResponse();
-            logMessage("Gotcha!", false);
+            log.Debug("Gotcha!");
             String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
             Match getUrl = Regex.Match(responseText, @"fullurl=""([^""]+)""", RegexOptions.IgnoreCase);
@@ -135,13 +136,8 @@ namespace SkypeBot.plugins {
                     getUrl.Groups[1].Value
                 ));
             } else {
-                logMessage("Something went wrong.", true);
+                log.Warn("Something went wrong in finding a random page.");
             }
-        }
-
-        private void logMessage(String msg, Boolean isError) {
-            if (onMessage != null)
-                onMessage(this.name(), msg, isError);
         }
     }
 }   
