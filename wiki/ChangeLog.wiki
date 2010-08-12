@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next Release ==
+  * Added debug message toggle for the console.
+
 == v 1.2.0.0 ==
   * Switched to a much better logging system.
   * Fixed the bug that sometimes caused trying to add to whitelist to crash the bot.
