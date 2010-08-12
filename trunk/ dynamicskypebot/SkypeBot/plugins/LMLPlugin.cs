@@ -17,30 +17,30 @@ namespace SkypeBot.plugins {
 
         private Random random;
 
-        public override String name() { return "LML Plugin"; }
+        public String name() { return "LML Plugin"; }
 
-        public override String help() { return "!lml [number]"; }
+        public String help() { return "!lml [number]"; }
 
-        public override String description() { return "Gives a random LML from lmylife.com."; }
+        public String description() { return "Gives a random LML from lmylife.com."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public LMLPlugin() {
         }
 
-        public override void load() {
+        public void load() {
             if (random == null) {
                 random = new Random();
             }
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!lml ?(\d*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 String url;

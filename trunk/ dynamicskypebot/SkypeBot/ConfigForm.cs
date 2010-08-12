@@ -59,8 +59,6 @@ namespace SkypeBot {
         private Timer updateTimer;
 
         public event _ISkypeEvents_MessageStatusEventHandler onSkypeMessage;
-        public event _ISkypeEvents_MessageStatusEventHandler onSkypeMessage_earlyBird;
-
         public ConfigForm() {
             InitializeComponent();
             FormConsoleAppender.appendMethod += addLogLine;
@@ -175,16 +173,11 @@ namespace SkypeBot {
                         return;
                     }
 
+                    if (onSkypeMessage != null) {
                         BackgroundWorker bw = new BackgroundWorker();
-                        bw.DoWork += (obj, e) => {
-                            if (onSkypeMessage_earlyBird != null) {
-                                onSkypeMessage_earlyBird(message, status);
-                            }
-                            if (onSkypeMessage != null) {
-                                onSkypeMessage(message, status);
-                            }
-                        };
+                        bw.DoWork += (obj, e) => onSkypeMessage(message, status);
                         bw.RunWorkerAsync();
+                    }
                 }
             };
 
@@ -246,11 +239,7 @@ namespace SkypeBot {
             BackgroundWorker baw = new BackgroundWorker();
             baw.DoWork += (obj, e) => {
                 plugin.load();
-                if (plugin.earlyBird()) {
-                    onSkypeMessage_earlyBird += plugin.Skype_MessageStatus;
-                } else {
-                    onSkypeMessage += plugin.Skype_MessageStatus;
-                }
+                onSkypeMessage += plugin.Skype_MessageStatus;
             };
             baw.RunWorkerAsync();
             

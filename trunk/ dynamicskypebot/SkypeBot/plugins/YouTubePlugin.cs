@@ -24,16 +24,16 @@ namespace SkypeBot.plugins {
         private YouTubeRequest ytr;
         private Queue<String> randomCache;
 
-        public override String name() { return "YouTube Plugin"; }
+        public String name() { return "YouTube Plugin"; }
 
-        public override String help() { return "!youtube [query]"; }
+        public String help() { return "!youtube [query]"; }
 
-        public override String description() { return "Gives title and rating information on posted YouTube links.\n" +
+        public String description() { return "Gives title and rating information on posted YouTube links.\n" +
                                              "Also lets people search for YouTube videos.\n" +
                                              "Also gives random YouTube links."; }
 
-        public override bool canConfig() { return true; }
-        public override void openConfig() {
+        public bool canConfig() { return true; }
+        public void openConfig() {
             YoutubePluginConfigForm ycf = new YoutubePluginConfigForm();
             ycf.Visible = true;
         }
@@ -48,18 +48,18 @@ namespace SkypeBot.plugins {
             randomCache = new Queue<string>();
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
             if (randomCache.Count < PluginSettings.Default.YoutubeCacheSize) {
                 generateRandomVideos(false);
             }
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"youtube\.\w{2,3}\S+v=([\w-]+)", RegexOptions.IgnoreCase);
             // Use non-breaking space as a marker for when to not show info.
             if (output.Success && !message.Body.Contains(" ")) {

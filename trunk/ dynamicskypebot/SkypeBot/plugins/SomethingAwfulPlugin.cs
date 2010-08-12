@@ -15,27 +15,27 @@ namespace SkypeBot.plugins {
     public class SomethingAwfulPlugin : Plugin {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public override String name() { return "Something Awful Plugin"; }
+        public String name() { return "Something Awful Plugin"; }
 
-        public override String help() { return null; }
+        public String help() { return null; }
 
-        public override String description() { return "Shows thread info when SA links are posted."; }
+        public String description() { return "Shows thread info when SA links are posted."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public SomethingAwfulPlugin() {
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"forums.somethingawful.com/showthread.php.*threadid=(\d+)", RegexOptions.IgnoreCase);
             Match output2 = Regex.Match(message.Body, @"forums.somethingawful.com/showthread.php.*postid=(\d+)", RegexOptions.IgnoreCase);
             // Use non-breaking space as a marker for when to not show info.
