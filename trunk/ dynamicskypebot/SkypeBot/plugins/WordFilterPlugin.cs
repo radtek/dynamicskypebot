@@ -15,14 +15,14 @@ namespace SkypeBot.plugins {
     public class WordFilterPlugin : Plugin {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public String name() { return "Word Filter Plugin"; }
+        public override String name() { return "Word Filter Plugin"; }
 
-        public String help() { return null; }
+        public override String help() { return null; }
 
-        public String description() { return "Filters chat based on filters you set."; }
+        public override String description() { return "Filters chat based on filters you set."; }
 
-        public bool canConfig() { return true; }
-        public void openConfig() {
+        public override bool canConfig() { return true; }
+        public override void openConfig() {
             WordFilterConfigForm wfcf = new WordFilterConfigForm();
             wfcf.Visible = true;
         }
@@ -52,15 +52,15 @@ namespace SkypeBot.plugins {
             }
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             if (!message.IsEditable) {
                 return;
             }

@@ -18,14 +18,14 @@ namespace SkypeBot.plugins {
         private Random random;
         private Dictionary<char, List<String>> wordList;
 
-        public String name() { return "Acronym Maker Plugin"; }
+        public override String name() { return "Acronym Maker Plugin"; }
 
-        public String help() { return "!acro <text>"; }
+        public override String help() { return "!acro <text>"; }
 
-        public String description() { return "Expands acronyms."; }
+        public override String description() { return "Expands acronyms."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public AcronymPlugin() {
             log.Debug("Loading words into dictionary...");
@@ -42,15 +42,15 @@ namespace SkypeBot.plugins {
             log.Debug("Initialization complete.");
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!acro ([\w-.]+)", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String acronym = output.Groups[1].Value.ToLower();

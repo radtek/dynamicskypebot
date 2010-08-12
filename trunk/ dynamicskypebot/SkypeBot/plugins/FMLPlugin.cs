@@ -17,30 +17,30 @@ namespace SkypeBot.plugins {
 
         private Random random;
 
-        public String name() { return "FML Plugin"; }
+        public override String name() { return "FML Plugin"; }
 
-        public String help() { return "!fml [number]"; }
+        public override String help() { return "!fml [number]"; }
 
-        public String description() { return "Gives a random FML from fmylife.com."; }
+        public override String description() { return "Gives a random FML from fmylife.com."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public FMLPlugin() {
         }
 
-        public void load() {
+        public override void load() {
             if (random == null) {
                 random = new Random();
             }
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!fml ?(\d*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 String url;
