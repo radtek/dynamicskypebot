@@ -16,28 +16,28 @@ namespace SkypeBot.plugins {
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public String name() { return "4chan Plugin"; }
+        public override String name() { return "4chan Plugin"; }
 
-        public String help() { return "!4chan"; }
+        public override String help() { return "!4chan"; }
 
-        public String description() { return "Links to a random picture from 4chan."; }
+        public override String description() { return "Links to a random picture from 4chan."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public FourChanPlugin() {
             random = new Random();
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!4chan", RegexOptions.IgnoreCase);
             if (output.Success) {
                 log.Info("Going to visit /b/ to find a thread...");

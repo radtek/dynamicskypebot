@@ -14,27 +14,27 @@ namespace SkypeBot.plugins {
     public class DictionaryPlugin : Plugin {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public String name() { return "Dictionary Plugin"; }
+        public override String name() { return "Dictionary Plugin"; }
 
-        public String help() { return "!dict <word>"; }
+        public override String help() { return "!dict <word>"; }
 
-        public String description() { return "Returns dictionary definitions."; }
+        public override String description() { return "Returns dictionary definitions."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public DictionaryPlugin() {
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!dict (.*)", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String queryString = output.Groups[1].Value;

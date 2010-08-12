@@ -16,28 +16,28 @@ namespace SkypeBot.plugins {
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public String name() { return "Dice Plugin"; }
+        public override String name() { return "Dice Plugin"; }
 
-        public String help() { return "!roll <n>d<m>[<+/-><mod>]"; }
+        public override String help() { return "!roll <n>d<m>[<+/-><mod>]"; }
 
-        public String description() { return "Allows people to roll dice"; }
+        public override String description() { return "Allows people to roll dice"; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public DicePlugin() {
             random = new Random();
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!roll (\d+)d(\d+)(?:([+-])(\d+))?", RegexOptions.IgnoreCase);
             if (output.Success) {
                 int num = Math.Max(1, Math.Min(200, Convert.ToInt32(output.Groups[1].Value)));

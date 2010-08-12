@@ -14,27 +14,27 @@ namespace SkypeBot.plugins {
     public class PenisPlugin : Plugin {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public String name() { return "Penis Plugin"; }
+        public override String name() { return "Penis Plugin"; }
 
-        public String help() { return null; }
+        public override String help() { return null; }
 
-        public String description() { return "Responds to penis queries."; }
+        public override String description() { return "Responds to penis queries."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public PenisPlugin() {
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             MatchCollection outputColl = Regex.Matches(message.Body, 
                 "p(e+)nis|c(o+)ck|d(o+)ng|clitoris|d(i+)ck|sc?(h+)l(o+)ng|p(e+)cker|j(o+)hns(o+)n|w(a+)ng|"
               + "b(o+)ner|one eyed m(o+)nster|phal(l+)[uo]s|pr(i+)ck|winki(e+)|r(i+)ch(a+)rd|will(y|i+e)|j(o+)ystick"

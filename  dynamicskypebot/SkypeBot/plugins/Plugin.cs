@@ -7,34 +7,39 @@ using SKYPE4COMLib;
 namespace SkypeBot.plugins {
     public delegate void MessageDelegate(String sender, String msg, Boolean isError);
 
-    public interface Plugin {
+    public abstract class Plugin {
         /// <returns>The name of the plugin, as displayed in the plugin list.</returns>
-        String name();
+        public abstract String name();
         /// <returns>Description of the plugin, as displayed in the config window.</returns>
-        String description();
+        public abstract String description();
         /// <returns>The help text displayed on !help. null if no trigger exists.</returns>
-        String help();
+        public abstract String help();
+
+        /// <summary>
+        /// Is this plugin an early bird? Early birds get run first.
+        /// </summary>
+        public virtual bool earlyBird() { return false; }
 
         /// <returns>True iff openConfig opens a configuration window for this plugin.</returns>
-        bool canConfig();
+        public virtual bool canConfig() { return false; }
         /// <summary>
         /// Open a configuration window for this plugin.
         /// Will not be called if canConfig() is false.
         /// </summary>
-        void openConfig();
+        public virtual void openConfig() { throw new NotImplementedException(); }
 
         /// <summary>
         /// Perform whatever is nescessary to load the plugin
         /// </summary>
-        void load();
+        public abstract void load();
         /// <summary>
         /// Undo whatever load() does.
         /// </summary>
-        void unload();
+        public abstract void unload();
         
         /// <summary>
         /// Passes on Skype messages
         /// </summary>
-        void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status);
+        public abstract void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status);
     }
 }

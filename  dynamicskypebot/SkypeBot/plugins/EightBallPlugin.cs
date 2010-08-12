@@ -17,14 +17,14 @@ namespace SkypeBot.plugins {
 
         private Random random;
 
-        public String name() { return "8-ball plugin"; }
+        public override String name() { return "8-ball plugin"; }
 
-        public String help() { return "!8ball"; }
+        public override String help() { return "!8ball"; }
 
-        public String description() { return "Gives ambiguous answers to your queries."; }
+        public override String description() { return "Gives ambiguous answers to your queries."; }
 
-        public bool canConfig() { return true; }
-        public void openConfig() {
+        public override bool canConfig() { return true; }
+        public override void openConfig() {
             EightballConfigForm ecf = new EightballConfigForm();
             ecf.Visible = true;
         }
@@ -69,15 +69,15 @@ namespace SkypeBot.plugins {
             PluginSettings.Default.Save();
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!8ball", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String reply = PluginSettings.Default.EightBallReplies[random.Next(PluginSettings.Default.EightBallReplies.Count)];

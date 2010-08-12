@@ -15,27 +15,27 @@ namespace SkypeBot.plugins {
     public class NotAlwaysRightPlugin : Plugin {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public String name() { return "Not Always Right Plugin"; }
+        public override String name() { return "Not Always Right Plugin"; }
 
-        public String help() { return "!notright"; }
+        public override String help() { return "!notright"; }
 
-        public String description() { return "Gives a story from Not Always Right."; }
+        public override String description() { return "Gives a story from Not Always Right."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public NotAlwaysRightPlugin() {
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!notright", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 WebRequest webReq = WebRequest.Create("http://notalwaysright.com/?random");

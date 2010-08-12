@@ -16,20 +16,20 @@ namespace SkypeBot.plugins {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Queue<String> randomTexts;
 
-        public String name() { return "Texts From Last Night Plugin"; }
+        public override String name() { return "Texts From Last Night Plugin"; }
 
-        public String help() { return "!text"; }
+        public override String help() { return "!text"; }
 
-        public String description() { return "Returns a random text from textsfromlastnight.com."; }
+        public override String description() { return "Returns a random text from textsfromlastnight.com."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public TextsFromLastNightPlugin() {
             randomTexts = new Queue<String>();
         }
 
-        public void load() {
+        public override void load() {
             if (randomTexts.Count == 0) {
                 log.Debug("No random texts. Fetching new ones.");
                 fetchRandomTexts();
@@ -82,11 +82,11 @@ namespace SkypeBot.plugins {
             log.Debug(String.Format("Added {1} new texts to the cache, which now contains {0} random texts.", randomTexts.Count, cnt));
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!text", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 if (randomTexts.Count == 0) {

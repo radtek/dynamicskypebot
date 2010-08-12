@@ -18,28 +18,28 @@ namespace SkypeBot.plugins {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Random random;
 
-        public String name() { return "Wikipedia Plugin"; }
+        public override String name() { return "Wikipedia Plugin"; }
 
-        public String help() { return "!wiki"; }
+        public override String help() { return "!wiki"; }
 
-        public String description() { return "Generates a random Wikipedia link."; }
+        public override String description() { return "Generates a random Wikipedia link."; }
 
-        public bool canConfig() { return false; }
-        public void openConfig() { }
+        public override bool canConfig() { return false; }
+        public override void openConfig() { }
 
         public WikipediaPlugin() {
             random = new Random();
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!wiki ?(.*)", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String query = output.Groups[1].Value.Trim();

@@ -31,14 +31,14 @@ namespace SkypeBot.plugins {
             }
         }
 
-        public String name() { return "Maze Plugin (beta)"; }
+        public override String name() { return "Maze Plugin (beta)"; }
 
-        public String help() { return "!maze <north/south/east/west/down/look> (BETA)"; }
+        public override String help() { return "!maze <north/south/east/west/down/look> (BETA)"; }
 
-        public String description() { return "Allows for maze exploration."; }
+        public override String description() { return "Allows for maze exploration."; }
 
-        public bool canConfig() { return true; }
-        public void openConfig() {
+        public override bool canConfig() { return true; }
+        public override void openConfig() {
             MazeConfigForm mcf = new MazeConfigForm(control);
             mcf.Visible = true;
         }
@@ -48,15 +48,15 @@ namespace SkypeBot.plugins {
             reporter = new MazeReporter(control);
         }
 
-        public void load() {
+        public override void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public void unload() {
+        public override void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match input = Regex.Match(message.Body, @"^!maze (.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (input.Success) {
                 Command cmd = CommandFromString(input.Groups[1].Value.ToLower());
