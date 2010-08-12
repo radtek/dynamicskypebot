@@ -92,5 +92,17 @@ namespace SkypeBot.Properties {
                 this["Whitelist"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool VerboseConsole {
+            get {
+                return ((bool)(this["VerboseConsole"]));
+            }
+            set {
+                this["VerboseConsole"] = value;
+            }
+        }
     }
 }

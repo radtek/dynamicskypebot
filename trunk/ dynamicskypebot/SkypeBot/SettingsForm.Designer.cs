@@ -38,6 +38,7 @@
             this.domainHelpButton = new System.Windows.Forms.Button();
             this.domainMode = new System.Windows.Forms.ComboBox();
             this.domainHelp = new System.Windows.Forms.ToolTip(this.components);
+            this.verboseConsole = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updateInterval)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -104,10 +105,11 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.verboseConsole);
             this.groupBox2.Controls.Add(this.helpOnMinimized);
             this.groupBox2.Location = new System.Drawing.Point(12, 255);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(257, 44);
+            this.groupBox2.Size = new System.Drawing.Size(257, 66);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Miscellaneous";
@@ -211,11 +213,23 @@
             this.domainHelp.IsBalloon = true;
             this.domainHelp.ReshowDelay = 20;
             // 
+            // verboseConsole
+            // 
+            this.verboseConsole.AutoSize = true;
+            this.verboseConsole.Location = new System.Drawing.Point(6, 42);
+            this.verboseConsole.Name = "verboseConsole";
+            this.verboseConsole.Size = new System.Drawing.Size(187, 17);
+            this.verboseConsole.TabIndex = 1;
+            this.verboseConsole.Tag = "verboseConsole";
+            this.verboseConsole.Text = "Show debug messages in console";
+            this.verboseConsole.UseVisualStyleBackColor = true;
+            this.verboseConsole.CheckedChanged += new System.EventHandler(this.checkbox_CheckedChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(278, 306);
+            this.ClientSize = new System.Drawing.Size(278, 334);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -248,6 +262,7 @@
         private System.Windows.Forms.Button deleteFromWhitelist;
         private System.Windows.Forms.Button addToWhitelist;
         private System.Windows.Forms.ListBox whiteList;
+        private System.Windows.Forms.CheckBox verboseConsole;
 
     }
 }

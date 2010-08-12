@@ -272,6 +272,8 @@ namespace SkypeBot {
                     messageLog.Text += "(!!!) ";
                 } else if (severity.Equals(log4net.Core.Level.Warn)) {
                     messageLog.Text += "(!) ";
+                } else if (severity.Equals(log4net.Core.Level.Debug)) {
+                    messageLog.Text += "(D) ";
                 }
 
                 if (sender.StartsWith("SkypeBot.plugins.")) {
@@ -364,6 +366,9 @@ namespace SkypeBot {
         protected override void Append(log4net.Core.LoggingEvent loggingEvent) {
             // Cannot log to screen before we know how to append.
             if (appendMethod == null)
+                return;
+
+            if (!Properties.Settings.Default.VerboseConsole && loggingEvent.Level.Equals(log4net.Core.Level.Debug))
                 return;
 
             try {
