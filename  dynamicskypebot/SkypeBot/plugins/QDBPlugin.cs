@@ -20,20 +20,20 @@ namespace SkypeBot.plugins {
 
         private Queue<Quote> randomQuotes;
 
-        public override String name() { return "QDB Plugin"; }
+        public String name() { return "QDB Plugin"; }
 
-        public override String help() { return "!qdb [number]"; }
+        public String help() { return "!qdb [number]"; }
 
-        public override String description() { return "Gives a random quote from qdb.us."; }
+        public String description() { return "Gives a random quote from qdb.us."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public QDBPlugin() {
             randomQuotes = new Queue<Quote>();
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
             if (randomQuotes.Count == 0) {
                 log.Debug("No cached quotes; fetching...");
@@ -41,7 +41,7 @@ namespace SkypeBot.plugins {
             }
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
@@ -70,7 +70,7 @@ namespace SkypeBot.plugins {
             log.Debug(String.Format("Fetched {0} random quotes.", randomQuotes.Count));
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!qdb ?(\d*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 WebRequest webReq;

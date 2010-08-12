@@ -15,28 +15,28 @@ namespace SkypeBot.plugins {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Random random;
 
-        public override String name() { return "WaffleImages Plugin"; }
+        public String name() { return "WaffleImages Plugin"; }
 
-        public override String help() { return "!waffle"; }
+        public String help() { return "!waffle"; }
 
-        public override String description() { return "Links to a random image uploaded to WaffleImages."; }
+        public String description() { return "Links to a random image uploaded to WaffleImages."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public WafflePlugin() {
             random = new Random();
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!waffle", RegexOptions.IgnoreCase);
             if (output.Success) {
                 WebRequest webReq = WebRequest.Create("http://waffleimages.com/random");

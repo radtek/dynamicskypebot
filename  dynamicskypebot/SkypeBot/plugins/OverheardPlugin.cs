@@ -18,19 +18,19 @@ namespace SkypeBot.plugins {
         private OverheardSite[] sites;
         private Random random;
 
-        public override String name() { return "Overheard In... Plugin"; }
+        public String name() { return "Overheard In... Plugin"; }
 
-        public override String help() { return "!overheard [ny/office/beach]"; }
+        public String help() { return "!overheard [ny/office/beach]"; }
 
-        public override String description() { return "Gives a random quote from one of the 'Overheard In...' sites."; }
+        public String description() { return "Gives a random quote from one of the 'Overheard In...' sites."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public OverheardPlugin() {
         }
 
-        public override void load() {
+        public void load() {
             if (sites == null) {
                 sites = new OverheardSite[] {
                     new OverheardSite("ny", "overheardinnewyork.com", "Overheard In New York"),
@@ -47,11 +47,11 @@ namespace SkypeBot.plugins {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!overheard ?(\w*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 log.Info("It's a-me! Determining active site...");

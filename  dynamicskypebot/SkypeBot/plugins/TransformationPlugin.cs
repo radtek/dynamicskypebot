@@ -16,14 +16,14 @@ namespace SkypeBot.plugins {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static Random random = new Random();
 
-        public override String name() { return "Transformation Plugin"; }
+        public String name() { return "Transformation Plugin"; }
 
-        public override String help() { return null; }
+        public String help() { return null; }
 
-        public override String description() { return "Transforms all messages received in the specified way."; }
+        public String description() { return "Transforms all messages received in the specified way."; }
 
-        public override bool canConfig() { return true; }
-        public override void openConfig() {
+        public bool canConfig() { return true; }
+        public void openConfig() {
             TransformationConfigForm tcf = new TransformationConfigForm();
             tcf.Visible = true;
         }
@@ -53,15 +53,15 @@ namespace SkypeBot.plugins {
             }
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             if (!message.IsEditable) {
                 return;
             }

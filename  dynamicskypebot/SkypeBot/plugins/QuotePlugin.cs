@@ -19,14 +19,14 @@ namespace SkypeBot.plugins {
 
         private Random rand;
 
-        public override String name() { return "Quote Plugin"; }
+        public String name() { return "Quote Plugin"; }
 
-        public override String help() { return "!quote [number], !addquote <quote>, !listquotes"; }
+        public String help() { return "!quote [number], !addquote <quote>, !listquotes"; }
 
-        public override String description() { return "Stores quotes."; }
+        public String description() { return "Stores quotes."; }
 
-        public override bool canConfig() { return true; }
-        public override void openConfig() {
+        public bool canConfig() { return true; }
+        public void openConfig() {
             QuoteConfigForm qcf = new QuoteConfigForm();
             qcf.Visible = true;
         }
@@ -39,15 +39,15 @@ namespace SkypeBot.plugins {
                 PluginSettings.Default.UnapprovedQuotes = new ArrayList();
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!(addquote|quote|listquotes) ?(.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (output.Success) {
                 String queryString = output.Groups[1].Value.ToLower();

@@ -18,14 +18,14 @@ namespace SkypeBot.plugins {
         private Random random;
         private HashSet<HighLowGame> games;
 
-        public override String name() { return "High-Low Plugin"; }
+        public String name() { return "High-Low Plugin"; }
 
-        public override String help() { return "!highlow <start/high/low/equal/highscore>"; }
+        public String help() { return "!highlow <start/high/low/equal/highscore>"; }
 
-        public override String description() { return "Lets people play High-Low. Stores highscores on a per-chat basis."; }
+        public String description() { return "Lets people play High-Low. Stores highscores on a per-chat basis."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public HighLowPlugin() {
             if (PluginSettings.Default.HighlowScores == null)
@@ -35,15 +35,15 @@ namespace SkypeBot.plugins {
             games = new HashSet<HighLowGame>();
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match trigger = Regex.Match(message.Body, @"^!highlow (start|highscore|high|low|equal)", RegexOptions.IgnoreCase);
             if (trigger.Success) {
                 String triggerText = trigger.Groups[1].Value.ToLower();

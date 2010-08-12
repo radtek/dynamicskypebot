@@ -21,28 +21,28 @@ namespace SkypeBot.plugins {
 
         private UrbanSearchPortTypeClient dict;
 
-        public override String name() { return "UrbanDictionary plugin"; }
+        public String name() { return "UrbanDictionary plugin"; }
 
-        public override String help() { return "!urban <word>"; }
+        public String help() { return "!urban <word>"; }
 
-        public override String description() { return "Does UrbanDictionary lookups."; }
+        public String description() { return "Does UrbanDictionary lookups."; }
 
-        public override bool canConfig() { return false; }
-        public override void openConfig() { }
+        public bool canConfig() { return false; }
+        public void openConfig() { }
 
         public UrbanDictionaryPlugin() {
             dict = new UrbanSearchPortTypeClient();
         }
 
-        public override void load() {
+        public void load() {
             log.Info("Plugin successfully loaded.");
         }
 
-        public override void unload() {
+        public void unload() {
             log.Info("Plugin successfully unloaded.");
         }
 
-        public override void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
+        public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!urban (.*)", RegexOptions.IgnoreCase);
             if (output.Success) {
                 String queryString = output.Groups[1].Value;
