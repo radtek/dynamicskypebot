@@ -5,6 +5,7 @@
 
 == Next Release ==
   * Added debug message toggle for the console.
+  * YouTube: Handle youtu.be-links.
 
 == v 1.2.0.0 ==
   * Switched to a much better logging system.
