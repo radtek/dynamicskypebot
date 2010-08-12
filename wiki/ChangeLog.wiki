@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Next Release ==
+== v 1.2.0.1 ==
   * Added debug message toggle for the console.
   * YouTube: Handle youtu.be-links.
 
