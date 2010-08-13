@@ -60,7 +60,7 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            Match output = Regex.Match(message.Body, @"youtube\.\w{2,3}\S+v=([\w-]+)", RegexOptions.IgnoreCase);
+            Match output = Regex.Match(message.Body, @"(?:youtube\.\w{2,3}\S+v=|youtu\.be/)([\w-]+)", RegexOptions.IgnoreCase);
             // Use non-breaking space as a marker for when to not show info.
             if (output.Success && !message.Body.Contains(" ")) {
                 String youtubeId = output.Groups[1].Value;
