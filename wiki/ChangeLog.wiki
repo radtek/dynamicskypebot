@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next Release ==
+  * Transformation: New type; Z̈̇̿̚a͖̟̝͔ͥ̓͌͛̀ͧͅl͌g͔̦͎̦̝͇̲̒ͭ̉͒o̭̪̫̰̪̗̅̅̊
+
 == v 1.2.0.2 ==
   * Transformation: New type; ¡ʇxǝʇ pǝddılℲ
   * Something Awful: Fix OP name-detection.
