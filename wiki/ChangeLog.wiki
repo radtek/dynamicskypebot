@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next version ==
+  * Something Awful: Fix OP name-detection.
+
 == v 1.2.0.1 ==
   * Added debug message toggle for the console.
   * YouTube: Handle youtu.be-links.
