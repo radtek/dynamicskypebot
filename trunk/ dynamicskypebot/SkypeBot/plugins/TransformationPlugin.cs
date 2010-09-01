@@ -34,11 +34,11 @@ namespace SkypeBot.plugins {
                     new Transformation[] {
                         new Transformation("ALLCAPS", (src) => src.ToUpperInvariant()),
                         new Transformation("lowercase", (src) => src.ToLowerInvariant()),
-                        new Transformation("No vowels", (src) => Regex.Replace(src, "[aeiou]", "", RegexOptions.IgnoreCase)),
-                        new Transformation("Reverse", ReverseTransform),
-                        new Transformation("MiXeD CaSe", MixedCaseTransform),
-                        new Transformation("pǝddılɟ", FlipTransform),
-                        new Transformation("Z̈̇̿̚a͖̟̝͔ͥ̓͌͛̀ͧͅl͌g͔̦͎̦̝͇̲̒ͭ̉͒o̭̪̫̰̪̗̅̅̊", ZalgoTransform),
+                        new Transformation("No vowels", (src) => Regex.Replace(src, "[aeiou]", "", RegexOptions.IgnoreCase), "!vowel"),
+                        new Transformation("Reverse", ReverseTransform, "!rev"),
+                        new Transformation("MiXeD CaSe", MixedCaseTransform, "!mix"),
+                        new Transformation("pǝddılɟ", FlipTransform, "!flip"),
+                        new Transformation("Z̈̇̿̚a͖̟̝͔ͥ̓͌͛̀ͧͅl͌g͔̦͎̦̝͇̲̒ͭ̉͒o̭̪̫̰̪̗̅̅̊", ZalgoTransform, "!zalgo"),
                         new Transformation("Random poop (1/20 chance)", (src) => PoopTransform(src, 20)),
                         new Transformation("Random poop (1/500 chance)", (src) => PoopTransform(src, 500)),
                         new Transformation("Random poop (1/3000 chance)", (src) => PoopTransform(src, 3000)),
@@ -53,6 +53,12 @@ namespace SkypeBot.plugins {
                 PluginSettings.Default.ActiveTransformation = transformations.First();
                 PluginSettings.Default.Save();
             }
+
+            if (PluginSettings.Default.ActiveTransformationTriggers == null) {
+                PluginSettings.Default.ActiveTransformationTriggers = new List<Transformation>();
+                PluginSettings.Default.Save();
+            }
+            
         }
 
         public void load() {
@@ -64,14 +70,28 @@ namespace SkypeBot.plugins {
         }
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
-            if (!message.IsEditable) {
-                return;
+            foreach (Transformation trans in PluginSettings.Default.ActiveTransformationTriggers) {
+                log.Debug(String.Format("{0} - {1}", trans.name, "^" + trans.trigger + " (.+)"));
+                Match output = Regex.Match(message.Body, "^" + trans.trigger + " (.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                if (output.Success) {
+                    log.Debug("Got in with " + trans.name + ".");
+                    message.Chat.SendMessage(
+                        String.Format("{0}: {1}", trans.name, trans.Transform(output.Groups[1].Value))
+                    );
+                }
             }
+            
+            if (PluginSettings.Default.AutomaticTransformations) {
+                if (!message.IsEditable) {
+                    return;
+                }
 
-            String newBody = PluginSettings.Default.ActiveTransformation.Transform(message.Body);
-            if (newBody != message.Body) // avoid editing if the message doesn't change
-                message.Body = newBody;
+                String newBody = PluginSettings.Default.ActiveTransformation.Transform(message.Body);
+                if (newBody != message.Body) // avoid editing if the message doesn't change
+                    message.Body = newBody;
+            }
         }
+
 
         private static string ReverseTransform(string source) {
             char[] arr = source.ToCharArray();
@@ -202,11 +222,15 @@ namespace SkypeBot.plugins {
 
             public string name;
             private event TransformFunction transform;
+            public string trigger;
 
-            public Transformation(string name, TransformFunction transform) {
+            public Transformation(string name, TransformFunction transform, string trigger) {
                 this.name = name;
                 this.transform = transform;
+                this.trigger = trigger;
             }
+
+            public Transformation(string name, TransformFunction transform) : this(name, transform, null) { }
 
             public String Transform(string source) {
                 if (transform == null) {
@@ -214,6 +238,12 @@ namespace SkypeBot.plugins {
                 }
 
                 return transform(source);
+            }
+
+            public bool HasTrigger {
+                get {
+                    return this.trigger != null;
+                }
             }
 
             public override string ToString() {

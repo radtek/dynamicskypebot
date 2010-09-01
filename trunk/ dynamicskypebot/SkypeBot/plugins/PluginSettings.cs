@@ -72,5 +72,17 @@ namespace SkypeBot.plugins {
                 this["ActiveTransformation"] = value;
             }
         }
+
+        [UserScopedSettingAttribute()]
+        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
+        public global::System.Collections.Generic.List<TransformationPlugin.Transformation> ActiveTransformationTriggers {
+            get {
+                return ((global::System.Collections.Generic.List<TransformationPlugin.Transformation>)(this["ActiveTransformationTriggers"]));
+            }
+            set {
+                this["ActiveTransformationTriggers"] = value;
+            }
+        }
+
     }
 }
