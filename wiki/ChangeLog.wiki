@@ -5,6 +5,8 @@
 
 == Next Release ==
   * Transformation: New type; Z̈̇̿̚a͖̟̝͔ͥ̓͌͛̀ͧͅl͌g͔̦͎̦̝͇̲̒ͭ̉͒o̭̪̫̰̪̗̅̅̊
+  * Transformation: Make automatic transformation of text optional.
+  * Transformation: Add triggers for certain transformations.
 
 == v 1.2.0.2 ==
   * Transformation: New type; ¡ʇxǝʇ pǝddılℲ
