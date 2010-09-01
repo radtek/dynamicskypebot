@@ -37,6 +37,7 @@ namespace SkypeBot.plugins {
                         new Transformation("No vowels", (src) => Regex.Replace(src, "[aeiou]", "", RegexOptions.IgnoreCase)),
                         new Transformation("Reverse", ReverseTransform),
                         new Transformation("MiXeD CaSe", MixedCaseTransform),
+                        new Transformation("pǝddılɟ", FlipTransform),
                         new Transformation("Random poop (1/20 chance)", (src) => PoopTransform(src, 20)),
                         new Transformation("Random poop (1/500 chance)", (src) => PoopTransform(src, 500)),
                         new Transformation("Random poop (1/3000 chance)", (src) => PoopTransform(src, 3000)),
@@ -100,6 +101,34 @@ namespace SkypeBot.plugins {
                 }
             }
             return result.ToString();
+        }
+
+        private static string FlipTransform(string source) {
+            Dictionary<char, char> flipTable = new Dictionary<char, char>() {
+                { 'a', '\u0250' }, { 'b', 'q' }, { 'c', '\u0254' }, { 'd', 'p' }, { 'e', '\u01DD' }, { 'f', '\u025F' }, { 'g', '\u0183' }, { 'h', '\u0265' }, { 'i', '\u0131' }, { 'j', '\u027E' }, { 'k', '\u029E' }, { 'm', '\u026F' }, { 'n', 'u' }, { 'r', '\u0279' }, { 't', '\u0287' }, { 'v', '\u028C' }, { 'w', '\u028D' }, { 'y', '\u028E' }, { 'A', '\u2200' }, { 'C', '\u0186' }, { 'E', '\u018E' }, { 'F', '\u2132' }, { 'G', '\u05E4' }, { 'H', 'H' }, { 'I', 'I' }, { 'J', '\u017F' }, { 'L', '\u02E5' }, { 'M', 'W' }, { 'N', 'N' }, { 'P', '\u0500' }, { 'T', '\u2534' }, { 'U', '\u2229' }, { 'V', '\u039B' }, { 'Y', '\u2144' }, { '1', '\u0196' }, { '2', '\u1105' }, { '3', '\u0190' }, { '4', '\u3123' }, { '5', '\u03DB' }, { '6', '9' }, { '7', '\u3125' }, { '8', '8' }, { '9', '6' }, { '0', '0' }, { '.', '\u02D9' }, { ',', '\'' }, { '\'', ',' }, { '`', ',' }, { '?', '\u00BF' }, { '!', '\u00A1' }, { '[', ']' }, { ']', '[' }, { '(', ')' }, { ')', '(' }, { '{', '}' }, { '}', '{' }, { '<', '>' }, { '>', '<' }, { '&', '\u214B' }, { '_', '\u203E' }, { '\u2234', '\u2235' }, { '\u2045', '\u2046' }
+            };
+            Dictionary<char, char> flipTableMore = new Dictionary<char, char>();
+            foreach (KeyValuePair<char, char> kvp in flipTable) {
+                if (!flipTableMore.ContainsKey(kvp.Value)) {
+                    flipTableMore.Add(kvp.Value, kvp.Key);
+                }
+            }
+            foreach (KeyValuePair<char, char> kvp in flipTableMore) {
+                if (!flipTable.ContainsKey(kvp.Key)) {
+                    flipTable.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            String output = "";
+            foreach (char c in source) {
+                if (flipTable.ContainsKey(c)) {
+                    output = flipTable[c] + output;
+                } else {
+                    output = c + output;
+                }
+            }
+
+            return output;
         }
 
         [Serializable]
