@@ -80,7 +80,7 @@ namespace SkypeBot.plugins {
                 String title = titleMatch.Success ? titleMatch.Groups[1].Value : "Unknown Title";
                 title = HttpUtility.HtmlDecode(title);
 
-                Match opMatch = Regex.Match(responseText, @"<dt class=""author"">(?:<img.*nbsp;)?(.*)</dt>", RegexOptions.IgnoreCase);
+                Match opMatch = Regex.Match(responseText, @"<dt class="".*?author.*?"".*?>(.*?)</dt>", RegexOptions.IgnoreCase);
                 String op = opMatch.Success ? opMatch.Groups[1].Value : "Unknown OP";
                 op = HttpUtility.HtmlDecode(op);
 
