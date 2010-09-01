@@ -58,5 +58,17 @@ namespace SkypeBot.plugins {
                 this["YoutubeCacheSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutomaticTransformations {
+            get {
+                return ((bool)(this["AutomaticTransformations"]));
+            }
+            set {
+                this["AutomaticTransformations"] = value;
+            }
+        }
     }
 }
