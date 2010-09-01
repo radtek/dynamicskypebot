@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Next Release ==
+== v 1.2.0.3 ==
   * Transformation: New type; Z̈̇̿̚a͖̟̝͔ͥ̓͌͛̀ͧͅl͌g͔̦͎̦̝͇̲̒ͭ̉͒o̭̪̫̰̪̗̅̅̊
   * Transformation: Make automatic transformation of text optional.
   * Transformation: Add triggers for certain transformations.
