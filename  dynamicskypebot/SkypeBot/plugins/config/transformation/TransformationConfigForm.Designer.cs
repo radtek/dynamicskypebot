@@ -76,6 +76,7 @@
             // 
             // triggerList
             // 
+            this.triggerList.CheckOnClick = true;
             this.triggerList.FormattingEnabled = true;
             this.triggerList.Location = new System.Drawing.Point(6, 19);
             this.triggerList.Name = "triggerList";
