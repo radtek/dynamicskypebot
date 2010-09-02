@@ -3,6 +3,10 @@
 
 = Changelog =
 
+== v 1.2.0.4 ==
+  * Transformation: Fix trigger list forgetting checked boxes.
+  * Transformation: Make trigger list items checkable in one click instead of two.
+
 == v 1.2.0.3 ==
   * Transformation: New type; Z̈̇̿̚a͖̟̝͔ͥ̓͌͛̀ͧͅl͌g͔̦͎̦̝͇̲̒ͭ̉͒o̭̪̫̰̪̗̅̅̊
   * Transformation: Make automatic transformation of text optional.
