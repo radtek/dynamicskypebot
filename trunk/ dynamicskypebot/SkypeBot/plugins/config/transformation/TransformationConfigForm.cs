@@ -28,7 +28,9 @@ namespace SkypeBot.plugins.config.transformation {
 
             autoTransform.Checked = PluginSettings.Default.AutomaticTransformations;
 
-            
+            // Set ItemCheck listener after triggerList is populated,
+            // to avoid populating it triggering the event.
+            triggerList.ItemCheck += new ItemCheckEventHandler(triggerList_ItemCheck);
         }
 
         private void transCombo_SelectionChangeCommitted(object sender, EventArgs e) {

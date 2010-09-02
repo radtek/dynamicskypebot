@@ -81,7 +81,6 @@
             this.triggerList.Name = "triggerList";
             this.triggerList.Size = new System.Drawing.Size(257, 94);
             this.triggerList.TabIndex = 0;
-            this.triggerList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.triggerList_ItemCheck);
             // 
             // TransformationConfigForm
             // 
