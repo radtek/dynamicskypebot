@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.2.0.5 ==
+  * Add possibility to send an error report in the menu.
+
 == v 1.2.0.4 ==
   * Transformation: Fix trigger list forgetting checked boxes.
   * Transformation: Make trigger list items checkable in one click instead of two.
