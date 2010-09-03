@@ -358,6 +358,11 @@ namespace SkypeBot {
         private void exitSkypeBotToolStripMenuItem_Click(object sender, EventArgs e) {
             System.Windows.Forms.Application.Exit();
         }
+
+        private void reportAProblemToolStripMenuItem_Click(object sender, EventArgs e) {
+            ReportForm rf = new ReportForm(from p in plugins select p.name());
+            rf.ShowDialog();
+        }
     }
 
     public class FormConsoleAppender : log4net.Appender.AppenderSkeleton {
