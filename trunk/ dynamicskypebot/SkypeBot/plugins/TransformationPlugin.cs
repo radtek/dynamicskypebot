@@ -71,7 +71,6 @@ namespace SkypeBot.plugins {
 
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             foreach (Transformation trans in PluginSettings.Default.ActiveTransformationTriggers) {
-                log.Debug(String.Format("{0} - {1}", trans.name, "^" + trans.trigger + " (.+)"));
                 Match output = Regex.Match(message.Body, "^" + trans.trigger + " (.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 if (output.Success) {
                     log.Debug("Got in with " + trans.name + ".");
