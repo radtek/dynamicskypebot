@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.2.1.0 ==
+  * Dice: Keep track of highest rolls.
+
 == v 1.2.0.5 ==
   * Add possibility to send an error report in the menu.
 
