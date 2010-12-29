@@ -84,5 +84,15 @@ namespace SkypeBot.plugins {
             }
         }
 
+        [UserScopedSettingAttribute()]
+        [SettingsSerializeAs(SettingsSerializeAs.Binary)]
+        public global::System.Collections.Generic.Dictionary<string, DicePlugin.Roll> RollScores {
+            get {
+                return ((global::System.Collections.Generic.Dictionary<string, DicePlugin.Roll>)(this["RollScores"]));
+            }
+            set {
+                this["RollScores"] = value;
+            }
+        }
     }
 }
