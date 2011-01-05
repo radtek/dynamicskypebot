@@ -8,8 +8,10 @@ using System.Net;
 using System.IO;
 using System.Windows.Forms;
 using SKYPE4COMLib;
-using Dimebrain.TweetSharp.Fluent;
-using Dimebrain.TweetSharp.Extensions;
+using TweetSharp.Extensions;
+using TweetSharp.Twitter.Model;
+using TweetSharp.Twitter.Fluent;
+using TweetSharp.Twitter.Extensions;
 using log4net;
 
 namespace SkypeBot.plugins {
@@ -39,14 +41,17 @@ namespace SkypeBot.plugins {
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!twitter (.+)", RegexOptions.IgnoreCase);
             if (output.Success) {
+                log.Debug("It's my turn!");
                 String query = output.Groups[1].Value;
 
+                log.Debug(String.Format("Fetching tweets for {0}.", query));
                 var tweets = FluentTwitter.CreateRequest()
                                           .Statuses()
                                           .OnUserTimeline()
                                           .For(query)
                                           .Request()
                                           .AsStatuses();
+                log.Debug("Tweets fetched.");
 
                 if (tweets == null) {
                     message.Chat.SendMessage(
