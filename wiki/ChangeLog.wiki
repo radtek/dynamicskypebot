@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.2.1.1 ==
+  * Twitter: Upgrade TweetSharp to fix plugin.
+
 == v 1.2.1.0 ==
   * Dice: Keep track of highest rolls.
 
