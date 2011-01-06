@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next version ==
+  * Twitter: Handle non-existent accounts better.
+
 == v 1.2.1.1 ==
   * Twitter: Upgrade TweetSharp to fix plugin.
 
