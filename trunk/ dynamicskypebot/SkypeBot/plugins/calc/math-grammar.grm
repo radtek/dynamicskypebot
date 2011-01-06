@@ -1,0 +1,60 @@
+﻿"Name"     = 'Mathematical Expressions'
+"Author"   = 'Sebastian Paaske Tørholm'
+"Version"  = '1.0 beta'
+"About"    = 'Parses mathematical expressions.'
+
+"Start Symbol" = <Program>
+"Case Sensitive" = 'False'
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Integer = {Digit}+
+Float = {Digit}*.{Digit}+([Ee][+-]?{Digit}+)?
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+! The grammar starts below
+<Program> ::= <Expression>
+
+<Expression>  ::= <Sign Exp>
+
+<Sign Exp>  ::= '-' <Add Exp>
+             |  '+' <Add Exp>
+             |  <Add Exp>
+
+<Add Exp>     ::= <Add Exp> '+' <Mult Exp>
+               |  <Add Exp> '-' <Mult Exp>
+               |  <Mult Exp>
+
+<Mult Exp>    ::= <Mult Exp> '*' <Pow Exp> 
+               |  <Mult Exp> '/' <Pow Exp> 
+               |  <Pow Exp> 
+
+<Pow Exp>     ::= <Func Exp> '^' <Pow Exp>
+               |  <Func Exp>
+
+<Func Exp>    ::= <Unary Func> <Func Exp>
+               |  <Binary Func> '(' <Expression> ',' <Expression> ')'
+               |  <Value>
+
+<Unary Func>  ::= sin | cos | tan
+               |  exp | log
+               |  sqrt
+
+<Binary Func> ::= random
+
+<Constant>    ::= pi | e
+
+<Literal>     ::= Integer | Float
+
+<Value>       ::= <Literal>
+               |  <Constant>
+               |  '(' <Expression> ')'

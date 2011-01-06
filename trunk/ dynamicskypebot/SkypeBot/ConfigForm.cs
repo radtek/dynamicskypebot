@@ -50,6 +50,7 @@ namespace SkypeBot {
             new TransformationPlugin(),
             new LMLPlugin(),
             new ThereIFixedItPlugin(),
+            new CalculatorPlugin(),
 
         });
 
