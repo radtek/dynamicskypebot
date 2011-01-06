@@ -53,7 +53,7 @@ namespace SkypeBot.plugins {
                                           .AsStatuses();
                 log.Debug("Tweets fetched.");
 
-                if (tweets == null) {
+                if (tweets == null || tweets.Count() == 0) {
                     message.Chat.SendMessage(
                         String.Format("I don't think \"{0}\" is a Twitter username.", query)
                     );
