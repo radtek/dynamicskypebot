@@ -4,6 +4,7 @@
 = Changelog =
 
 == Next version ==
+  * New plugin: Calculator
   * Twitter: Handle non-existent accounts better.
 
 == v 1.2.1.1 ==
