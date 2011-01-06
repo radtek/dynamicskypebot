@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Next version ==
+== v 1.2.2.0 ==
   * New plugin: Calculator
   * Twitter: Handle non-existent accounts better.
 
