@@ -88,6 +88,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="bsn.GoldParser">
+      <HintPath>Dependencies\bsn.GoldParser.dll</HintPath>
+    </Reference>
     <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
       <HintPath>Dependencies\Google.GData.Client.dll</HintPath>
     </Reference>
@@ -144,6 +147,7 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\AcronymPlugin.cs" />
+    <Compile Include="plugins\calc\Tokens.cs" />
     <Compile Include="plugins\config\eightball\EightballConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +190,7 @@
     <Compile Include="plugins\config\youtube\YoutubePluginConfigForm.Designer.cs">
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="plugins\CalculatorPlugin.cs" />
     <Compile Include="plugins\ThereIFixedItPlugin.cs" />
     <Compile Include="plugins\LMLPlugin.cs" />
     <Compile Include="plugins\TransformationPlugin.cs" />
@@ -279,6 +284,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <EmbeddedResource Include="plugins\calc\math-grammar.cgt" />
+    <None Include="plugins\calc\math-grammar.grm" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -407,22 +414,22 @@
   <ItemGroup>
     <PublishFile Include="doc\readme.txt">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="doc\todo.txt">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
