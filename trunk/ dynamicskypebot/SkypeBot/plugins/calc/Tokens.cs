@@ -30,7 +30,7 @@ namespace SkypeBot.plugins.calc {
     // Operators:
     public abstract class Operator : MathToken {
         public abstract double CalculateDouble(double left, double right);
-        public abstract int CalculateInt(int left, int right);
+        public abstract long CalculateInt(long left, long right);
     }
 
     [Terminal("+")]
@@ -39,7 +39,7 @@ namespace SkypeBot.plugins.calc {
             return left + right;
         }
 
-        public override int CalculateInt(int left, int right) {
+        public override long CalculateInt(long left, long right) {
             return left + right;
         }
     }
@@ -50,7 +50,7 @@ namespace SkypeBot.plugins.calc {
             return left - right;
         }
 
-        public override int CalculateInt(int left, int right) {
+        public override long CalculateInt(long left, long right) {
             return left - right;
         }
     }
@@ -61,7 +61,7 @@ namespace SkypeBot.plugins.calc {
             return left * right;
         }
 
-        public override int CalculateInt(int left, int right) {
+        public override long CalculateInt(long left, long right) {
             return left * right;
         }
     }
@@ -72,10 +72,28 @@ namespace SkypeBot.plugins.calc {
             return left / right;
         }
 
-        public override int CalculateInt(int left, int right) {
+        public override long CalculateInt(long left, long right) {
             return left / right;
         }
     }
+
+    [Terminal("d")]
+    public class OperatorDice : Operator {
+        public override double CalculateDouble(double left, double right) {
+            return CalculateInt((long)left, (long)right);
+        }
+
+        public override long CalculateInt(long left, long right) {
+            if (left < 1 || right < 1)
+                throw new InvalidOperationException("Invalid arguments to 'd'");
+
+            long ret = 0;
+            for (long i = 0; i < left; i++) ret += RandomClass.rand.Next((int)right) + 1;
+
+            return ret;
+        }
+    }
+
 
     [Terminal("^")]
     public class OperatorPower : Operator {
@@ -84,8 +102,8 @@ namespace SkypeBot.plugins.calc {
         }
 
         // Yanked from http://stackoverflow.com/questions/383587/how-do-you-do-integer-exponentiation-in-c
-        public override int CalculateInt(int x, int pow) {
-            int ret = 1;
+        public override long CalculateInt(long x, long pow) {
+            long ret = 1;
             while (pow != 0) {
                 if ((pow & 1) == 1)
                     ret *= x;
@@ -98,7 +116,7 @@ namespace SkypeBot.plugins.calc {
 
     public abstract class UnaryFunction : MathToken {
         public ValueType type;
-        public abstract int EvalInteger(int value);
+        public abstract long EvalInteger(long value);
         public abstract double EvalDouble(double value);
     }
 
@@ -112,8 +130,8 @@ namespace SkypeBot.plugins.calc {
             return Math.Cos(value);
         }
 
-        public override int EvalInteger(int value) {
-            return (int)EvalDouble((double)value);
+        public override long EvalInteger(long value) {
+            return (long)EvalDouble((double)value);
         }
     }
 
@@ -127,8 +145,8 @@ namespace SkypeBot.plugins.calc {
             return Math.Sin(value);
         }
 
-        public override int EvalInteger(int value) {
-            return (int)EvalDouble((double)value);
+        public override long EvalInteger(long value) {
+            return (long)EvalDouble((double)value);
         }
     }
 
@@ -142,8 +160,8 @@ namespace SkypeBot.plugins.calc {
             return Math.Tan(value);
         }
 
-        public override int EvalInteger(int value) {
-            return (int)EvalDouble((double)value);
+        public override long EvalInteger(long value) {
+            return (long)EvalDouble((double)value);
         }
     }
 
@@ -157,8 +175,8 @@ namespace SkypeBot.plugins.calc {
             return Math.Sqrt(value);
         }
 
-        public override int EvalInteger(int value) {
-            return (int)EvalDouble((double)value);
+        public override long EvalInteger(long value) {
+            return (long)EvalDouble((double)value);
         }
     }
 
@@ -172,8 +190,8 @@ namespace SkypeBot.plugins.calc {
             return Math.Exp(value);
         }
 
-        public override int EvalInteger(int value) {
-            return (int)EvalDouble((double)value);
+        public override long EvalInteger(long value) {
+            return (long)EvalDouble((double)value);
         }
     }
 
@@ -187,14 +205,29 @@ namespace SkypeBot.plugins.calc {
             return Math.Log(value);
         }
 
-        public override int EvalInteger(int value) {
-            return (int)EvalDouble((double)value);
+        public override long EvalInteger(long value) {
+            return (long)EvalDouble((double)value);
+        }
+    }
+
+    [Terminal("abs")]
+    public class AbsFunction : UnaryFunction {
+        public AbsFunction() {
+            this.type = ValueType.Double;
+        }
+
+        public override double EvalDouble(double value) {
+            return Math.Abs(value);
+        }
+
+        public override long EvalInteger(long value) {
+            return value < 0 ? -value : value;
         }
     }
 
     public abstract class BinaryFunction : MathToken {
         public ValueType type;
-        public abstract int EvalInteger(int param1, int param2);
+        public abstract long EvalInteger(long param1, long param2);
         public abstract double EvalDouble(double param1, double param2);
     }
 
@@ -205,18 +238,18 @@ namespace SkypeBot.plugins.calc {
         }
 
         public override double EvalDouble(double param1, double param2) {
-            return (double)EvalInteger((int)param1, (int)param2);
+            return (double)EvalInteger((long)param1, (long)param2);
         }
 
-        public override int EvalInteger(int param1, int param2) {
-            return RandomClass.rand.Next(param1, param2);
+        public override long EvalInteger(long param1, long param2) {
+            return RandomClass.rand.Next((int)param1, (int)param2);
         }
     }
 
     public abstract class Computable : MathToken {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public ValueType type;
-        public abstract int GetInteger();
+        public abstract long GetInteger();
         public abstract double GetDouble();
         public String GetValue() {
             log.Debug(type);
@@ -230,14 +263,14 @@ namespace SkypeBot.plugins.calc {
 
     [Terminal("Integer")]
     public class IntegerValue : Computable {
-        private readonly int value;
+        private readonly long value;
 
         public IntegerValue(string value) {
             this.type = ValueType.Integer;
-            this.value = int.Parse(value);
+            this.value = long.Parse(value);
         }
 
-        public override int GetInteger() {
+        public override long GetInteger() {
             return value;
         }
 
@@ -255,8 +288,8 @@ namespace SkypeBot.plugins.calc {
             this.value = Double.Parse(value, NumberFormatInfo.InvariantInfo);
         }
 
-        public override int GetInteger() {
-            return (int)Math.Round(value);
+        public override long GetInteger() {
+            return (long)Math.Round(value);
         }
 
         public override double GetDouble() {
@@ -270,8 +303,8 @@ namespace SkypeBot.plugins.calc {
             this.type = ValueType.Double;
         }
 
-        public override int GetInteger() {
-            return (int)Math.Round(Math.E);
+        public override long GetInteger() {
+            return (long)Math.Round(Math.E);
         }
 
         public override double GetDouble() {
@@ -285,8 +318,8 @@ namespace SkypeBot.plugins.calc {
             this.type = ValueType.Double;
         }
 
-        public override int GetInteger() {
-            return (int)Math.Round(Math.PI);
+        public override long GetInteger() {
+            return (long)Math.Round(Math.PI);
         }
 
         public override double GetDouble() {
@@ -304,6 +337,7 @@ namespace SkypeBot.plugins.calc {
         [Rule(@"<Mult Exp> ::= <Mult Exp> '*' <Pow Exp>")]
         [Rule(@"<Mult Exp> ::= <Mult Exp> '/' <Pow Exp>")]
         [Rule(@"<Pow Exp> ::= <Func Exp> '^' <Pow Exp>")]
+        [Rule(@"<Pow Exp> ::= <Func Exp> d <Pow Exp>")]
         public Operation(Computable left, Operator op, Computable right) {
             this.left = left;
             this.op = op;
@@ -316,7 +350,7 @@ namespace SkypeBot.plugins.calc {
             return op.CalculateDouble(left.GetDouble(), right.GetDouble());
         }
 
-        public override int GetInteger() {
+        public override long GetInteger() {
             return op.CalculateInt(left.GetInteger(), right.GetInteger());
         }
     }
@@ -337,7 +371,7 @@ namespace SkypeBot.plugins.calc {
             return f.EvalDouble(x.GetDouble());
         }
 
-        public override int GetInteger() {
+        public override long GetInteger() {
             return f.EvalInteger(x.GetInteger());
         }
     }
@@ -360,7 +394,7 @@ namespace SkypeBot.plugins.calc {
             return f.EvalDouble(x.GetDouble(), y.GetDouble());
         }
 
-        public override int GetInteger() {
+        public override long GetInteger() {
             return f.EvalInteger(x.GetInteger(), y.GetInteger());
         }
     }
@@ -378,7 +412,7 @@ namespace SkypeBot.plugins.calc {
             return -comp.GetDouble();
         }
 
-        public override int GetInteger() {
+        public override long GetInteger() {
             return -comp.GetInteger();
         }
     }
