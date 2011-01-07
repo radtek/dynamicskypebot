@@ -6,7 +6,7 @@
 == Next Release ==
   * Calculator: Improve range on integers.
   * Calculator: Add 'abs'.
-  * Calculator: Add &lt;n>d&lt;m> dice roll-notation.
+  * Calculator: Add `<n>d<m>` dice roll-notation.
 
 == v 1.2.2.0 ==
   * New plugin: Calculator
