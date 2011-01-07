@@ -39,6 +39,7 @@ Float = {Digit}*.{Digit}+([Ee][+-]?{Digit}+)?
                |  <Pow Exp> 
 
 <Pow Exp>     ::= <Func Exp> '^' <Pow Exp>
+               |  <Func Exp> 'd' <Pow Exp>
                |  <Func Exp>
 
 <Func Exp>    ::= <Unary Func> <Func Exp>
@@ -48,6 +49,7 @@ Float = {Digit}*.{Digit}+([Ee][+-]?{Digit}+)?
 <Unary Func>  ::= sin | cos | tan
                |  exp | log
                |  sqrt
+               |  abs 
 
 <Binary Func> ::= random
 
