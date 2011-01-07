@@ -3,6 +3,11 @@
 
 = Changelog =
 
+== Next Release ==
+  * Calculator: Improve range on integers.
+  * Calculator: Add 'abs'.
+  * Calculator: Add <n>d<m> dice roll-notation.
+
 == v 1.2.2.0 ==
   * New plugin: Calculator
   * Twitter: Handle non-existent accounts better.
