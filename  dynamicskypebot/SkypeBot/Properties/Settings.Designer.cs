@@ -104,5 +104,17 @@ namespace SkypeBot.Properties {
                 this["VerboseConsole"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Crashed {
+            get {
+                return ((bool)(this["Crashed"]));
+            }
+            set {
+                this["Crashed"] = value;
+            }
+        }
     }
 }
