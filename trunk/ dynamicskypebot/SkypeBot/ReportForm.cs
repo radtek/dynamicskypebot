@@ -11,6 +11,11 @@ using System.Net;
 
 namespace SkypeBot {
     public partial class ReportForm : Form {
+        public ReportForm(IEnumerable<string> pluginNames, String message) : this(pluginNames) {
+            pluginBox.SelectedItem = "Not Applicable";
+            problemText.Text = "A crash occured.";
+        }
+
         public ReportForm(IEnumerable<string> pluginNames) {
             InitializeComponent();
 

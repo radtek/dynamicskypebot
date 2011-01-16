@@ -64,6 +64,18 @@ namespace SkypeBot {
             InitializeComponent();
             FormConsoleAppender.appendMethod += addLogLine;
 
+            if (Properties.Settings.Default.Crashed) {
+                DialogResult res = MessageBox.Show("SkypeBot appears to have crashed last time it was run.\nDo you wish to send a log to the developers for debugging purposes?", "SkypeBot appears to have crashed", MessageBoxButtons.YesNo);
+
+                if (res == DialogResult.Yes) {
+                    ReportForm rf = new ReportForm(from p in plugins select p.name());
+                    rf.Show();
+                }
+
+                Properties.Settings.Default.Crashed = true;
+                Properties.Settings.Default.Save();
+            }
+
             plugins.Sort(
                 delegate(Plugin p1, Plugin p2) {
                     return Comparer<String>.Default.Compare(p1.name(), p2.name());
