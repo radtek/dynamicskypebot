@@ -3,7 +3,8 @@
 
 = Changelog =
 
-== Next Release ==
+== v 1.2.2.1 ==
+  * Added crash reporting.
   * Calculator: Improve range on integers.
   * Calculator: Add 'abs'.
   * Calculator: Add `<n>d<m>` dice roll-notation.
