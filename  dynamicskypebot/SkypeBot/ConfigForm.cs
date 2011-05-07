@@ -72,7 +72,7 @@ namespace SkypeBot {
                     rf.Show();
                 }
 
-                Properties.Settings.Default.Crashed = true;
+                Properties.Settings.Default.Crashed = false;
                 Properties.Settings.Default.Save();
             }
 
