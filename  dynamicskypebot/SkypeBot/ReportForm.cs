@@ -63,11 +63,23 @@ Problem description:
 
             if (attachLog.Checked) {
                 report += "\nLog contents:\n\n";
-                String logFile = Path.Combine(Directory.GetCurrentDirectory(), "debug.log");
-                // The logfile is locked by the logger, so we have to open it read-only
-                FileStream fs = new FileStream(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                StreamReader reader = new StreamReader(fs);
-                report += reader.ReadToEnd();
+                String[] logFiles = { "debug.log", "debug.log.1" };
+
+                foreach (String fileName in logFiles) {
+                    String logFile = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+
+                    if (!File.Exists(logFile)) continue;
+
+                    // The logfile may be locked by the logger, so let us open it read-only, just in case.
+                    FileStream fs = new FileStream(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    StreamReader reader = new StreamReader(fs);
+                    report += String.Format("{0}:\n", fileName);
+                    report += reader.ReadToEnd();
+                    report += "\n\n";
+
+                    reader.Close();
+                    fs.Close();
+                }
             }
 
             WebClient wc = new WebClient();
