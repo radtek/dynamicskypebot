@@ -74,7 +74,11 @@ namespace SkypeBot.plugins {
                 String user = vid.Author;
                 String rating = vid.RatingAverage.ToString();
 
-                message.Chat.SendMessage(String.Format(@"YouTube: ""{0}"" (uploaded by: {1}) (avg rating: {2})", title, user, rating));
+                int seconds = Int32.Parse(vid.Media.Duration.Seconds) % 60;
+                int minutes = Int32.Parse(vid.Media.Duration.Seconds) / 60;
+                String duration = String.Format(@"{0}:{1:00}", minutes, seconds);
+
+                message.Chat.SendMessage(String.Format(@"YouTube: ""{0}"" (uploaded by: {1}) (avg rating: {2:F2}) (duration: {3})", title, user, rating, duration));
                 return;
             }
             
