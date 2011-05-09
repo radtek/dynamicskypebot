@@ -191,6 +191,7 @@
       <DependentUpon>YoutubePluginConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="plugins\CalculatorPlugin.cs" />
+    <Compile Include="plugins\Rule34Plugin.cs" />
     <Compile Include="plugins\ThereIFixedItPlugin.cs" />
     <Compile Include="plugins\LMLPlugin.cs" />
     <Compile Include="plugins\TransformationPlugin.cs" />
