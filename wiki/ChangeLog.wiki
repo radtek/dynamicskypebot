@@ -4,6 +4,7 @@
 = Changelog =
 
 == Next version ==
+  * New plugin: Rule34
   * Improve crash reporting.
 
 == v 1.2.2.1 ==
