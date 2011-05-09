@@ -51,6 +51,7 @@ namespace SkypeBot {
             new LMLPlugin(),
             new ThereIFixedItPlugin(),
             new CalculatorPlugin(),
+            new Rule34Plugin(),
 
         });
 
