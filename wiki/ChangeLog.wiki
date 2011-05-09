@@ -3,8 +3,11 @@
 
 = Changelog =
 
+== Next release ==
+  * Add duration display to YouTube plugin.
+
 == v 1.2.3.0 ==
-  * New plugin: Rule34
+  * New plugin: Rule34.
   * Improve crash reporting.
 
 == v 1.2.2.1 ==
