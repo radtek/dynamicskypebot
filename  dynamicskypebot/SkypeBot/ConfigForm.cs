@@ -52,6 +52,7 @@ namespace SkypeBot {
             new ThereIFixedItPlugin(),
             new CalculatorPlugin(),
             new Rule34Plugin(),
+            new AutoCorrectPlugin(),
 
         });
 
