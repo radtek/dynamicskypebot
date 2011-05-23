@@ -33,7 +33,9 @@ namespace SkypeBot.plugins {
         }
 
         public void load() {
-            RefillBuffer();
+            lock (buffer) {
+                RefillBuffer();
+            }
         }
 
         public void unload() {
@@ -43,92 +45,90 @@ namespace SkypeBot.plugins {
         public void Skype_MessageStatus(IChatMessage message, TChatMessageStatus status) {
             Match output = Regex.Match(message.Body, @"^!(?:dyac|autocorrect)", RegexOptions.IgnoreCase);
             if (output.Success) {
-                if (buffer.Count == 0) {
-                    RefillBuffer();
-                }
-
                 lock (buffer) {
                     if (buffer.Count == 0) {
-                        message.Chat.SendMessage("Unable to fetch any DYAC entries. Try again later.");
-                        return;
-                    }
+                        RefillBuffer();
 
+                        if (buffer.Count == 0) {
+                            message.Chat.SendMessage("Unable to fetch any DYAC entries. Try again later.");
+                            return;
+                        }
+                    }
+                    
                     DYACEntry entry = buffer.Dequeue();
 
                     message.Chat.SendMessage(
                         "{0}: {1}".FormatWith(entry.Title, entry.Url)
                     );
-                }
 
-                RefillBuffer();
+                    RefillBuffer();
+                }
             }
         }
 
         private void RefillBuffer() {
             int failures = 0;
 
-            lock (buffer) {
-                if (buffer.Count >= PluginSettings.Default.AutocorrectBufferSize) {
+            if (buffer.Count >= PluginSettings.Default.AutocorrectBufferSize) {
+                return;
+            }
+
+            log.Debug("Starting to refill buffer...");
+
+            log.Debug("Contacting DYAC to fetch max page number...");
+            WebRequest webReq = WebRequest.Create("http://damnyouautocorrect.com/");
+            webReq.Timeout = 10000;
+            WebResponse response = webReq.GetResponse();
+            String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            log.Debug("Received response; parsing...");
+
+            Regex maxPageFinderRx = new Regex(
+                @"<span class='gap'>...</span></li><li><a href='http://damnyouautocorrect.com/page/(\d+)/'",
+                RegexOptions.Singleline
+            );
+            Match maxPageRes = maxPageFinderRx.Match(responseText);
+            if (!maxPageRes.Success) {
+                log.Error("Cannot find maximum page number!");
+                return;
+            }
+
+            int maxPage = Int32.Parse(maxPageRes.Groups[1].Value);
+            log.Debug("Max page number is {0}.".FormatWith(maxPage));
+                
+            while (buffer.Count < PluginSettings.Default.AutocorrectBufferSize) {
+                if (failures > 5) {
+                    log.Error("Failed to fetch entry 5 times, aborting.");
                     return;
                 }
 
-                log.Debug("Starting to refill buffer...");
+                int targetPage = random.Next(1, maxPage + 1);
 
-                log.Debug("Contacting DYAC to fetch max page number...");
-                WebRequest webReq = WebRequest.Create("http://damnyouautocorrect.com/");
+                log.Debug("Fetching page {0}...".FormatWith(targetPage));
+
+                webReq = WebRequest.Create("http://damnyouautocorrect.com/page/{0}/".FormatWith(targetPage));
                 webReq.Timeout = 10000;
-                WebResponse response = webReq.GetResponse();
-                String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                log.Debug("Received response; parsing...");
+                response = webReq.GetResponse();
+                responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                Regex maxPageFinderRx = new Regex(
-                    @"<span class='gap'>...</span></li><li><a href='http://damnyouautocorrect.com/page/(\d+)/'",
+                Regex entryFinderRx = new Regex(
+                    @"<h2>\s*<a href=""([^""]+)"" rel=""bookmark"".*?>(.+?)</a>",
                     RegexOptions.Singleline
                 );
-                Match maxPageRes = maxPageFinderRx.Match(responseText);
-                if (!maxPageRes.Success) {
-                    log.Error("Cannot find maximum page number!");
-                    return;
+                MatchCollection entryColl = entryFinderRx.Matches(responseText);
+
+                if (entryColl.Count <= 0) {
+                    log.Error("Failed to find entry.");
+                    failures += 1;
+                    continue;
                 }
 
-                int maxPage = Int32.Parse(maxPageRes.Groups[1].Value);
-                log.Debug("Max page number is {0}.".FormatWith(maxPage));
-                
-                while (buffer.Count < PluginSettings.Default.AutocorrectBufferSize) {
-                    if (failures > 5) {
-                        log.Error("Failed to fetch entry 5 times, aborting.");
-                        return;
-                    }
+                Match entry = entryColl[random.Next(entryColl.Count)];
 
-                    int targetPage = random.Next(1, maxPage + 1);
+                String name = HttpUtility.HtmlDecode(entry.Groups[2].Value);
+                String url = entry.Groups[1].Value;
 
-                    log.Debug("Fetching page {0}...".FormatWith(targetPage));
-
-                    webReq = WebRequest.Create("http://damnyouautocorrect.com/page/{0}/".FormatWith(targetPage));
-                    webReq.Timeout = 10000;
-                    response = webReq.GetResponse();
-                    responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-                    Regex entryFinderRx = new Regex(
-                        @"<h2>\s*<a href=""([^""]+)"" rel=""bookmark"".*?>(.+?)</a>",
-                        RegexOptions.Singleline
-                    );
-                    MatchCollection entryColl = entryFinderRx.Matches(responseText);
-
-                    if (entryColl.Count <= 0) {
-                        log.Error("Failed to find entry.");
-                        failures += 1;
-                        continue;
-                    }
-
-                    Match entry = entryColl[random.Next(entryColl.Count)];
-
-                    String name = HttpUtility.HtmlDecode(entry.Groups[2].Value);
-                    String url = entry.Groups[1].Value;
-
-                    log.Debug(String.Format("Adding {0} to buffer.", name));
-                    buffer.Enqueue(new DYACEntry(name, url));
-                }
+                log.Debug(String.Format("Adding {0} to buffer.", name));
+                buffer.Enqueue(new DYACEntry(name, url));
             }
 
             log.Debug("Buffer refilled.");
