@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next release ==
+  * Stability fixes on Damn You Auto Correct.
+
 == v 1.2.3.4 ==
   * New plugin: Damn You Auto Correct (sic)
   * Add duration display to YouTube plugin.
