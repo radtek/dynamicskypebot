@@ -281,7 +281,7 @@ namespace SkypeBot {
         public void addLogLine(String sender, String msg, log4net.Core.Level severity) {
             if (messageLog.InvokeRequired) {
                 AddLogLineCallback ac = new AddLogLineCallback(addLogLine);
-                this.Invoke(ac, new object[] { sender, msg, severity });
+                this.BeginInvoke(ac, new object[] { sender, msg, severity });
             } else {
                 if (severity.Equals(log4net.Core.Level.Error)) {
                     messageLog.Text += "(!!!) ";
