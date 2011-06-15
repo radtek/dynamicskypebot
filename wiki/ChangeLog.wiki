@@ -5,6 +5,7 @@
 
 == Next release ==
   * Stability fixes on Damn You Auto Correct.
+  * Better error handling.
 
 == v 1.2.3.4 ==
   * New plugin: Damn You Auto Correct (sic)
