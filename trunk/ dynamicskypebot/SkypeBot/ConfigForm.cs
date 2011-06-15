@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
 using log4net;
+using System.Runtime.InteropServices;
 
 namespace SkypeBot {
     public partial class ConfigForm : Form {
@@ -126,8 +127,19 @@ namespace SkypeBot {
                 skype.Client.Start(false, false);
             }
 
-            log.Debug("Attaching to Skype...");
-            skype.Attach(9, true);
+            bool attached = false;
+            do {
+                try {
+                    log.Debug("Attaching to Skype...");
+                    skype.Attach(9, true);
+                    attached = true;
+                } catch (COMException e) {
+                    DialogResult res = MessageBox.Show("Please remember to click \"Allow Access\" in the popup you get in Skype.", "Failed to attach to Skype", MessageBoxButtons.RetryCancel);
+                    if (res == DialogResult.Cancel) {
+                        System.Windows.Forms.Application.Exit();
+                    }
+                }
+            } while (!attached);
 
             log.Debug("Attached to Skype.");
 
