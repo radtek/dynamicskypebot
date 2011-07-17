@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.2.3.6 ==
+  * Update Skype interop.
+
 == v 1.2.3.5 ==
   * Stability fixes on Damn You Auto Correct.
   * Better error handling.
