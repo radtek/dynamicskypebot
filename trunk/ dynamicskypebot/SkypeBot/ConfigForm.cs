@@ -200,6 +200,14 @@ namespace SkypeBot {
                         return;
                     }
 
+                    if (onSkypeMessage.GetInvocationList().Length != Properties.Settings.Default.LoadedPlugins.Count) {
+                        log.Error(String.Format(
+                            "Mismatch in number of plugins subscribed to onSkypeMessage; has {0}, expected {1}.",
+                            onSkypeMessage.GetInvocationList().Length,
+                            Properties.Settings.Default.LoadedPlugins.Count
+                        ));
+                    }
+
                     if (onSkypeMessage != null) {
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.DoWork += (obj, e) => onSkypeMessage(message, status);
