@@ -133,7 +133,7 @@ namespace SkypeBot {
                     log.Debug("Attaching to Skype...");
                     skype.Attach(9, true);
                     attached = true;
-                } catch (COMException e) {
+                } catch (COMException) {
                     DialogResult res = MessageBox.Show("Please remember to click \"Allow Access\" in the popup you get in Skype.", "Failed to attach to Skype", MessageBoxButtons.RetryCancel);
                     if (res == DialogResult.Cancel) {
                         System.Windows.Forms.Application.Exit();
