@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Next release ==
+== v 1.2.3.5 ==
   * Stability fixes on Damn You Auto Correct.
   * Better error handling.
   * Improve debug logging.
