@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== v 1.2.3.7 ==
+  * Lolcat: Stability fixes.
+
 == v 1.2.3.6 ==
   * Update Skype interop.
 
