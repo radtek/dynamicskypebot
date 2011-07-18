@@ -41,7 +41,14 @@ namespace SkypeBot.plugins {
                 WebRequest webReq = WebRequest.Create("http://api.cheezburger.com/xml/category/cats/lol/random");
                 webReq.Timeout = 10000;
                 log.Info("Contacting service...");
-                WebResponse response = webReq.GetResponse();
+                WebResponse response;
+                try {
+                    response = webReq.GetResponse();
+                } catch (Exception e) {
+                    log.Warn("Failed to obtain random lolcat.", e);
+                    message.Chat.SendMessage("Failed to obtain random lolcat. Please try again later.");
+                    return;
+                }
                 log.Info("Response received; parsing...");
                 String responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
                 
