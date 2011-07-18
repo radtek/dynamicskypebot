@@ -40,8 +40,8 @@
     <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>1.2.3.6</ApplicationVersion>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.2.3.5</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -359,9 +359,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
-      <ProductName>Windows Installer 4.5</ProductName>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Skype4COM">
+      <Visible>False</Visible>
+      <ProductName>Skype4COM</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
@@ -394,24 +399,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="SKYPE4COMLib">
-      <Guid>{03282B5D-B38F-469D-849A-09B0A7F4881B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bootstrapper\Skype4COM\en\package.xml" />
     <Content Include="Bootstrapper\Skype4COM\product.xml" />
     <Content Include="doc\readme.txt" />
     <Content Include="doc\todo.txt" />
-    <Content Include="Skype4COM.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\help.png" />
     <None Include="Resources\arrow_fat_down.gif" />
     <None Include="Resources\person.gif" />
@@ -419,24 +412,34 @@
     <None Include="SkypeBot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="SKYPE4COMLib">
+      <Guid>{03282B5D-B38F-469D-849A-09B0A7F4881B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
     <PublishFile Include="doc\readme.txt">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="doc\todo.txt">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
+using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Windows.Forms;
-using log4net;
 using SKYPE4COMLib;
 using SkypeBot.plugins;
+using System.Collections;
+using System.Text.RegularExpressions;
+using System.Net;
+using System.IO;
+using log4net;
+using System.Runtime.InteropServices;
 
 namespace SkypeBot {
     public partial class ConfigForm : Form {
@@ -197,29 +201,16 @@ namespace SkypeBot {
                     }
 
                     if (onSkypeMessage.GetInvocationList().Length != Properties.Settings.Default.LoadedPlugins.Count) {
-                        // Let's fix up the loaded plugins list.
-                        HashSet<string> loadedP = new HashSet<string>(Properties.Settings.Default.LoadedPlugins.Cast<string>());
-                        Properties.Settings.Default.LoadedPlugins.Clear();
-                        Properties.Settings.Default.LoadedPlugins.AddRange(loadedP.ToArray<string>());
-                        Properties.Settings.Default.Save();
-
-                        if (onSkypeMessage.GetInvocationList().Length != Properties.Settings.Default.LoadedPlugins.Count) {
-                            log.Error(String.Format(
-                                "Mismatch in number of plugins subscribed to onSkypeMessage; has {0}, expected {1}.",
-                                onSkypeMessage.GetInvocationList().Length,
-                                Properties.Settings.Default.LoadedPlugins.Count
-                            ));
-                        }
+                        log.Error(String.Format(
+                            "Mismatch in number of plugins subscribed to onSkypeMessage; has {0}, expected {1}.",
+                            onSkypeMessage.GetInvocationList().Length,
+                            Properties.Settings.Default.LoadedPlugins.Count
+                        ));
                     }
 
                     if (onSkypeMessage != null) {
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.DoWork += (obj, e) => onSkypeMessage(message, status);
-                        bw.RunWorkerCompleted += (obj, e) => {
-                            if (e.Error != null) {
-                                log.Error("Calling onSkypeMessage failed.", e.Error);
-                            }
-                        };
                         bw.RunWorkerAsync();
                     }
                 }
@@ -285,11 +276,6 @@ namespace SkypeBot {
                 plugin.load();
                 onSkypeMessage += plugin.Skype_MessageStatus;
             };
-            baw.RunWorkerCompleted += (obj, e) => {
-                if (e.Error != null) {
-                    log.Error("Loading plugin failed.", e.Error);
-                }
-            };
             baw.RunWorkerAsync();
             
             Properties.Settings.Default.LoadedPlugins.Add(plugin.name());
@@ -303,11 +289,6 @@ namespace SkypeBot {
         public void unloadPlugin(Plugin plugin) {
             BackgroundWorker baw = new BackgroundWorker();
             baw.DoWork += (obj, e) => { plugin.unload(); };
-            baw.RunWorkerCompleted += (obj, e) => {
-                if (e.Error != null) {
-                    log.Error("Unloading plugin failed.", e.Error);
-                }
-            };
             baw.RunWorkerAsync();
             onSkypeMessage -= plugin.Skype_MessageStatus;
             while (Properties.Settings.Default.LoadedPlugins.Contains(plugin.name()))

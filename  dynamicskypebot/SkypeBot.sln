@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkypeBot", "SkypeBot\SkypeBot.csproj", "{F96FDE20-FCBE-4287-923D-3655E723560D}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Skype4COM", "Skype4COM\Skype4COM.vdproj", "{8FD0F260-3EC5-4162-ADE3-A07D072F1187}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,11 @@ Global
 		{F96FDE20-FCBE-4287-923D-3655E723560D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F96FDE20-FCBE-4287-923D-3655E723560D}.Release|x86.ActiveCfg = Release|x86
 		{F96FDE20-FCBE-4287-923D-3655E723560D}.Release|x86.Build.0 = Release|x86
+		{8FD0F260-3EC5-4162-ADE3-A07D072F1187}.Debug|Any CPU.ActiveCfg = Debug
+		{8FD0F260-3EC5-4162-ADE3-A07D072F1187}.Debug|x86.ActiveCfg = Debug
+		{8FD0F260-3EC5-4162-ADE3-A07D072F1187}.Release|Any CPU.ActiveCfg = Release
+		{8FD0F260-3EC5-4162-ADE3-A07D072F1187}.Release|x86.ActiveCfg = Release
+		{8FD0F260-3EC5-4162-ADE3-A07D072F1187}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
