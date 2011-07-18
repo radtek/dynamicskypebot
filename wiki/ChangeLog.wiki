@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== v 1.2.3.7 ==
+== Next version ==
   * Lolcat: Stability fixes.
 
 == v 1.2.3.6 ==
