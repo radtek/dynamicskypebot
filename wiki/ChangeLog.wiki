@@ -4,7 +4,7 @@
 = Changelog =
 
 == v 1.2.4.1 ==
-  * Hotfix: Correct stupid mistake.
+  * Hotfix: Correct stupid mistake that made the bot unload all but one plugin.
 
 == v 1.2.4.0 ==
   * Remove There, I Fixed It, as it wasn't working properly.
