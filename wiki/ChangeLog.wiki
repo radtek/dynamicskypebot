@@ -4,6 +4,7 @@
 = Changelog =
 
 == Next version ==
+  * FML: Make it work again.
   * Lolcat: Stability fixes.
 
 == v 1.2.3.6 ==
