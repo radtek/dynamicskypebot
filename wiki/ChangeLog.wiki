@@ -3,7 +3,7 @@
 
 = Changelog =
 
-== Next version ==
+== v 1.2.4.0 ==
   * Remove There, I Fixed It, as it wasn't working properly.
   * Stability fixes.
   * FML: Make it work again.
