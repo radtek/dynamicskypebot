@@ -89,12 +89,12 @@ namespace SkypeBot.plugins {
                  */
 
                 Regex fmlRx = new Regex(@"
-                        <div\sclass=""post""\sid=""(\d+)"">             # id
-                        <p>(.*?)</p>                                    # text
+                        <div\sclass=""post\sarticle""\sid=""(\d+)"">       # id
+                        <p>(.*?)</p>                                       # text
                         .*?
-                        I\sagree,\syour\slife\ssucks</a>\s\((\d+)\)     # pro
+                        <span\sclass=""dyn-vote-j-data"">(\d+)</span>      # pro
                         .*?
-                        you\stotally\sdeserved\sit</a>\s\((\d+)\)       # con
+                        <span\sclass=""dyn-vote-t-data"">(\d+)</span>      # con
                     ",
                     RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline
                 );
@@ -106,7 +106,7 @@ namespace SkypeBot.plugins {
                     if (url.EndsWith("random")) {
                         log.Warn("There appears to be a problem with FMyLife.com.");
                         log.Warn("Please go check if the site works okay. If it doesn't, it'll fix itself, hopefully.");
-                        log.Warn("If the site does work but the bot refuses to give FMLs, please report them on the suggestion site.");
+                        log.Warn("If the site does work but the bot refuses to give FMLs, please report the problem from the Help menu.");
                     }
                     return;
                 }
