@@ -50,7 +50,6 @@ namespace SkypeBot {
             new NotAlwaysRightPlugin(),
             new TransformationPlugin(),
             new LMLPlugin(),
-            new ThereIFixedItPlugin(),
             new CalculatorPlugin(),
             new Rule34Plugin(),
             new AutoCorrectPlugin(),

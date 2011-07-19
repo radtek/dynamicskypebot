@@ -197,7 +197,6 @@
     <Compile Include="plugins\CalculatorPlugin.cs" />
     <Compile Include="plugins\AutocorrectPlugin.cs" />
     <Compile Include="plugins\Rule34Plugin.cs" />
-    <Compile Include="plugins\ThereIFixedItPlugin.cs" />
     <Compile Include="plugins\LMLPlugin.cs" />
     <Compile Include="plugins\TransformationPlugin.cs" />
     <Compile Include="plugins\NotAlwaysRightPlugin.cs" />
@@ -423,22 +422,22 @@
   <ItemGroup>
     <PublishFile Include="doc\readme.txt">
       <Visible>False</Visible>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="doc\todo.txt">
       <Visible>False</Visible>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
