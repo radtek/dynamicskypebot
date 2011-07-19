@@ -5,6 +5,7 @@
 
 == Next version ==
   * Remove There, I Fixed It, as it wasn't working properly.
+  * Stability fixes.
   * FML: Make it work again.
   * Lolcat: Stability fixes.
 
