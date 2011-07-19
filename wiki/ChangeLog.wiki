@@ -4,6 +4,7 @@
 = Changelog =
 
 == Next version ==
+  * Remove There, I Fixed It, as it wasn't working properly.
   * FML: Make it work again.
   * Lolcat: Stability fixes.
 
