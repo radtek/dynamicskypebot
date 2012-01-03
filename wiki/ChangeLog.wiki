@@ -3,6 +3,9 @@
 
 = Changelog =
 
+== Next version ==
+  * Add new crash reporter.
+
 == v 1.2.4.1 ==
   * Hotfix: Correct stupid mistake that made the bot unload all but one plugin.
 
