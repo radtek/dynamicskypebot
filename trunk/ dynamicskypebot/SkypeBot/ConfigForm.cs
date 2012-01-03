@@ -200,11 +200,22 @@ namespace SkypeBot {
                     }
 
                     if (onSkypeMessage.GetInvocationList().Length != Properties.Settings.Default.LoadedPlugins.Count) {
-                        log.Error(String.Format(
-                            "Mismatch in number of plugins subscribed to onSkypeMessage; has {0}, expected {1}.",
-                            onSkypeMessage.GetInvocationList().Length,
-                            Properties.Settings.Default.LoadedPlugins.Count
-                        ));
+                        // Let's fix up the loaded plugins list.
+                        log.Info("Loaded plugin list seems to be off. Correcting...");
+                        PluginListBox.Enabled = false;
+                        onSkypeMessage = null;
+                        Properties.Settings.Default.LoadedPlugins.Clear();
+                        Properties.Settings.Default.LoadedPlugins.AddRange(
+                            this.plugins.Where((p, i) => PluginListBox.CheckedIndices.Contains(i))
+                                        .Select((p) => {
+                                            onSkypeMessage += new _ISkypeEvents_MessageStatusEventHandler(p.Skype_MessageStatus);
+                                            return p.name();
+                                        })
+                                        .ToArray()
+                        );
+                        Properties.Settings.Default.Save();
+                        PluginListBox.Enabled = true;
+                        log.Info("Loaded plugin list corrected.");
                     }
 
                     if (onSkypeMessage != null) {
