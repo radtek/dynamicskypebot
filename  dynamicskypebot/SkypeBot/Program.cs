@@ -11,6 +11,7 @@ using log4net.Repository;
 using log4net.Appender;
 using System.Threading;
 using System.Security.Permissions;
+using ExceptionReporting;
 
 // Initialize log4net logging.
 [assembly: XmlConfiguratorAttribute(Watch=false)]
@@ -44,6 +45,9 @@ namespace SkypeBot {
 
             Properties.Settings.Default.Crashed = true;
             Properties.Settings.Default.Save();
+
+            ExceptionReporter reporter = new ExceptionReporter();
+            reporter.Show(e.Exception);
         }
 
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -53,6 +57,9 @@ namespace SkypeBot {
 
             Properties.Settings.Default.Crashed = true;
             Properties.Settings.Default.Save();
+
+            ExceptionReporter reporter = new ExceptionReporter();
+            reporter.Show((Exception)e.ExceptionObject);
         }
 
         private static void FlushLogBuffers() {

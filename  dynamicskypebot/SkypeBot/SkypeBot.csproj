@@ -40,8 +40,8 @@
     <SuiteName>Dynamic Skype Bot</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
-    <ApplicationVersion>1.2.3.7</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.2.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -90,6 +90,9 @@
   <ItemGroup>
     <Reference Include="bsn.GoldParser">
       <HintPath>Dependencies\bsn.GoldParser.dll</HintPath>
+    </Reference>
+    <Reference Include="ExceptionReporter.WinForms">
+      <HintPath>Dependencies\ExceptionReporter.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
       <HintPath>Dependencies\Google.GData.Client.dll</HintPath>
