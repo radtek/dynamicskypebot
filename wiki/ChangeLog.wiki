@@ -3,10 +3,7 @@
 
 = Changelog =
 
-== v 1.2.5.0 ==
-  * Add new crash reporter.
-  * Not Right: Fix up some HTML issues.
-  * Sadly a few plugins had to go, as they're broken: Lolcat, Damn You Autocorrect, Random link. Hopefully they'll be back soon.
+See newer changelogs [https://github.com/Eckankar/dynamicskypebot/wiki/Changelog on GitHub]
 
 == v 1.2.4.1 ==
   * Hotfix: Correct stupid mistake that made the bot unload all but one plugin.
