@@ -1,0 +1,1 @@
+A flexible Skype bot, with modules that can be enabled and disabled as needed.
